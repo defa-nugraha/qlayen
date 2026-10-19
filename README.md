@@ -45,3 +45,11 @@ Supported client operations:
 The QR method calls the documented `generate-qe` endpoint and returns the gateway payload as-is. If the gateway returns `status: processing`, call it again according to the provider's documented lifecycle. Message and media methods use POST JSON and propagate HTTP errors; a successful HTTP response does not necessarily mean the provider's `status` field is true, so callers must inspect that field.
 
 Webhook handling and automated follow-up delivery should be implemented as separate application use cases with signature/authenticity verification where supported, idempotency, rate limits, and audit logging. Do not expose the gateway API key to the browser.
+
+## QR/NFC customer capture MVP
+
+Authenticated users can create named QR or NFC capture links at `/capture-links`. Each campaign receives a random 48-character token and can be disabled to stop future submissions. The public `/c/{token}` form collects name, phone, optional email, and explicit consent; submitted records are added to the campaign owner's customer list with a source of `QR` or `NFC` and a consent timestamp. Public endpoints are rate-limited, and campaign management is scoped to the authenticated owner.
+
+The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
+
+Known limitations: campaigns are owned by individual user accounts (shared business workspaces are not implemented); consent wording and retention/deletion policies need product/legal review; deduplication, interaction history, automated follow-up, WhatsApp delivery, and a QR scan analytics dashboard are not yet implemented.
