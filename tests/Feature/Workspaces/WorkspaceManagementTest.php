@@ -77,3 +77,81 @@ test('workspace membership is unique per user', function () {
     expect(fn () => $workspace->members()->attach($user->id, ['role' => 'owner']))
         ->toThrow(QueryException::class);
 });
+
+
+test('workspace owners can update a non-owner member role', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Role management workspace',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+    $workspace->members()->attach($member->id, ['role' => 'member']);
+
+    $this->actingAs($owner)
+        ->put(route('workspaces.members.update', [$workspace, $member->id]), [
+            'role' => 'admin',
+        ])
+        ->assertRedirect('/workspaces');
+
+    expect($workspace->members()->whereKey($member->id)->first()?->pivot->role)
+        ->toBe('admin');
+});
+
+test('non-owners cannot change workspace member roles', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Protected roles workspace',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+    $workspace->members()->attach($member->id, ['role' => 'member']);
+
+    $this->actingAs($member)
+        ->put(route('workspaces.members.update', [$workspace, $owner->id]), [
+            'role' => 'admin',
+        ])
+        ->assertForbidden();
+
+    expect($workspace->members()->whereKey($owner->id)->first()?->pivot->role)
+        ->toBe('owner');
+});
+
+test('workspace owners cannot change or remove their own owner membership', function () {
+    $owner = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Owner protection workspace',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+
+    $this->actingAs($owner)
+        ->put(route('workspaces.members.update', [$workspace, $owner->id]), [
+            'role' => 'member',
+        ])
+        ->assertUnprocessable();
+
+    $this->delete(route('workspaces.members.destroy', [$workspace, $owner->id]))
+        ->assertUnprocessable();
+
+    expect($workspace->members()->whereKey($owner->id)->exists())->toBeTrue();
+});
+
+test('workspace owners can remove a non-owner member', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Member removal workspace',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+    $workspace->members()->attach($member->id, ['role' => 'member']);
+
+    $this->actingAs($owner)
+        ->delete(route('workspaces.members.destroy', [$workspace, $member->id]))
+        ->assertRedirect('/workspaces');
+
+    expect($workspace->members()->whereKey($member->id)->exists())->toBeFalse();
+});
