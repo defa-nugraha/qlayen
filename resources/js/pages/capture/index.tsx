@@ -2,6 +2,8 @@ import { Head, router, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import AppLayout from '@/layouts/app-layout';
 
+type WorkspaceOption = { id: number; name: string; role: string };
+
 type CaptureLink = {
     id: number;
     name: string;
@@ -11,10 +13,11 @@ type CaptureLink = {
     created_at: string | null;
 };
 
-export default function CaptureIndex({ links }: { links: CaptureLink[] }) {
-    const form = useForm<{ name: string; source: 'qr' | 'nfc' }>({
+export default function CaptureIndex({ links, workspaces, currentWorkspaceId }: { links: CaptureLink[]; workspaces: WorkspaceOption[]; currentWorkspaceId: number }) {
+    const form = useForm<{ name: string; source: 'qr' | 'nfc'; workspace_id: number }>({
         name: '',
         source: 'qr',
+        workspace_id: currentWorkspaceId,
     });
 
     function submit(event: FormEvent<HTMLFormElement>) {
@@ -37,6 +40,18 @@ export default function CaptureIndex({ links }: { links: CaptureLink[] }) {
         >
             <Head title="QR & NFC Capture" />
             <div className="flex flex-col gap-6 p-4 md:p-6">
+                <label className="block text-sm font-medium">
+                    Active workspace
+                    <select
+                        className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        value={currentWorkspaceId}
+                        onChange={(event) => router.get('/capture-links', { workspace_id: Number(event.target.value) }, { preserveState: false, replace: true })}
+                    >
+                        {workspaces.map((workspace) => (
+                            <option key={workspace.id} value={workspace.id}>{workspace.name} ({workspace.role})</option>
+                        ))}
+                    </select>
+                </label>
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight">
                         QR & NFC customer capture
@@ -191,6 +206,7 @@ export default function CaptureIndex({ links }: { links: CaptureLink[] }) {
                                                 '/capture-links/' +
                                                     link.id +
                                                     '/toggle',
+                                                { data: { workspace_id: currentWorkspaceId } },
                                             )
                                         }
                                         className="rounded-md border px-3 py-2 text-sm"
