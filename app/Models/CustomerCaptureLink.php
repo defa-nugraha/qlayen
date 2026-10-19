@@ -21,6 +21,14 @@ use Illuminate\Support\Carbon;
 class CustomerCaptureLink extends Model
 {
     /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return ['is_active' => 'boolean'];
+    }
+
+    /**
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
