@@ -79,8 +79,22 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
       - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      # Feature tests render Blade/Inertia views that use Laravel's @vite directive.
+      # Each GitHub Actions job has an isolated runner, so build assets in this job.
+      - name: Build frontend assets
+        run: npm run build
 
       - name: Run tests
         run: php artisan test
