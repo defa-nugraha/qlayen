@@ -18,13 +18,15 @@ php artisan test
 
 ## Customer CRM MVP
 
-The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. The controller scopes every list and mutation through the signed-in user's `customers()` relationship; cross-user record IDs return 404. The initial tenant boundary is per user account; shared business workspaces and team membership are not implemented yet.
+The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. The controller scopes every list and mutation through the signed-in user's `customers()` relationship; cross-user record IDs return 404. Customer data is scoped to the selected workspace. A user must be a workspace member to select it, and cross-workspace customer IDs return 404. Workspace selection is available on the CRM screen.
 
 Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
 
-## Business workspace foundation
+## Business workspace and tenant isolation
 
 The authenticated `/workspaces` screen lets a user create a business workspace and view workspaces they belong to. Workspace membership uses a unique `(workspace_id, user_id)` constraint and records a role (`owner`, `admin`, or `member`). Creating a workspace and attaching its owner are performed in a database transaction. Feature tests cover guest access, validation, owner membership, unique membership, and visibility limited to a user's memberships.
+
+The `/customers` and `/capture-links` screens support workspace selection. Customer list/search/create/update/delete operations are scoped to the selected workspace; capture-link listing/creation/toggling is scoped the same way. The public capture form stores consented customers in the workspace attached to that link. `WorkspaceContext` rejects workspace IDs for which the current user has no membership. Legacy records are backfilled by `2026_10_19_030000_add_workspace_id_to_customer_data.php`.
 
 Important: this is the workspace foundation only. Customer records and QR/NFC capture links are still scoped to individual user accounts; do not treat workspace-level tenant isolation as complete until those tables, queries, public capture ownership, and cross-workspace access tests are migrated.
 
