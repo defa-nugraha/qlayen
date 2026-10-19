@@ -35,7 +35,7 @@ class WorkspaceContext
 
         return DB::transaction(function () use ($user): Workspace {
             $workspace = $user->ownedWorkspaces()->create([
-                'name' => mb_substr($user->name . "'s workspace", 0, 120),
+                'name' => mb_substr($user->name."'s workspace", 0, 120),
                 'description' => 'Default workspace',
             ]);
 
