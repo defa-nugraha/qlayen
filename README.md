@@ -18,7 +18,7 @@ php artisan test
 
 ## Customer CRM MVP
 
-The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. The controller scopes every list and mutation through the signed-in user's `customers()` relationship; cross-user record IDs return 404. Customer data is scoped to the selected workspace. A user must be a workspace member to select it, and cross-workspace customer IDs return 404. Workspace selection is available on the CRM screen.
+The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. Customer list, search, creation, updates, and deletion are scoped to the selected workspace; cross-workspace customer IDs return 404. Workspace membership is checked server-side, including when a workspace ID is supplied directly. Workspace selection is available on the CRM screen.
 
 Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
 
