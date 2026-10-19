@@ -25,15 +25,15 @@ class WorkspaceContext
                 ->firstOrFail();
         }
 
-        $workspace = $user->workspaces()
-            ->orderBy('workspaces.id')
-            ->first();
-
-        if ($workspace !== null) {
-            return $workspace;
-        }
-
         return DB::transaction(function () use ($user): Workspace {
+            $workspace = $user->workspaces()
+                ->orderBy('workspaces.id')
+                ->first();
+
+            if ($workspace !== null) {
+                return $workspace;
+            }
+
             $workspace = $user->ownedWorkspaces()->create([
                 'name' => mb_substr($user->name."'s workspace", 0, 120),
                 'description' => 'Default workspace',
