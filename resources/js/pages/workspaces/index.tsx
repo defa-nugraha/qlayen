@@ -36,7 +36,11 @@ export default function WorkspacesIndex({
         });
     }
 
-    function updateMemberRole(workspace: Workspace, memberId: number, role: string) {
+    function updateMemberRole(
+        workspace: Workspace,
+        memberId: number,
+        role: string,
+    ) {
         router.put(
             '/workspaces/' + workspace.id + '/members/' + memberId,
             { role },
@@ -188,8 +192,7 @@ export default function WorkspacesIndex({
                                                     {member.email}
                                                 </p>
                                             </div>
-                                            {workspace.is_owner &&
-                                            !member.is_owner ? (
+                                            {workspace.is_owner && !member.is_owner ? (
                                                 <div className="flex items-center gap-2">
                                                     <select
                                                         className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
