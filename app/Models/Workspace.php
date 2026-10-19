@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $owner_id
- * @property-read \Illuminate\Database\Eloquent\Relations\Pivot $pivot
+ * @property-read WorkspaceMembership $pivot
  * @property string $name
  * @property string|null $description
  * @property Carbon|null $created_at
@@ -34,6 +34,7 @@ class Workspace extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
+            ->using(WorkspaceMembership::class)
             ->withPivot('role')
             ->withTimestamps();
     }
