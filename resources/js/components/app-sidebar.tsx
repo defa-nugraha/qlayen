@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {
     BookOpen,
+    Building2,
     FolderGit2,
     LayoutGrid,
     QrCode,
@@ -27,6 +28,11 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Workspaces',
+        href: '/workspaces',
+        icon: Building2,
     },
     {
         title: 'Customers',
