@@ -158,12 +158,18 @@ export default function WorkspacesIndex({
                                 </h4>
                                 <div className="flex flex-col gap-3">
                                     {workspace.members.map((member) => (
-                                        <div key={member.id} className="flex flex-wrap items-center justify-between gap-3">
+                                        <div
+                                            key={member.id}
+                                            className="flex flex-wrap items-center justify-between gap-3"
+                                        >
                                             <div>
                                                 <p className="text-sm font-medium">
-                                                    {member.name}{member.is_owner ? ' (owner)' : ''}
+                                                    {member.name}
+                                                    {member.is_owner ? ' (owner)' : ''}
                                                 </p>
-                                                <p className="text-xs text-muted-foreground">{member.email}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {member.email}
+                                                </p>
                                             </div>
                                             {workspace.is_owner && !member.is_owner ? (
                                                 <div className="flex items-center gap-2">
@@ -171,11 +177,16 @@ export default function WorkspacesIndex({
                                                         className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
                                                         value={member.role}
                                                         aria-label={'Role for ' + member.name}
-                                                        onChange={(event) => router.put(
-                                                            '/workspaces/' + workspace.id + '/members/' + member.id,
-                                                            { role: event.target.value },
-                                                            { preserveScroll: true },
-                                                        )}
+                                                        onChange={(event) =>
+                                                            router.put(
+                                                                '/workspaces/' +
+                                                                    workspace.id +
+                                                                    '/members/' +
+                                                                    member.id,
+                                                                { role: event.target.value },
+                                                                { preserveScroll: true },
+                                                            )
+                                                        }
                                                     >
                                                         <option value="admin">Admin</option>
                                                         <option value="member">Member</option>
@@ -183,10 +194,15 @@ export default function WorkspacesIndex({
                                                     <button
                                                         type="button"
                                                         className="rounded-md border px-3 py-1.5 text-sm text-destructive"
-                                                        onClick={() => router.delete(
-                                                            '/workspaces/' + workspace.id + '/members/' + member.id,
-                                                            { preserveScroll: true },
-                                                        )}
+                                                        onClick={() =>
+                                                            router.delete(
+                                                                '/workspaces/' +
+                                                                    workspace.id +
+                                                                    '/members/' +
+                                                                    member.id,
+                                                                { preserveScroll: true },
+                                                            )
+                                                        }
                                                     >
                                                         Remove
                                                     </button>
@@ -201,7 +217,8 @@ export default function WorkspacesIndex({
                                 </div>
                                 {!workspace.is_owner && (
                                     <p className="mt-3 text-xs text-muted-foreground">
-                                        Only the workspace owner can change member roles or remove members.
+                                        Only the workspace owner can change member
+                                        roles or remove members.
                                     </p>
                                 )}
                             </div>
