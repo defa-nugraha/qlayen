@@ -15,7 +15,11 @@ type Customer = {
     status: 'active' | 'inactive';
 };
 
+type WorkspaceOption = { id: number; name: string; role: string };
+
 type PageProps = {
+    workspaces: WorkspaceOption[];
+    currentWorkspaceId: number;
     customers: {
         data: Customer[];
         current_page: number;
@@ -27,6 +31,7 @@ type PageProps = {
 };
 
 type CustomerForm = {
+    workspace_id: number;
     name: string;
     phone: string;
     email: string;
@@ -38,6 +43,7 @@ type CustomerForm = {
 };
 
 const emptyForm: CustomerForm = {
+    workspace_id: 0,
     name: '',
     phone: '',
     email: '',
@@ -48,14 +54,16 @@ const emptyForm: CustomerForm = {
     status: 'active',
 };
 
-export default function CustomersIndex({ customers, filters }: PageProps) {
+export default function CustomersIndex({ customers, filters, workspaces, currentWorkspaceId }: PageProps) {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [search, setSearch] = useState(filters.search);
-    const form = useForm<CustomerForm>({ ...emptyForm });
+    const form = useForm<CustomerForm>({ ...emptyForm, workspace_id: currentWorkspaceId });
 
     function beginEdit(customer: Customer) {
         setEditingId(customer.id);
         form.setData({
+            ...emptyForm,
+            workspace_id: currentWorkspaceId,
             name: customer.name,
             phone: customer.phone ?? '',
             email: customer.email ?? '',
@@ -72,7 +80,7 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
 
     function resetForm() {
         setEditingId(null);
-        form.reset();
+        form.setData({ ...emptyForm, workspace_id: currentWorkspaceId });
         form.clearErrors();
     }
 
@@ -90,7 +98,7 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
         event.preventDefault();
         router.get(
             '/customers',
-            { search },
+            { search, workspace_id: currentWorkspaceId },
             { preserveState: true, replace: true },
         );
     }
@@ -101,7 +109,7 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
                 'Delete this customer? This action cannot be undone.',
             )
         ) {
-            router.delete('/customers/' + id);
+            router.delete('/customers/' + id, { data: { workspace_id: currentWorkspaceId } });
         }
     }
 
@@ -113,7 +121,20 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
         <AppLayout breadcrumbs={[{ title: 'Customers', href: '/customers' }]}>
             <Head title="Customers" />
             <div className="flex flex-col gap-6 p-4 md:p-6">
-                <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                    <label className="block text-sm font-medium">
+                        Active workspace
+                        <select
+                            className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={currentWorkspaceId}
+                            onChange={(event) => router.get('/customers', { workspace_id: Number(event.target.value), search }, { preserveState: false, replace: true })}
+                        >
+                            {workspaces.map((workspace) => (
+                                <option key={workspace.id} value={workspace.id}>{workspace.name} ({workspace.role})</option>
+                            ))}
+                        </select>
+                    </label>
+                    <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                         <h1 className="text-2xl font-semibold tracking-tight">
                             Customer CRM
@@ -130,6 +151,7 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
                         <p className="text-2xl font-semibold">
                             {customers.total}
                         </p>
+                    </div>
                     </div>
                 </div>
 
@@ -331,7 +353,7 @@ export default function CustomersIndex({ customers, filters }: PageProps) {
                                     type="button"
                                     onClick={() => {
                                         setSearch('');
-                                        router.get('/customers');
+                                        router.get('/customers', { workspace_id: currentWorkspaceId });
                                     }}
                                 >
                                     Clear
