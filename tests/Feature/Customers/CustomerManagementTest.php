@@ -21,7 +21,7 @@ test('a verified user can create and view their customer', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
-    $this->post(route('customers.store'), [
+    $response = $this->post(route('customers.store'), [
         'name' => 'Alya Putri',
         'phone' => '628123456789',
         'email' => 'alya@example.com',
@@ -30,9 +30,11 @@ test('a verified user can create and view their customer', function () {
         'follow_up_at' => '2026-10-25 10:00:00',
         'follow_up_notes' => 'Send product information.',
         'status' => 'active',
-    ])->assertRedirect(route('customers.index'));
+    ]);
 
     $customer = Customer::query()->firstOrFail();
+
+    $response->assertRedirect(route('customers.index', ['workspace_id' => $customer->workspace_id]));
 
     expect($customer->user_id)->toBe($user->id)
         ->and($customer->name)->toBe('Alya Putri')
@@ -113,17 +115,18 @@ test('a customer owner can update and delete their record', function () {
 
     $this->actingAs($user)
         ->put(route('customers.update', $customer), [
+            'workspace_id' => $workspace->id,
             'name' => 'New Name',
             'phone' => '628987654321',
             'status' => 'inactive',
         ])
-        ->assertRedirect(route('customers.index'));
+        ->assertRedirect(route('customers.index', ['workspace_id' => $workspace->id]));
 
     expect($customer->fresh()->name)->toBe('New Name')
         ->and($customer->fresh()->status)->toBe('inactive');
 
-    $this->delete(route('customers.destroy', $customer))
-        ->assertRedirect(route('customers.index'));
+    $this->delete(route('customers.destroy', $customer), ['workspace_id' => $workspace->id])
+        ->assertRedirect(route('customers.index', ['workspace_id' => $workspace->id]));
 
     expect(Customer::query()->count())->toBe(0);
 });
