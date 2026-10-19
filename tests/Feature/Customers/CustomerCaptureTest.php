@@ -21,14 +21,15 @@ test('guests cannot manage capture links', function () {
 test('a verified user can create a QR or NFC capture link', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    $response = $this->actingAs($user)
         ->post(route('capture.store'), [
             'name' => 'Store Counter',
             'source' => 'qr',
-        ])
-        ->assertRedirect(route('capture.index'));
+        ]);
 
     $link = CustomerCaptureLink::query()->firstOrFail();
+
+    $response->assertRedirect(route('capture.index', ['workspace_id' => $link->workspace_id]));
 
     expect($link->user_id)->toBe($user->id)
         ->and($link->source)->toBe('qr')
