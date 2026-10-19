@@ -12,7 +12,11 @@ type Workspace = {
     created_at: string | null;
 };
 
-export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[] }) {
+export default function WorkspacesIndex({
+    workspaces,
+}: {
+    workspaces: Workspace[];
+}) {
     const form = useForm<{ name: string; description: string }>({
         name: '',
         description: '',
@@ -29,9 +33,7 @@ export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[
         'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
     return (
-        <AppLayout
-            breadcrumbs={[{ title: 'Workspaces', href: '/workspaces' }]}
-        >
+        <AppLayout breadcrumbs={[{ title: 'Workspaces', href: '/workspaces' }]}>
             <Head title="Business workspaces" />
             <div className="flex flex-col gap-6 p-4 md:p-6">
                 <div>
@@ -106,8 +108,8 @@ export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[
                     <h2 className="text-lg font-semibold">Your workspaces</h2>
                     {workspaces.length === 0 && (
                         <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
-                            You do not belong to a workspace yet. Create one
-                            to establish a business workspace.
+                            You do not belong to a workspace yet. Create one to
+                            establish a business workspace.
                         </div>
                     )}
                     {workspaces.map((workspace) => (
@@ -121,7 +123,7 @@ export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[
                                         {workspace.name}
                                     </h3>
                                     {workspace.description && (
-                                        <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">
+                                        <p className="mt-1 text-sm whitespace-pre-wrap text-muted-foreground">
                                             {workspace.description}
                                         </p>
                                     )}
@@ -148,8 +150,8 @@ export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[
                 </section>
 
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                    Workspace creation and membership records are implemented
-                    in this stage. Customer and capture-link data still use
+                    Workspace creation and membership records are implemented in
+                    this stage. Customer and capture-link data still use
                     account-level ownership until the workspace migration and
                     access controls are completed.
                 </p>
