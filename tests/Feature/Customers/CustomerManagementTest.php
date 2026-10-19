@@ -144,3 +144,48 @@ test('customer search is limited to the current user and matching fields', funct
             ->has('customers.data', 1)
             ->where('customers.data.0.name', 'Alya Putri'));
 });
+
+test('customer access is isolated between workspaces even for the same member', function () {
+    $user = User::factory()->create();
+    $firstWorkspace = customerTestWorkspace($user, 'First workspace');
+    $secondWorkspace = customerTestWorkspace($user, 'Second workspace');
+
+    $firstCustomer = Customer::query()->create([
+        'user_id' => $user->id,
+        'workspace_id' => $firstWorkspace->id,
+        'name' => 'First workspace customer',
+        'status' => 'active',
+    ]);
+    $secondCustomer = Customer::query()->create([
+        'user_id' => $user->id,
+        'workspace_id' => $secondWorkspace->id,
+        'name' => 'Second workspace customer',
+        'status' => 'active',
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('customers.index', ['workspace_id' => $firstWorkspace->id]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('customers.data', 1)
+            ->where('customers.data.0.name', 'First workspace customer'));
+
+    $this->put(route('customers.update', $secondCustomer), [
+        'workspace_id' => $firstWorkspace->id,
+        'name' => 'Attempted cross-workspace update',
+        'status' => 'active',
+    ])->assertNotFound();
+
+    expect($firstCustomer->fresh()->name)->toBe('First workspace customer')
+        ->and($secondCustomer->fresh()->name)->toBe('Second workspace customer');
+});
+
+test('a user cannot select a workspace they do not belong to', function () {
+    $owner = User::factory()->create();
+    $workspace = customerTestWorkspace($owner, 'Private workspace');
+    $otherUser = User::factory()->create();
+
+    $this->actingAs($otherUser)
+        ->get(route('customers.index', ['workspace_id' => $workspace->id]))
+        ->assertNotFound();
+});
