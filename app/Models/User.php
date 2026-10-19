@@ -61,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     }
 
     /**
-     * @return BelongsToMany<Workspace, $this>
+     * @return BelongsToMany<Workspace, $this, WorkspaceMembership, 'pivot'>
      */
     public function workspaces(): BelongsToMany
     {
