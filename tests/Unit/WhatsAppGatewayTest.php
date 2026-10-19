@@ -2,8 +2,6 @@
 
 use App\Infrastructure\Messaging\WhatsAppGateway;
 use Illuminate\Support\Facades\Http;
-use InvalidArgumentException;
-use UnexpectedValueException;
 
 beforeEach(function () {
     config([
@@ -76,4 +74,22 @@ test('requires gateway credentials', function () {
 
     expect(fn () => app(WhatsAppGateway::class)->sendMessage('628987654321', 'Hello'))
         ->toThrow(UnexpectedValueException::class);
+});
+
+test('requests QR generation using the documented device payload', function () {
+    Http::fake([
+        'wa.digitalpelajar.id/generate-qe' => Http::response([
+            'status' => 'processing',
+            'message' => 'Processing',
+        ]),
+    ]);
+
+    app(WhatsAppGateway::class)->generateQr('628123456789');
+
+    Http::assertSent(function ($request) {
+        return $request->url() === 'https://wa.digitalpelajar.id/generate-qe'
+            && $request['api_key'] === 'test-api-key'
+            && $request['device'] === '628123456789'
+            && ! isset($request['sender']);
+    });
 });
