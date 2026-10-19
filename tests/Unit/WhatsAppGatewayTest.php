@@ -1,7 +1,7 @@
 <?php
 
-use App\\Infrastructure\\Messaging\\WhatsAppGateway;
-use Illuminate\\Support\\Facades\\Http;
+use App\Infrastructure\Messaging\WhatsAppGateway;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use UnexpectedValueException;
 
