@@ -54,7 +54,7 @@ jobs:
 
       - name: Generate Wayfinder TypeScript definitions
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
-        run: php artisan wayfinder:generate
+        run: php artisan wayfinder:generate --with-form
 
       - name: Check TypeScript
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' && steps.php-deps.outcome == 'success' }}
