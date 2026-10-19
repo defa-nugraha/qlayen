@@ -26,7 +26,7 @@ class WhatsAppGateway
      */
     public function sendMedia(string $number, array $media): array
     {
-        if (! in_array($media['media_type'] ?? '', self::MEDIA_TYPES, true)) {
+        if (!in_array($media['media_type'] ?? '', self::MEDIA_TYPES, true)) {
             throw new InvalidArgumentException('Unsupported WhatsApp media type.');
         }
 
@@ -105,7 +105,7 @@ class WhatsAppGateway
 
         $data = $response->json();
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             throw new UnexpectedValueException('WhatsApp gateway returned an invalid JSON response.');
         }
 
