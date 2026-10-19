@@ -36,6 +36,21 @@ export default function WorkspacesIndex({
         });
     }
 
+    function updateMemberRole(workspace: Workspace, memberId: number, role: string) {
+        router.put(
+            '/workspaces/' + workspace.id + '/members/' + memberId,
+            { role },
+            { preserveScroll: true },
+        );
+    }
+
+    function removeMember(workspace: Workspace, memberId: number) {
+        router.delete(
+            '/workspaces/' + workspace.id + '/members/' + memberId,
+            { preserveScroll: true },
+        );
+    }
+
     const inputClass =
         'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
@@ -173,7 +188,8 @@ export default function WorkspacesIndex({
                                                     {member.email}
                                                 </p>
                                             </div>
-                                            {workspace.is_owner && !member.is_owner ? (
+                                            {workspace.is_owner &&
+                                            !member.is_owner ? (
                                                 <div className="flex items-center gap-2">
                                                     <select
                                                         className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
@@ -183,17 +199,11 @@ export default function WorkspacesIndex({
                                                             member.name
                                                         }
                                                         onChange={(event) =>
-                                                            router.put(
-                                                                '/workspaces/' +
-                                                                    workspace.id +
-                                                                    '/members/' +
-                                                                    member.id,
-                                                                {
-                                                                    role: event
-                                                                        .target
-                                                                        .value,
-                                                                },
-                                                                { preserveScroll: true },
+                                                            updateMemberRole(
+                                                                workspace,
+                                                                member.id,
+                                                                event.target
+                                                                    .value,
                                                             )
                                                         }
                                                     >
@@ -208,12 +218,9 @@ export default function WorkspacesIndex({
                                                         type="button"
                                                         className="rounded-md border px-3 py-1.5 text-sm text-destructive"
                                                         onClick={() =>
-                                                            router.delete(
-                                                                '/workspaces/' +
-                                                                    workspace.id +
-                                                                    '/members/' +
-                                                                    member.id,
-                                                                { preserveScroll: true },
+                                                            removeMember(
+                                                                workspace,
+                                                                member.id,
                                                             )
                                                         }
                                                     >
@@ -230,8 +237,8 @@ export default function WorkspacesIndex({
                                 </div>
                                 {!workspace.is_owner && (
                                     <p className="mt-3 text-xs text-muted-foreground">
-                                        Only the workspace owner can change member
-                                        roles or remove members.
+                                        Only the workspace owner can change
+                                        member roles or remove members.
                                     </p>
                                 )}
                             </div>
