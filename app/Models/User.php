@@ -44,6 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     }
 
     /**
+     * @return HasMany<CustomerCaptureLink, $this>
+     */
+    public function customerCaptureLinks(): HasMany
+    {
+        return $this->hasMany(CustomerCaptureLink::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
