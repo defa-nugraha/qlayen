@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $user_id
+ * @property int|null $workspace_id
  * @property string $name
  * @property string|null $phone
  * @property string|null $email
@@ -24,6 +25,7 @@ use Illuminate\Support\Carbon;
  */
 #[Fillable([
     'user_id',
+    'workspace_id',
     'name',
     'phone',
     'email',
@@ -36,6 +38,14 @@ use Illuminate\Support\Carbon;
 ])]
 class Customer extends Model
 {
+    /**
+     * @return BelongsTo<Workspace, $this>
+     */
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(Workspace::class);
+    }
+
     /**
      * @return BelongsTo<User, $this>
      */
