@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'wa_gateway' => [
+        'base_url' => env('WA_GATEWAY_BASE_URL', 'https://wa.digitalpelajar.id'),
+        'api_key' => env('WA_GATEWAY_API_KEY'),
+        'sender' => env('WA_GATEWAY_SENDER'),
+        'timeout' => (int) env('WA_GATEWAY_TIMEOUT', 15),
+    ],
+
 ];
