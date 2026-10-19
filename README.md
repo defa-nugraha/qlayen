@@ -22,6 +22,12 @@ The authenticated `/customers` screen supports creating, listing, searching, edi
 
 Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
 
+## Business workspace foundation
+
+The authenticated `/workspaces` screen lets a user create a business workspace and view workspaces they belong to. Workspace membership uses a unique `(workspace_id, user_id)` constraint and records a role (`owner`, `admin`, or `member`). Creating a workspace and attaching its owner are performed in a database transaction. Feature tests cover guest access, validation, owner membership, unique membership, and visibility limited to a user's memberships.
+
+Important: this is the workspace foundation only. Customer records and QR/NFC capture links are still scoped to individual user accounts; do not treat workspace-level tenant isolation as complete until those tables, queries, public capture ownership, and cross-workspace access tests are migrated.
+
 ## WhatsApp gateway
 
 The gateway client is implemented in `App\\Infrastructure\\Messaging\\WhatsAppGateway`. Configure the following environment variables:
