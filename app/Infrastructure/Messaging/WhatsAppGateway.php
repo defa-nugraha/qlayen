@@ -36,7 +36,10 @@ class WhatsAppGateway
 
         return $this->post('send-media', [
             'number' => $number,
-            ...$media,
+            'media_type' => $media['media_type'],
+            'url' => $media['url'],
+            'caption' => $media['caption'] ?? null,
+            'ppt' => $media['ppt'] ?? null,
         ]);
     }
 
@@ -73,27 +76,32 @@ class WhatsAppGateway
     {
         return $this->post('generate-qe', [
             'device' => $device,
-        ]);
+        ], includeSender: false);
     }
 
     /**
      * @param array<string, mixed> $payload
      * @return array<string, mixed>
      */
-    private function post(string $endpoint, array $payload): array
+    private function post(string $endpoint, array $payload, bool $includeSender = true): array
     {
         $apiKey = (string) config('services.wa_gateway.api_key');
         $sender = (string) config('services.wa_gateway.sender');
 
-        if ($apiKey === '' || $sender === '') {
+        if ($apiKey === '' || ($includeSender && $sender === '')) {
             throw new UnexpectedValueException('WhatsApp gateway credentials are not configured.');
         }
 
-        $response = $this->http()->post($endpoint, [
+        $requestData = [
             ...$payload,
             'api_key' => $apiKey,
-            'sender' => $sender,
-        ])->throw();
+        ];
+
+        if ($includeSender) {
+            $requestData['sender'] = $sender;
+        }
+
+        $response = $this->http()->post($endpoint, $requestData)->throw();
 
         $data = $response->json();
 
