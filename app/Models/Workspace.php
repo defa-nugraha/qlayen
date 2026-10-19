@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $owner_id
+ * @property-read \Illuminate\Database\Eloquent\Relations\Pivot $pivot
  * @property string $name
  * @property string|null $description
  * @property Carbon|null $created_at
