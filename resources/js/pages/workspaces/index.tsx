@@ -12,11 +12,7 @@ type Workspace = {
     created_at: string | null;
 };
 
-export default function WorkspacesIndex({
-    workspaces,
-}: {
-    workspaces: Workspace[];
-}) {
+export default function WorkspacesIndex({ workspaces }: { workspaces: Workspace[] }) {
     const form = useForm<{ name: string; description: string }>({
         name: '',
         description: '',
