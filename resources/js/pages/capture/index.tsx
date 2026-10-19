@@ -13,7 +13,15 @@ type CaptureLink = {
     created_at: string | null;
 };
 
-export default function CaptureIndex({ links, workspaces, currentWorkspaceId }: { links: CaptureLink[]; workspaces: WorkspaceOption[]; currentWorkspaceId: number }) {
+export default function CaptureIndex({
+    links,
+    workspaces,
+    currentWorkspaceId,
+}: {
+    links: CaptureLink[];
+    workspaces: WorkspaceOption[];
+    currentWorkspaceId: number;
+}) {
     const form = useForm<{ name: string; source: 'qr' | 'nfc'; workspace_id: number }>({
         name: '',
         source: 'qr',
@@ -45,10 +53,18 @@ export default function CaptureIndex({ links, workspaces, currentWorkspaceId }: 
                     <select
                         className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
                         value={currentWorkspaceId}
-                        onChange={(event) => router.get('/capture-links', { workspace_id: Number(event.target.value) }, { preserveState: false, replace: true })}
+                        onChange={(event) =>
+                            router.get(
+                                '/capture-links',
+                                { workspace_id: Number(event.target.value) },
+                                { preserveState: false, replace: true },
+                            )
+                        }
                     >
                         {workspaces.map((workspace) => (
-                            <option key={workspace.id} value={workspace.id}>{workspace.name} ({workspace.role})</option>
+                            <option key={workspace.id} value={workspace.id}>
+                                {workspace.name} ({workspace.role})
+                            </option>
                         ))}
                     </select>
                 </label>
@@ -206,7 +222,11 @@ export default function CaptureIndex({ links, workspaces, currentWorkspaceId }: 
                                                 '/capture-links/' +
                                                     link.id +
                                                     '/toggle',
-                                                { data: { workspace_id: currentWorkspaceId } },
+                                                {
+                                                    data: {
+                                                        workspace_id: currentWorkspaceId,
+                                                    },
+                                                },
                                             )
                                         }
                                         className="rounded-md border px-3 py-2 text-sm"
