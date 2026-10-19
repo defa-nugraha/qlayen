@@ -25,7 +25,7 @@ class WhatsAppGateway
     }
 
     /**
-     * @param array{media_type: string, url: string, caption?: string, ppt?: bool} $media
+     * @param  array{media_type: string, url: string, caption?: string, ppt?: bool}  $media
      * @return array<string, mixed>
      */
     public function sendMedia(string $number, array $media): array
@@ -48,7 +48,7 @@ class WhatsAppGateway
     }
 
     /**
-     * @param list<string> $buttons
+     * @param  list<string>  $buttons
      * @return array<string, mixed>
      */
     public function sendButton(
@@ -85,7 +85,7 @@ class WhatsAppGateway
     }
 
     /**
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      * @return array<string, mixed>
      */
     private function post(string $endpoint, array $payload, bool $includeSender = true): array
