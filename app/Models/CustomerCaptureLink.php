@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $user_id
+ * @property int|null $workspace_id
  * @property string $name
  * @property string $token
  * @property string $source
@@ -17,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['user_id', 'name', 'token', 'source', 'is_active'])]
+#[Fillable(['user_id', 'workspace_id', 'name', 'token', 'source', 'is_active'])]
 class CustomerCaptureLink extends Model
 {
     /**
@@ -26,6 +27,14 @@ class CustomerCaptureLink extends Model
     protected function casts(): array
     {
         return ['is_active' => 'boolean'];
+    }
+
+    /**
+     * @return BelongsTo<Workspace, $this>
+     */
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(Workspace::class);
     }
 
     /**
