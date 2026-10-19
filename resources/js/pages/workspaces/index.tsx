@@ -165,7 +165,9 @@ export default function WorkspacesIndex({
                                             <div>
                                                 <p className="text-sm font-medium">
                                                     {member.name}
-                                                    {member.is_owner ? ' (owner)' : ''}
+                                                    {member.is_owner
+                                                        ? ' (owner)'
+                                                        : ''}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
                                                     {member.email}
@@ -176,20 +178,31 @@ export default function WorkspacesIndex({
                                                     <select
                                                         className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
                                                         value={member.role}
-                                                        aria-label={'Role for ' + member.name}
+                                                        aria-label={
+                                                            'Role for ' +
+                                                            member.name
+                                                        }
                                                         onChange={(event) =>
                                                             router.put(
                                                                 '/workspaces/' +
                                                                     workspace.id +
                                                                     '/members/' +
                                                                     member.id,
-                                                                { role: event.target.value },
+                                                                {
+                                                                    role: event
+                                                                        .target
+                                                                        .value,
+                                                                },
                                                                 { preserveScroll: true },
                                                             )
                                                         }
                                                     >
-                                                        <option value="admin">Admin</option>
-                                                        <option value="member">Member</option>
+                                                        <option value="admin">
+                                                            Admin
+                                                        </option>
+                                                        <option value="member">
+                                                            Member
+                                                        </option>
                                                     </select>
                                                     <button
                                                         type="button"
