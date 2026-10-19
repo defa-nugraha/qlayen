@@ -33,9 +33,7 @@ export default function CaptureIndex({ links }: { links: CaptureLink[] }) {
 
     return (
         <AppLayout
-            breadcrumbs={[
-                { title: 'Capture links', href: '/capture-links' },
-            ]}
+            breadcrumbs={[{ title: 'Capture links', href: '/capture-links' }]}
         >
             <Head title="QR & NFC Capture" />
             <div className="flex flex-col gap-6 p-4 md:p-6">
@@ -160,12 +158,10 @@ export default function CaptureIndex({ links }: { links: CaptureLink[] }) {
                                                 : 'rounded-full bg-muted px-2 py-1 text-xs'
                                         }
                                     >
-                                        {link.is_active
-                                            ? 'Active'
-                                            : 'Disabled'}
+                                        {link.is_active ? 'Active' : 'Disabled'}
                                     </span>
                                 </div>
-                                <p className="break-all text-sm text-muted-foreground">
+                                <p className="text-sm break-all text-muted-foreground">
                                     {link.url}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
