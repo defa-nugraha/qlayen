@@ -52,8 +52,12 @@ jobs:
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: npm run check
 
+      - name: Generate Wayfinder TypeScript definitions
+        if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
+        run: php artisan wayfinder:generate
+
       - name: Check TypeScript
-        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' && steps.php-deps.outcome == 'success' }}
         run: npm run types:check
 
       - name: Check PHP static analysis
