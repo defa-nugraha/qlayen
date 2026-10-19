@@ -2,7 +2,16 @@
 
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Workspace;
 use Inertia\Testing\AssertableInertia as Assert;
+
+function customerTestWorkspace(User $user, string $name = 'Customer test workspace'): Workspace
+{
+    $workspace = $user->ownedWorkspaces()->create(['name' => $name]);
+    $workspace->members()->attach($user->id, ['role' => 'owner']);
+
+    return $workspace;
+}
 
 test('guests cannot access customer records', function () {
     $this->get(route('customers.index'))->assertRedirect(route('login'));
@@ -51,8 +60,10 @@ test('customer input is validated', function () {
 test('a user cannot view another users customer in search results', function () {
     $owner = User::factory()->create();
     $intruder = User::factory()->create();
+    $workspace = customerTestWorkspace($owner);
     Customer::query()->create([
         'user_id' => $owner->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Private Customer',
         'status' => 'active',
     ]);
@@ -68,8 +79,10 @@ test('a user cannot view another users customer in search results', function () 
 test('a user cannot update or delete another users customer', function () {
     $owner = User::factory()->create();
     $intruder = User::factory()->create();
+    $workspace = customerTestWorkspace($owner);
     $customer = Customer::query()->create([
         'user_id' => $owner->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Private Customer',
         'status' => 'active',
     ]);
@@ -90,8 +103,10 @@ test('a user cannot update or delete another users customer', function () {
 
 test('a customer owner can update and delete their record', function () {
     $user = User::factory()->create();
+    $workspace = customerTestWorkspace($user);
     $customer = Customer::query()->create([
         'user_id' => $user->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Old Name',
         'status' => 'active',
     ]);
@@ -115,9 +130,12 @@ test('a customer owner can update and delete their record', function () {
 
 test('customer search is limited to the current user and matching fields', function () {
     $user = User::factory()->create();
-    Customer::query()->create(['user_id' => $user->id, 'name' => 'Alya Putri', 'status' => 'active']);
-    Customer::query()->create(['user_id' => $user->id, 'name' => 'Bima Saputra', 'phone' => '628111222333', 'status' => 'active']);
-    Customer::query()->create(['user_id' => User::factory()->create()->id, 'name' => 'Alya Hidden', 'status' => 'active']);
+    $workspace = customerTestWorkspace($user);
+    Customer::query()->create(['user_id' => $user->id, 'workspace_id' => $workspace->id, 'name' => 'Alya Putri', 'status' => 'active']);
+    Customer::query()->create(['user_id' => $user->id, 'workspace_id' => $workspace->id, 'name' => 'Bima Saputra', 'phone' => '628111222333', 'status' => 'active']);
+    $otherUser = User::factory()->create();
+    $otherWorkspace = customerTestWorkspace($otherUser, 'Other workspace');
+    Customer::query()->create(['user_id' => $otherUser->id, 'workspace_id' => $otherWorkspace->id, 'name' => 'Alya Hidden', 'status' => 'active']);
 
     $this->actingAs($user)
         ->get(route('customers.index', ['search' => 'Alya']))
