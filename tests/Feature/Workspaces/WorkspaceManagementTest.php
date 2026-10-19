@@ -78,7 +78,6 @@ test('workspace membership is unique per user', function () {
         ->toThrow(QueryException::class);
 });
 
-
 test('workspace owners can update a non-owner member role', function () {
     $owner = User::factory()->create();
     $member = User::factory()->create();
