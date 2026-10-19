@@ -22,7 +22,11 @@ export default function CaptureIndex({
     workspaces: WorkspaceOption[];
     currentWorkspaceId: number;
 }) {
-    const form = useForm<{ name: string; source: 'qr' | 'nfc'; workspace_id: number }>({
+    const form = useForm<{
+        name: string;
+        source: 'qr' | 'nfc';
+        workspace_id: number;
+    }>({
         name: '',
         source: 'qr',
         workspace_id: currentWorkspaceId,
@@ -224,7 +228,8 @@ export default function CaptureIndex({
                                                     '/toggle',
                                                 {
                                                     data: {
-                                                        workspace_id: currentWorkspaceId,
+                                                        workspace_id:
+                                                            currentWorkspaceId,
                                                     },
                                                 },
                                             )
