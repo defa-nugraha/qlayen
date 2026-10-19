@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $follow_up_at
  * @property string|null $follow_up_notes
  * @property string $status
+ * @property Carbon|null $consent_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -31,6 +32,7 @@ use Illuminate\Support\Carbon;
     'follow_up_at',
     'follow_up_notes',
     'status',
+    'consent_at',
 ])]
 class Customer extends Model
 {
@@ -49,6 +51,7 @@ class Customer extends Model
     {
         return [
             'follow_up_at' => 'datetime',
+            'consent_at' => 'datetime',
         ];
     }
 }
