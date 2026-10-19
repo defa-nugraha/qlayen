@@ -35,21 +35,29 @@ jobs:
           cache: npm
 
       - name: Install PHP dependencies
+        id: php-deps
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Install frontend dependencies
+        id: frontend-deps
         run: npm ci
 
+      # Run every quality gate even if another check fails, so one CI run
+      # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
+        if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
         run: composer lint:check
 
       - name: Check frontend lint
+        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: npm run check
 
       - name: Check TypeScript
+        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: npm run types:check
 
       - name: Check PHP static analysis
+        if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
         run: composer types:check
 
   unit-tests:
