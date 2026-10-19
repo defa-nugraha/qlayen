@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Workspace;
+use Illuminate\Database\QueryException;
 
 test('guests cannot access workspaces', function () {
     $this->get('/workspaces')->assertRedirect('/login');
@@ -74,5 +75,5 @@ test('workspace membership is unique per user', function () {
     $workspace->members()->attach($user->id, ['role' => 'owner']);
 
     expect(fn () => $workspace->members()->attach($user->id, ['role' => 'owner']))
-        ->toThrow(\Illuminate\Database\QueryException::class);
+        ->toThrow(QueryException::class);
 });
