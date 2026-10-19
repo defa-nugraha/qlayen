@@ -88,8 +88,10 @@ test('public capture form creates a customer only after consent', function () {
 
 test('disabled capture links cannot display the form or accept submissions', function () {
     $owner = User::factory()->create();
+    $workspace = captureTestWorkspace($owner, 'Expired workspace');
     $link = CustomerCaptureLink::query()->create([
         'user_id' => $owner->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Expired Campaign',
         'token' => str_repeat('b', 48),
         'source' => 'qr',
@@ -110,8 +112,10 @@ test('disabled capture links cannot display the form or accept submissions', fun
 test('users cannot disable another users capture link', function () {
     $owner = User::factory()->create();
     $otherUser = User::factory()->create();
+    $workspace = captureTestWorkspace($owner, 'Private workspace');
     $link = CustomerCaptureLink::query()->create([
         'user_id' => $owner->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Private Campaign',
         'token' => str_repeat('c', 48),
         'source' => 'qr',
