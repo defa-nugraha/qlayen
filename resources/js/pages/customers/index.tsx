@@ -62,7 +62,10 @@ export default function CustomersIndex({
 }: PageProps) {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [search, setSearch] = useState(filters.search);
-    const form = useForm<CustomerForm>({ ...emptyForm, workspace_id: currentWorkspaceId });
+    const form = useForm<CustomerForm>({
+        ...emptyForm,
+        workspace_id: currentWorkspaceId,
+    });
 
     function beginEdit(customer: Customer) {
         setEditingId(customer.id);
@@ -138,7 +141,9 @@ export default function CustomersIndex({
                                 router.get(
                                     '/customers',
                                     {
-                                        workspace_id: Number(event.target.value),
+                                        workspace_id: Number(
+                                            event.target.value,
+                                        ),
                                         search,
                                     },
                                     { preserveState: false, replace: true },
@@ -153,23 +158,23 @@ export default function CustomersIndex({
                         </select>
                     </label>
                     <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                        <h1 className="text-2xl font-semibold tracking-tight">
-                            Customer CRM
-                        </h1>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Manage customer details, interaction notes, and
-                            follow-up dates.
-                        </p>
-                    </div>
-                    <div className="rounded-lg border bg-card px-4 py-3">
-                        <p className="text-xs text-muted-foreground">
-                            Total customers
-                        </p>
-                        <p className="text-2xl font-semibold">
-                            {customers.total}
-                        </p>
-                    </div>
+                        <div>
+                            <h1 className="text-2xl font-semibold tracking-tight">
+                                Customer CRM
+                            </h1>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Manage customer details, interaction notes, and
+                                follow-up dates.
+                            </p>
+                        </div>
+                        <div className="rounded-lg border bg-card px-4 py-3">
+                            <p className="text-xs text-muted-foreground">
+                                Total customers
+                            </p>
+                            <p className="text-2xl font-semibold">
+                                {customers.total}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -371,7 +376,9 @@ export default function CustomersIndex({
                                     type="button"
                                     onClick={() => {
                                         setSearch('');
-                                        router.get('/customers', { workspace_id: currentWorkspaceId });
+                                        router.get('/customers', {
+                                            workspace_id: currentWorkspaceId,
+                                        });
                                     }}
                                 >
                                     Clear
