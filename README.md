@@ -16,6 +16,12 @@ composer types:check
 php artisan test
 ```
 
+## Customer CRM MVP
+
+The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. The controller scopes every list and mutation through the signed-in user's `customers()` relationship; cross-user record IDs return 404. The initial tenant boundary is per user account; shared business workspaces and team membership are not implemented yet.
+
+Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
+
 ## WhatsApp gateway
 
 The gateway client is implemented in `App\\Infrastructure\\Messaging\\WhatsAppGateway`. Configure the following environment variables:
