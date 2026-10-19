@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
+use App\Http\Controllers\Workspaces\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -15,6 +16,9 @@ Route::post('c/{token}', [CustomerCaptureController::class, 'capture'])
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
+    Route::post('workspaces', [WorkspaceController::class, 'store'])->name('workspaces.store');
 
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
