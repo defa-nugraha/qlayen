@@ -1,9 +1,9 @@
 <?php
 
-namespace App\\Infrastructure\\Messaging;
+namespace App\Infrastructure\Messaging;
 
-use Illuminate\\Http\\Client\\PendingRequest;
-use Illuminate\\Support\\Facades\\Http;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use UnexpectedValueException;
 
