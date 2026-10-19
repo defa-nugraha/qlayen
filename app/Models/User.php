@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
      */
     public function workspaces(): BelongsToMany
     {
-        return $this->belongsToMany(Workspace::class)
+        return $this->belongsToMany(Workspace::class, 'workspace_user')
             ->using(WorkspaceMembership::class)
             ->withPivot('role')
             ->withTimestamps();
