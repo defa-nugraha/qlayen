@@ -13,6 +13,9 @@ class WhatsAppGateway
         'image', 'video', 'audio', 'pdf', 'xls', 'xlsx', 'doc', 'docx', 'zip',
     ];
 
+    /**
+     * @return array<string, mixed>
+     */
     public function sendMessage(string $number, string $message): array
     {
         return $this->post('send-message', [
@@ -23,14 +26,15 @@ class WhatsAppGateway
 
     /**
      * @param array{media_type: string, url: string, caption?: string, ppt?: bool} $media
+     * @return array<string, mixed>
      */
     public function sendMedia(string $number, array $media): array
     {
-        if (! in_array($media['media_type'] ?? '', self::MEDIA_TYPES, true)) {
+        if (!in_array($media['media_type'], self::MEDIA_TYPES, true)) {
             throw new InvalidArgumentException('Unsupported WhatsApp media type.');
         }
 
-        if (filter_var($media['url'] ?? null, FILTER_VALIDATE_URL) === false) {
+        if (filter_var($media['url'], FILTER_VALIDATE_URL) === false) {
             throw new InvalidArgumentException('Media URL must be a valid direct URL.');
         }
 
@@ -45,6 +49,7 @@ class WhatsAppGateway
 
     /**
      * @param list<string> $buttons
+     * @return array<string, mixed>
      */
     public function sendButton(
         string $number,
@@ -105,7 +110,7 @@ class WhatsAppGateway
 
         $data = $response->json();
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             throw new UnexpectedValueException('WhatsApp gateway returned an invalid JSON response.');
         }
 
