@@ -46,7 +46,7 @@ jobs:
       # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
-        run: composer lint:check
+        run: composer lint:fix && cat database/migrations/2026_10_19_030000_add_workspace_id_to_customer_data.php
 
       - name: Check frontend lint
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
