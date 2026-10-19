@@ -28,7 +28,7 @@ return new class extends Migration
         DB::table('users')
             ->select(['id', 'name'])
             ->orderBy('id')
-            ->chunk(100, function ($users): void {
+            ->chunk(100, function ($users) {
                 foreach ($users as $user) {
                     $workspaceId = DB::table('workspaces')
                         ->where('owner_id', $user->id)
@@ -40,7 +40,7 @@ return new class extends Migration
 
                         $workspaceId = DB::table('workspaces')->insertGetId([
                             'owner_id' => $user->id,
-                            'name' => mb_substr($user->name . "'s workspace", 0, 120),
+                            'name' => mb_substr($user->name."'s workspace", 0, 120),
                             'description' => 'Automatically created for existing customer data.',
                             'created_at' => $now,
                             'updated_at' => $now,
