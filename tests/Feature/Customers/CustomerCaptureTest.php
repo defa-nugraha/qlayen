@@ -3,7 +3,16 @@
 use App\Models\Customer;
 use App\Models\CustomerCaptureLink;
 use App\Models\User;
+use App\Models\Workspace;
 use Inertia\Testing\AssertableInertia as Assert;
+
+function captureTestWorkspace(User $user, string $name = 'Capture test workspace'): Workspace
+{
+    $workspace = $user->ownedWorkspaces()->create(['name' => $name]);
+    $workspace->members()->attach($user->id, ['role' => 'owner']);
+
+    return $workspace;
+}
 
 test('guests cannot manage capture links', function () {
     $this->get(route('capture.index'))->assertRedirect(route('login'));
@@ -35,8 +44,10 @@ test('a verified user can create a QR or NFC capture link', function () {
 
 test('public capture form creates a customer only after consent', function () {
     $owner = User::factory()->create();
+    $workspace = captureTestWorkspace($owner);
     $link = CustomerCaptureLink::query()->create([
         'user_id' => $owner->id,
+        'workspace_id' => $workspace->id,
         'name' => 'Front Desk',
         'token' => str_repeat('a', 48),
         'source' => 'nfc',
