@@ -83,6 +83,7 @@ test('public capture form creates a customer only after consent', function () {
     expect($customer->user_id)->toBe($owner->id)
         ->and($customer->name)->toBe('Dina Putri')
         ->and($customer->source)->toBe('NFC')
+        ->and($customer->workspace_id)->toBe($workspace->id)
         ->and($customer->consent_at)->not->toBeNull();
 });
 
@@ -125,6 +126,33 @@ test('users cannot disable another users capture link', function () {
     $this->actingAs($otherUser)
         ->patch(route('capture.toggle', $link))
         ->assertNotFound();
+
+    expect($link->fresh()->is_active)->toBeTrue();
+});
+
+test('capture links and their mutations are isolated by workspace', function () {
+    $user = User::factory()->create();
+    $firstWorkspace = captureTestWorkspace($user, 'First capture workspace');
+    $secondWorkspace = captureTestWorkspace($user, 'Second capture workspace');
+
+    $link = CustomerCaptureLink::query()->create([
+        'user_id' => $user->id,
+        'workspace_id' => $secondWorkspace->id,
+        'name' => 'Second workspace campaign',
+        'token' => str_repeat('d', 48),
+        'source' => 'qr',
+        'is_active' => true,
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('capture.index', ['workspace_id' => $firstWorkspace->id]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('links', 0));
+
+    $this->patch(route('capture.toggle', $link), [
+        'workspace_id' => $firstWorkspace->id,
+    ])->assertNotFound();
 
     expect($link->fresh()->is_active)->toBeTrue();
 });
