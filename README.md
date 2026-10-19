@@ -13,6 +13,7 @@ composer lint:check
 npm run check
 npm run types:check
 composer types:check
+npm run build
 php artisan test
 ```
 
@@ -56,7 +57,7 @@ Webhook handling and automated follow-up delivery should be implemented as separ
 
 ## QR/NFC customer capture MVP
 
-Authenticated users can create named QR or NFC capture links at `/capture-links`. Each campaign receives a random 48-character token and can be disabled to stop future submissions. The public `/c/{token}` form collects name, phone, optional email, and explicit consent; submitted records are added to the campaign owner's customer list with a source of `QR` or `NFC` and a consent timestamp. Public endpoints are rate-limited, and campaign management is scoped to the authenticated owner.
+Authenticated users can create named QR or NFC capture links at `/capture-links`. Each campaign receives a random 48-character token and can be disabled to stop future submissions. The public `/c/{token}` form collects name, phone, optional email, and explicit consent; submitted records are added to the workspace associated with the capture link with a source of `QR` or `NFC` and a consent timestamp. Public endpoints are rate-limited, and authenticated capture-link management is scoped to the selected workspace after server-side membership validation.
 
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
