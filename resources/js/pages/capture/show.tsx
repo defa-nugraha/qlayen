@@ -40,10 +40,7 @@ export default function CaptureShow({ campaignName, token }: Props) {
                         </p>
                     </div>
 
-                    <form
-                        onSubmit={submit}
-                        className="flex flex-col gap-4"
-                    >
+                    <form onSubmit={submit} className="flex flex-col gap-4">
                         <label className="block text-sm font-medium">
                             Full name *
                             <input
@@ -129,9 +126,7 @@ export default function CaptureShow({ campaignName, token }: Props) {
                             disabled={form.processing}
                             className="rounded-md bg-primary px-4 py-3 text-sm font-medium text-primary-foreground disabled:opacity-50"
                         >
-                            {form.processing
-                                ? 'Submitting…'
-                                : 'Submit details'}
+                            {form.processing ? 'Submitting…' : 'Submit details'}
                         </button>
                     </form>
 
