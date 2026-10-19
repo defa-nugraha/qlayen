@@ -29,7 +29,7 @@ class Workspace extends Model
     }
 
     /**
-     * @return BelongsToMany<User, $this>
+     * @return BelongsToMany<User, $this, WorkspaceMembership, 'pivot'>
      */
     public function members(): BelongsToMany
     {
