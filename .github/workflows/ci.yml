@@ -55,6 +55,13 @@ jobs:
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
         run: composer lint:check
 
+      - name: Diagnose frontend formatting
+        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
+        run: |
+          npm run check:fix
+          git diff -- resources/js/pages/workspaces/index.tsx
+          exit 1
+
       - name: Check frontend lint
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: npm run check
