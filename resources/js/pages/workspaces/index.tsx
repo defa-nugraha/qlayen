@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import AppLayout from '@/layouts/app-layout';
 
@@ -10,6 +10,13 @@ type Workspace = {
     members_count: number;
     is_owner: boolean;
     created_at: string | null;
+    members: {
+        id: number;
+        name: string;
+        email: string;
+        role: 'owner' | 'admin' | 'member';
+        is_owner: boolean;
+    }[];
 };
 
 export default function WorkspacesIndex({
@@ -145,15 +152,67 @@ export default function WorkspacesIndex({
                                         : 'Shared workspace'}
                                 </span>
                             </div>
+                            <div className="mt-5 border-t pt-4">
+                                <h4 className="mb-3 text-sm font-semibold">
+                                    Workspace members
+                                </h4>
+                                <div className="flex flex-col gap-3">
+                                    {workspace.members.map((member) => (
+                                        <div key={member.id} className="flex flex-wrap items-center justify-between gap-3">
+                                            <div>
+                                                <p className="text-sm font-medium">
+                                                    {member.name}{member.is_owner ? ' (owner)' : ''}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">{member.email}</p>
+                                            </div>
+                                            {workspace.is_owner && !member.is_owner ? (
+                                                <div className="flex items-center gap-2">
+                                                    <select
+                                                        className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+                                                        value={member.role}
+                                                        aria-label={'Role for ' + member.name}
+                                                        onChange={(event) => router.put(
+                                                            '/workspaces/' + workspace.id + '/members/' + member.id,
+                                                            { role: event.target.value },
+                                                            { preserveScroll: true },
+                                                        )}
+                                                    >
+                                                        <option value="admin">Admin</option>
+                                                        <option value="member">Member</option>
+                                                    </select>
+                                                    <button
+                                                        type="button"
+                                                        className="rounded-md border px-3 py-1.5 text-sm text-destructive"
+                                                        onClick={() => router.delete(
+                                                            '/workspaces/' + workspace.id + '/members/' + member.id,
+                                                            { preserveScroll: true },
+                                                        )}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className="rounded-full bg-muted px-2 py-1 text-xs capitalize">
+                                                    {member.role}
+                                                </span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                                {!workspace.is_owner && (
+                                    <p className="mt-3 text-xs text-muted-foreground">
+                                        Only the workspace owner can change member roles or remove members.
+                                    </p>
+                                )}
+                            </div>
                         </article>
                     ))}
                 </section>
 
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                    Workspace creation and membership records are implemented in
-                    this stage. Customer and capture-link data still use
-                    account-level ownership until the workspace migration and
-                    access controls are completed.
+                    Only the workspace owner can change member roles or remove
+                    members. Invitations and ownership transfer are not yet
+                    available.
                 </p>
             </div>
         </AppLayout>
