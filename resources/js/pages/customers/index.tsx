@@ -54,7 +54,12 @@ const emptyForm: CustomerForm = {
     status: 'active',
 };
 
-export default function CustomersIndex({ customers, filters, workspaces, currentWorkspaceId }: PageProps) {
+export default function CustomersIndex({
+    customers,
+    filters,
+    workspaces,
+    currentWorkspaceId,
+}: PageProps) {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [search, setSearch] = useState(filters.search);
     const form = useForm<CustomerForm>({ ...emptyForm, workspace_id: currentWorkspaceId });
@@ -109,7 +114,9 @@ export default function CustomersIndex({ customers, filters, workspaces, current
                 'Delete this customer? This action cannot be undone.',
             )
         ) {
-            router.delete('/customers/' + id, { data: { workspace_id: currentWorkspaceId } });
+            router.delete('/customers/' + id, {
+                data: { workspace_id: currentWorkspaceId },
+            });
         }
     }
 
@@ -127,10 +134,21 @@ export default function CustomersIndex({ customers, filters, workspaces, current
                         <select
                             className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
                             value={currentWorkspaceId}
-                            onChange={(event) => router.get('/customers', { workspace_id: Number(event.target.value), search }, { preserveState: false, replace: true })}
+                            onChange={(event) =>
+                                router.get(
+                                    '/customers',
+                                    {
+                                        workspace_id: Number(event.target.value),
+                                        search,
+                                    },
+                                    { preserveState: false, replace: true },
+                                )
+                            }
                         >
                             {workspaces.map((workspace) => (
-                                <option key={workspace.id} value={workspace.id}>{workspace.name} ({workspace.role})</option>
+                                <option key={workspace.id} value={workspace.id}>
+                                    {workspace.name} ({workspace.role})
+                                </option>
                             ))}
                         </select>
                     </label>
