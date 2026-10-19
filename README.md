@@ -28,7 +28,7 @@ The authenticated `/workspaces` screen lets a user create a business workspace a
 
 The `/customers` and `/capture-links` screens support workspace selection. Customer list/search/create/update/delete operations are scoped to the selected workspace; capture-link listing/creation/toggling is scoped the same way. The public capture form stores consented customers in the workspace attached to that link. `WorkspaceContext` rejects workspace IDs for which the current user has no membership. Legacy records are backfilled by `2026_10_19_030000_add_workspace_id_to_customer_data.php`.
 
-Important: this is the workspace foundation only. Customer records and QR/NFC capture links are still scoped to individual user accounts; do not treat workspace-level tenant isolation as complete until those tables, queries, public capture ownership, and cross-workspace access tests are migrated.
+Workspace scoping for customer records and QR/NFC capture links is implemented in the current MVP: each authenticated CRM/campaign request resolves a workspace through the user's membership, data queries and mutations are scoped to that workspace, and public capture submissions are assigned to the workspace owning the capture link. Cross-workspace access tests cover listing and mutation. Workspace IDs are still nullable at the database level to support safe legacy-data migration; application-created records are assigned through workspace relationships. Before production, make the workspace ownership policy explicit for workspace deletion/retention, and add role-based authorization because the current MVP validates membership but does not yet restrict customer/campaign actions by the stored owner/admin/member role.
 
 ## WhatsApp gateway
 
