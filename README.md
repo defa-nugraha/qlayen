@@ -102,11 +102,9 @@ The demo seeder is idempotent and creates sample records for the currently imple
 
 Local demo accounts (all share the default password `password` unless overridden):
 
-| Role | Email |
-| --- | --- |
-| Owner | `owner@qlayen.test` |
-| Admin | `admin@qlayen.test` |
-| Member | `member@qlayen.test` |
+- **Owner:** `owner@qlayen.test`
+- **Admin:** `admin@qlayen.test`
+- **Member:** `member@qlayen.test`
 
 Override the demo password before seeding with `QLAYEN_DEMO_PASSWORD`. These are development-only credentials; do not reuse them in a real environment. Demo data is skipped in production unless `QLAYEN_SEED_DEMO=true` is explicitly set.
 
