@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
+Route::post('webhooks/whatsapp/delivery', WhatsAppDeliveryWebhookController::class)
+    ->middleware('throttle:120,1')
+    ->name('webhooks.whatsapp.delivery');
+
 Route::get('c/{token}', [CustomerCaptureController::class, 'show'])
     ->middleware('throttle:30,1')
     ->name('capture.show');
