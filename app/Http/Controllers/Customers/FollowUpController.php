@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendCustomerFollowUpWhatsApp;
+use App\Models\CustomerFollowUpDelivery;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,6 +52,26 @@ class FollowUpController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        $deliveryBySchedule = CustomerFollowUpDelivery::query()
+            ->whereIn('customer_id', $customers->getCollection()->pluck('id'))
+            ->get()
+            ->keyBy(fn (CustomerFollowUpDelivery $delivery): string => $delivery->customer_id.'|'.$delivery->scheduled_for->toDateTimeString());
+
+        $customers->getCollection()->transform(function ($customer) use ($deliveryBySchedule) {
+            $key = $customer->id.'|'.$customer->follow_up_at->toDateTimeString();
+            $delivery = $deliveryBySchedule->get($key);
+
+            $customer->setAttribute('whatsapp_delivery', $delivery === null ? null : [
+                'id' => $delivery->id,
+                'status' => $delivery->status,
+                'attempts' => $delivery->attempts,
+                'last_error' => $delivery->last_error,
+                'retryable' => $delivery->status === 'failed',
+            ]);
+
+            return $customer;
+        });
+
         return Inertia::render('follow-ups/index', [
             'customers' => $customers,
             'filters' => ['filter' => $filter, 'search' => $search],
@@ -64,6 +86,56 @@ class FollowUpController extends Controller
                 ]),
             'currentWorkspaceId' => $workspace->id,
         ]);
+    }
+
+    public function retryDelivery(Request $request, string $delivery, WorkspaceContext $workspaceContext): RedirectResponse
+    {
+        $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+
+        $record = CustomerFollowUpDelivery::query()
+            ->where('workspace_id', $workspace->id)
+            ->with('customer')
+            ->findOrFail($delivery);
+
+        abort_unless($record->status === 'failed', 422, 'Only failed WhatsApp deliveries can be retried.');
+
+        $customer = $record->customer;
+
+        abort_unless(
+            $customer !== null
+            && $customer->workspace_id === $workspace->id
+            && $customer->status === 'active'
+            && $customer->follow_up_completed_at === null
+            && $customer->follow_up_whatsapp_enabled
+            && $customer->whatsapp_consent_at !== null
+            && filled($customer->phone)
+            && $customer->follow_up_at !== null
+            && $customer->follow_up_at->equalTo($record->scheduled_for),
+            422,
+            'This customer is no longer eligible for WhatsApp follow-up. Review consent and follow-up settings first.',
+        );
+
+        $updated = CustomerFollowUpDelivery::query()
+            ->whereKey($record->id)
+            ->where('workspace_id', $workspace->id)
+            ->where('status', 'failed')
+            ->update([
+                'status' => 'pending',
+                'last_error' => null,
+                'updated_at' => now(),
+            ]);
+
+        if ($updated === 1) {
+            SendCustomerFollowUpWhatsApp::dispatch($record->id);
+        }
+
+        return to_route('follow-ups.index', [
+            'workspace_id' => $workspace->id,
+            'filter' => $request->input('filter', 'upcoming'),
+            'search' => $request->input('search'),
+        ])->with('success', $updated === 1
+            ? 'Failed WhatsApp delivery queued for retry.'
+            : 'This delivery has already been updated and was not queued again.');
     }
 
     public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
