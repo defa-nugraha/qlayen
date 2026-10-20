@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Workspace;
+use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function store(Request $request, WorkspaceContext $workspaceContext): RedirectResponse
+    public function store(Request $request, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $validated = $request->validate($this->rules());
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
@@ -55,17 +56,21 @@ class CustomerController extends Controller
             FILTER_VALIDATE_BOOLEAN,
         );
 
-        $workspace->customers()->create([
+        $customer = $workspace->customers()->create([
             'user_id' => $request->user()->id,
             ...$validated,
             'whatsapp_consent_at' => $whatsappEnabled ? now() : null,
+        ]);
+
+        $auditLogger->record($request, $workspace, 'customer.created', 'customer', $customer->id, [
+            'source' => $customer->source,
         ]);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer created successfully.');
     }
 
-    public function update(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
+    public function update(Request $request, string $customer, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
@@ -87,15 +92,21 @@ class CustomerController extends Controller
         }
 
         $record->update($validated);
+        $auditLogger->record($request, $workspace, 'customer.updated', 'customer', $record->id, [
+            'status' => $record->status,
+        ]);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer updated successfully.');
     }
 
-    public function destroy(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
+    public function destroy(Request $request, string $customer, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
-        $workspace->customers()->findOrFail($customer)->delete();
+        $record = $workspace->customers()->findOrFail($customer);
+        $recordId = $record->id;
+        $record->delete();
+        $auditLogger->record($request, $workspace, 'customer.deleted', 'customer', $recordId);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer deleted successfully.');
