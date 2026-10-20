@@ -10,6 +10,13 @@ type Customer = {
     email: string | null;
     follow_up_at: string;
     follow_up_notes: string | null;
+    whatsapp_delivery: {
+        id: number;
+        status: string;
+        attempts: number;
+        last_error: string | null;
+        retryable: boolean;
+    } | null;
 };
 
 type WorkspaceOption = { id: number; name: string; role: string };
@@ -183,6 +190,9 @@ export default function FollowUpsIndex({
                                         Follow-up note
                                     </th>
                                     <th className="px-4 py-3 font-medium">
+                                        WhatsApp delivery
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
                                         Actions
                                     </th>
                                 </tr>
@@ -207,6 +217,46 @@ export default function FollowUpsIndex({
                                         </td>
                                         <td className="max-w-sm px-4 py-3 whitespace-pre-wrap text-muted-foreground">
                                             {customer.follow_up_notes || '—'}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {customer.whatsapp_delivery ? (
+                                                <div className="space-y-1">
+                                                    <p className="font-medium capitalize">
+                                                        {customer.whatsapp_delivery.status}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Attempts: {customer.whatsapp_delivery.attempts}
+                                                    </p>
+                                                    {customer.whatsapp_delivery.last_error && (
+                                                        <p className="max-w-xs text-xs text-destructive">
+                                                            {customer.whatsapp_delivery.last_error}
+                                                        </p>
+                                                    )}
+                                                    {customer.whatsapp_delivery.retryable && (
+                                                        <button
+                                                            type="button"
+                                                            className="rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+                                                            onClick={() =>
+                                                                router.post(
+                                                                    '/follow-ups/deliveries/' +
+                                                                        customer.whatsapp_delivery!.id +
+                                                                        '/retry',
+                                                                    {
+                                                                        workspace_id: currentWorkspaceId,
+                                                                        filter: filters.filter,
+                                                                        search: filters.search,
+                                                                    },
+                                                                    { preserveScroll: true },
+                                                                )
+                                                            }
+                                                        >
+                                                            Retry failed delivery
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <span className="text-muted-foreground">Not queued</span>
+                                            )}
                                         </td>
                                         <td className="px-4 py-3 whitespace-nowrap">
                                             <div className="flex flex-col items-start gap-2">
@@ -250,7 +300,7 @@ export default function FollowUpsIndex({
                                 {customers.data.length === 0 && (
                                     <tr>
                                         <td
-                                            colSpan={4}
+                                            colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
                                             No scheduled follow-ups match this
