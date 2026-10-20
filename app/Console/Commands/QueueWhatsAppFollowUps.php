@@ -22,7 +22,7 @@ class QueueWhatsAppFollowUps extends Command
             ->whereNotNull('follow_up_at')
             ->where('follow_up_at', '<=', $now)
             ->where('follow_up_whatsapp_enabled', true)
-            ->whereNotNull('consent_at')
+            ->whereNotNull('whatsapp_consent_at')
             ->whereNotNull('phone')
             ->where('phone', '!=', '')
             ->where('status', 'active')
