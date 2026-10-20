@@ -1,6 +1,9 @@
 <?php
 
+use App\Jobs\SendCustomerFollowUpWhatsApp;
 use App\Models\Customer;
+use App\Models\CustomerFollowUpDelivery;
+use Illuminate\Support\Facades\Queue;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Support\Carbon;
@@ -191,4 +194,108 @@ test('rescheduling an existing follow-up makes it pending again', function () {
         ->assertRedirect();
 
     expect($customer->fresh()->follow_up_completed_at)->toBeNull();
+});
+
+
+test('users can retry a failed WhatsApp delivery in their workspace once', function () {
+    Queue::fake();
+
+    $user = User::factory()->create();
+    $workspace = followUpTestWorkspace($user);
+    $customer = followUpTestCustomer($user, $workspace, 'Retry customer', '2026-10-20 10:00:00');
+    $customer->update([
+        'phone' => '628123456789',
+        'follow_up_whatsapp_enabled' => true,
+        'whatsapp_consent_at' => now()->subDay(),
+    ]);
+
+    $delivery = CustomerFollowUpDelivery::query()->create([
+        'workspace_id' => $workspace->id,
+        'customer_id' => $customer->id,
+        'scheduled_for' => $customer->follow_up_at,
+        'status' => 'failed',
+        'attempts' => 3,
+        'last_error' => 'Temporary gateway failure.',
+    ]);
+
+    $this->actingAs($user)
+        ->post(route('follow-ups.deliveries.retry', [
+            'delivery' => $delivery->id,
+            'workspace_id' => $workspace->id,
+            'filter' => 'all',
+        ]))
+        ->assertRedirect(route('follow-ups.index', [
+            'workspace_id' => $workspace->id,
+            'filter' => 'all',
+        ]));
+
+    expect($delivery->fresh()->status)->toBe('pending')
+        ->and($delivery->fresh()->last_error)->toBeNull()
+        ->and($delivery->fresh()->attempts)->toBe(3);
+
+    Queue::assertPushed(SendCustomerFollowUpWhatsApp::class, 1);
+
+    $this->actingAs($user)
+        ->post(route('follow-ups.deliveries.retry', [
+            'delivery' => $delivery->id,
+            'workspace_id' => $workspace->id,
+        ]))
+        ->assertStatus(422);
+
+    Queue::assertPushed(SendCustomerFollowUpWhatsApp::class, 1);
+});
+
+test('users cannot retry a delivery after WhatsApp consent is revoked', function () {
+    Queue::fake();
+
+    $user = User::factory()->create();
+    $workspace = followUpTestWorkspace($user);
+    $customer = followUpTestCustomer($user, $workspace, 'Opted out customer', '2026-10-20 10:00:00');
+    $customer->update([
+        'phone' => '628123456789',
+        'follow_up_whatsapp_enabled' => true,
+        'whatsapp_consent_at' => null,
+    ]);
+    $delivery = CustomerFollowUpDelivery::query()->create([
+        'workspace_id' => $workspace->id,
+        'customer_id' => $customer->id,
+        'scheduled_for' => $customer->follow_up_at,
+        'status' => 'failed',
+        'attempts' => 1,
+    ]);
+
+    $this->actingAs($user)
+        ->post(route('follow-ups.deliveries.retry', [
+            'delivery' => $delivery->id,
+            'workspace_id' => $workspace->id,
+        ]))
+        ->assertStatus(422);
+
+    expect($delivery->fresh()->status)->toBe('failed');
+    Queue::assertNothingPushed();
+});
+
+test('users cannot retry a delivery belonging to another workspace', function () {
+    Queue::fake();
+
+    $owner = User::factory()->create();
+    $workspace = followUpTestWorkspace($owner);
+    $customer = followUpTestCustomer($owner, $workspace, 'Private retry customer', '2026-10-20 10:00:00');
+    $delivery = CustomerFollowUpDelivery::query()->create([
+        'workspace_id' => $workspace->id,
+        'customer_id' => $customer->id,
+        'scheduled_for' => $customer->follow_up_at,
+        'status' => 'failed',
+    ]);
+    $otherUser = User::factory()->create();
+
+    $this->actingAs($otherUser)
+        ->post(route('follow-ups.deliveries.retry', [
+            'delivery' => $delivery->id,
+            'workspace_id' => $workspace->id,
+        ]))
+        ->assertNotFound();
+
+    expect($delivery->fresh()->status)->toBe('failed');
+    Queue::assertNothingPushed();
 });
