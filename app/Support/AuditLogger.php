@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AuditLogger
 {
     /**
-     * @param array<string, bool|float|int|string|null>  $metadata
+     * @param array<string, mixed> $metadata
      */
     public function record(
         Request $request,
