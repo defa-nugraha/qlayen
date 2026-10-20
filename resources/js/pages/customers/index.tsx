@@ -343,9 +343,14 @@ export default function CustomersIndex({
                                 }
                             />
                             <span>
-                                Customer has explicitly agreed to receive automated WhatsApp follow-up.
+                                Customer has explicitly agreed to receive
+                                automated WhatsApp follow-up.
                                 <span className="mt-1 block text-xs text-muted-foreground">
-                                    Only use this after the customer has agreed to receive WhatsApp follow-up messages. A scheduled date, phone number, and WhatsApp-specific consent timestamp are also required.
+                                    Only use this after the customer has agreed
+                                    to receive WhatsApp follow-up messages. A
+                                    scheduled date, phone number, and
+                                    WhatsApp-specific consent timestamp are also
+                                    required.
                                 </span>
                                 {form.errors.follow_up_whatsapp_enabled && (
                                     <span className="block text-sm text-destructive">
