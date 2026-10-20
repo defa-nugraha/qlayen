@@ -1,6 +1,5 @@
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
 
 type WorkspaceOption = { id: number; name: string; role: string };
 
@@ -38,7 +37,35 @@ type DashboardProps = {
     }[];
 };
 
-const metricClass = 'rounded-xl border bg-card p-4 md:p-5';
+const cardClass = 'rounded-xl border bg-card p-4';
+const linkClass = 'mt-3 inline-block text-sm font-medium text-primary hover:underline';
+
+function MetricCard({
+    title,
+    value,
+    description,
+    href,
+    linkLabel,
+}: {
+    title: string;
+    value: number;
+    description: string;
+    href?: string;
+    linkLabel?: string;
+}) {
+    return (
+        <article className={cardClass}>
+            <p className="text-sm text-muted-foreground">{title}</p>
+            <p className="mt-2 text-3xl font-semibold">{value}</p>
+            <p className="mt-2 text-xs text-muted-foreground">{description}</p>
+            {href && linkLabel && (
+                <a href={href} className={linkClass}>
+                    {linkLabel}
+                </a>
+            )}
+        </article>
+    );
+}
 
 export default function Dashboard({
     workspace,
@@ -53,24 +80,21 @@ export default function Dashboard({
     return (
         <AppLayout
             breadcrumbs={[
-                {
-                    title: 'Dashboard',
-                    href: dashboard({ query: { workspace_id: workspace.id } }),
-                },
+                { title: 'Dashboard', href: '/dashboard' + workspaceQuery },
             ]}
         >
             <Head title="Dashboard" />
             <div className="flex flex-col gap-6 p-4 md:p-6">
-                <div className="flex flex-wrap items-end justify-between gap-3">
+                <header className="flex flex-wrap items-end justify-between gap-3">
                     <div>
                         <h1 className="text-2xl font-semibold tracking-tight">
                             Operational dashboard
                         </h1>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Workspace metrics for {workspace.name}.
+                            Workspace: {workspace.name}
                         </p>
                         <p className="mt-1 text-xs text-muted-foreground">
-                            30-day interaction period: {definitions.period}
+                            30-day period: {definitions.period}
                         </p>
                     </div>
                     <label className="block text-sm font-medium">
@@ -82,7 +106,9 @@ export default function Dashboard({
                                 router.get(
                                     '/dashboard',
                                     {
-                                        workspace_id: Number(event.target.value),
+                                        workspace_id: Number(
+                                            event.target.value,
+                                        ),
                                     },
                                     { preserveState: false, replace: true },
                                 )
@@ -95,110 +121,55 @@ export default function Dashboard({
                             ))}
                         </select>
                     </label>
-                </div>
+                </header>
 
                 <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                    <article className={metricClass}>
-                        <p className="text-sm text-muted-foreground">
-                            Customer records
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                            {metrics.customers_total}
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            {metrics.customers_active} active
-                        </p>
-                        <p className="mt-3 text-xs text-muted-foreground">
-                            {definitions.customers}
-                        </p>
-                        <a
-                            href={'/customers' + workspaceQuery}
-                            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-                        >
-                            View customers
-                        </a>
-                    </article>
-                    <article className={metricClass}>
-                        <p className="text-sm text-muted-foreground">
-                            Interactions
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                            {metrics.interactions_last_30_days}
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            Last 30 calendar days
-                        </p>
-                        <p className="mt-3 text-xs text-muted-foreground">
-                            {definitions.interactions}
-                        </p>
-                        <a
-                            href={'/customers' + workspaceQuery}
-                            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-                        >
-                            Review customer activity
-                        </a>
-                    </article>
-                    <article className={metricClass}>
-                        <p className="text-sm text-muted-foreground">
-                            Active QR/NFC links
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                            {metrics.capture_links_active}
-                        </p>
-                        <p className="mt-3 text-xs text-muted-foreground">
-                            {definitions.capture_links}
-                        </p>
-                        <a
-                            href="/capture-links"
-                            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-                        >
-                            Manage capture links
-                        </a>
-                    </article>
-                    <article className={metricClass}>
-                        <p className="text-sm text-muted-foreground">
-                            Overdue follow-ups
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                            {metrics.follow_ups_overdue}
-                        </p>
-                        <p className="mt-3 text-xs text-muted-foreground">
-                            {definitions.follow_ups}
-                        </p>
-                        <a
-                            href={
-                                '/follow-ups' + workspaceQuery + '&filter=overdue'
-                            }
-                            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-                        >
-                            Review overdue
-                        </a>
-                    </article>
-                    <article className={metricClass}>
-                        <p className="text-sm text-muted-foreground">
-                            Follow-ups due today
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                            {metrics.follow_ups_today}
-                        </p>
-                        <p className="mt-3 text-xs text-muted-foreground">
-                            Scheduled and not marked completed.
-                        </p>
-                        <a
-                            href={
-                                '/follow-ups' + workspaceQuery + '&filter=today'
-                            }
-                            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-                        >
-                            Review today's follow-ups
-                        </a>
-                    </article>
-                    <article className={metricClass}>
-                        <p className="text-sm font-medium">Metric coverage</p>
+                    <MetricCard
+                        title="Customer records"
+                        value={metrics.customers_total}
+                        description={
+                            metrics.customers_active + ' active. ' +
+                            definitions.customers
+                        }
+                        href={'/customers' + workspaceQuery}
+                        linkLabel="View customers"
+                    />
+                    <MetricCard
+                        title="Interactions"
+                        value={metrics.interactions_last_30_days}
+                        description={definitions.interactions}
+                        href={'/customers' + workspaceQuery}
+                        linkLabel="Review activity"
+                    />
+                    <MetricCard
+                        title="Active QR/NFC links"
+                        value={metrics.capture_links_active}
+                        description={definitions.capture_links}
+                        href={'/capture-links?workspace_id=' + workspace.id}
+                        linkLabel="Manage capture links"
+                    />
+                    <MetricCard
+                        title="Overdue follow-ups"
+                        value={metrics.follow_ups_overdue}
+                        description={definitions.follow_ups}
+                        href={
+                            '/follow-ups' + workspaceQuery + '&filter=overdue'
+                        }
+                        linkLabel="Review overdue"
+                    />
+                    <MetricCard
+                        title="Follow-ups due today"
+                        value={metrics.follow_ups_today}
+                        description="Scheduled and not marked completed."
+                        href={'/follow-ups' + workspaceQuery + '&filter=today'}
+                        linkLabel="Review today's follow-ups"
+                    />
+                    <article className={cardClass}>
+                        <p className="font-medium">Metric coverage</p>
                         <p className="mt-2 text-sm text-muted-foreground">
-                            QR/NFC scans and repeat visits are not counted yet.
-                            Active links are not scan events, and a customer
-                            record is not proof of a verified visit.
+                            QR/NFC scans and repeat visits are not counted.
+                            Active links are not scan events or proof of a
+                            verified visit.
                         </p>
                     </article>
                 </section>
@@ -206,9 +177,11 @@ export default function Dashboard({
                 <section className="grid gap-4 xl:grid-cols-2">
                     <div className="overflow-hidden rounded-xl border bg-card">
                         <div className="border-b p-4">
-                            <h2 className="font-semibold">Recent interactions</h2>
+                            <h2 className="font-semibold">
+                                Recent interactions
+                            </h2>
                             <p className="mt-1 text-sm text-muted-foreground">
-                                Latest recorded customer interactions in this workspace.
+                                Latest recorded interactions in this workspace.
                             </p>
                         </div>
                         <div className="divide-y">
@@ -218,8 +191,7 @@ export default function Dashboard({
                                         {interaction.summary}
                                     </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
-                                        {interaction.customer ??
-                                            'Customer record unavailable'}
+                                        {interaction.customer ?? 'Customer'}
                                         {' · '}
                                         {interaction.type}
                                     </p>
@@ -247,9 +219,6 @@ export default function Dashboard({
                             <h2 className="font-semibold">
                                 Follow-ups due today or overdue
                             </h2>
-                            <p className="mt-1 text-sm text-muted-foreground">
-                                Scheduled follow-ups that have not been completed.
-                            </p>
                         </div>
                         <div className="divide-y">
                             {dueFollowUps.map((followUp) => (
@@ -269,24 +238,18 @@ export default function Dashboard({
                                             {followUp.notes}
                                         </p>
                                     )}
-                                    <a
-                                        href={'/customers' + workspaceQuery}
-                                        className="mt-2 inline-block text-sm font-medium text-primary hover:underline"
-                                    >
-                                        Open customer list
-                                    </a>
                                 </article>
                             ))}
                             {dueFollowUps.length === 0 && (
                                 <p className="p-6 text-center text-sm text-muted-foreground">
-                                    No overdue or due-today follow-ups.
+                                    No due follow-ups.
                                 </p>
                             )}
                         </div>
                         <div className="border-t p-4">
                             <a
                                 href={'/follow-ups' + workspaceQuery}
-                                className="text-sm font-medium text-primary hover:underline"
+                                className={linkClass}
                             >
                                 Open follow-up workflow
                             </a>
