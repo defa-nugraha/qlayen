@@ -67,10 +67,15 @@ class CustomerController extends Controller
         $record = $workspace->customers()->findOrFail($customer);
         $validated = $request->validate($this->rules());
 
-        if (($validated['follow_up_whatsapp_enabled'] ?? false) === true) {
-            $validated['whatsapp_consent_at'] = $record->whatsapp_consent_at ?? now();
-        } elseif (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
-            $validated['whatsapp_consent_at'] = null;
+        if (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
+            $whatsappEnabled = filter_var(
+                $validated['follow_up_whatsapp_enabled'],
+                FILTER_VALIDATE_BOOLEAN,
+            );
+
+            $validated['whatsapp_consent_at'] = $whatsappEnabled
+                ? ($record->whatsapp_consent_at ?? now())
+                : null;
         }
 
         if (($validated['follow_up_at'] ?? null) !== null) {
