@@ -33,7 +33,7 @@ class AuditLogController extends Controller
                 'subject_id' => $log->subject_id,
                 'metadata' => $log->metadata,
                 'created_at' => $log->created_at?->toIso8601String(),
-                'actor' => $log->actor?->name ?? 'Former user',
+                'actor' => data_get($log, 'actor.name', 'Former user'),
             ]);
 
         return Inertia::render('audit-logs/index', [
