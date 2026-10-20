@@ -44,10 +44,12 @@ export default function Welcome() {
 
     return (
         <>
-            <Head
-                title="QLayen — Hubungkan interaksi menjadi relasi pelanggan"
-                description="QLayen membantu bisnis mengumpulkan prospek melalui QR/NFC, mengelola data pelanggan, dan merencanakan tindak lanjut dari satu workspace."
-            />
+            <Head title="QLayen — Hubungkan interaksi menjadi relasi pelanggan">
+                <meta
+                    name="description"
+                    content="QLayen membantu bisnis mengumpulkan prospek melalui QR/NFC, mengelola data pelanggan, dan merencanakan tindak lanjut dari satu workspace."
+                />
+            </Head>
             <div className="min-h-screen overflow-hidden bg-[#f8fafc] text-slate-900">
                 <header className="relative z-10 border-b border-slate-200/80 bg-white/90 backdrop-blur">
                     <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
