@@ -67,7 +67,7 @@ class DemoDataSeeder extends Seeder
     }
 
     /**
-     * @return  array<string, Customer>
+     * @return array<string, Customer>
      */
     private function seedCustomers(Workspace $workspace, User $owner): array
     {
@@ -208,7 +208,7 @@ class DemoDataSeeder extends Seeder
 
     /**
      * @param  array<string, Customer>  $customers
-     * @return  array<string, CustomerFollowUpDelivery>
+     * @return array<string, CustomerFollowUpDelivery>
      */
     private function seedFollowUpDeliveries(Workspace $workspace, array $customers): array
     {
