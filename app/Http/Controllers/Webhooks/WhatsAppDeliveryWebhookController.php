@@ -40,7 +40,8 @@ class WhatsAppDeliveryWebhookController extends Controller
 
             $delivery = CustomerFollowUpDelivery::query()
                 ->lockForUpdate()
-                ->find($validated['delivery_id']);
+                ->whereKey($validated['delivery_id'])
+                ->first();
 
             if ($delivery === null) {
                 return 'unknown_delivery';
