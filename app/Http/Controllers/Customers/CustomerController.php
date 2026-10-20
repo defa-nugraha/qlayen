@@ -64,7 +64,13 @@ class CustomerController extends Controller
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
-        $record->update($request->validate($this->rules()));
+        $validated = $request->validate($this->rules());
+
+        if (($validated['follow_up_at'] ?? null) !== null) {
+            $validated['follow_up_completed_at'] = null;
+        }
+
+        $record->update($validated);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer updated successfully.');

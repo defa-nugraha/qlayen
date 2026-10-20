@@ -4,9 +4,10 @@ import type { FormEvent } from 'react';
 type Props = {
     campaignName: string;
     token: string;
+    submitUrl?: string;
 };
 
-export default function CaptureShow({ campaignName, token }: Props) {
+export default function CaptureShow({ campaignName, token, submitUrl }: Props) {
     const form = useForm({
         name: '',
         phone: '',
@@ -16,11 +17,11 @@ export default function CaptureShow({ campaignName, token }: Props) {
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        form.post('/c/' + token);
+        form.post(submitUrl ?? '/c/' + token);
     }
 
     const inputClass =
-        'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+        'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';
 
     return (
         <>
@@ -39,7 +40,6 @@ export default function CaptureShow({ campaignName, token }: Props) {
                             business can follow up with you.
                         </p>
                     </div>
-
                     <form onSubmit={submit} className="flex flex-col gap-4">
                         <label className="block text-sm font-medium">
                             Full name *
@@ -129,7 +129,6 @@ export default function CaptureShow({ campaignName, token }: Props) {
                             {form.processing ? 'Submitting…' : 'Submit details'}
                         </button>
                     </form>
-
                     <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
                         Please share only details you want this business to use
                         for follow-up. Do not submit sensitive personal

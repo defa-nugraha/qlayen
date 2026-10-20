@@ -352,12 +352,15 @@ export default function CustomersIndex({
                 </section>
 
                 <section className="overflow-hidden rounded-xl border bg-card">
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b p-4">
+                    <div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
                         <h2 className="text-lg font-semibold">Customer list</h2>
-                        <form onSubmit={runSearch} className="flex gap-2">
+                        <form
+                            onSubmit={runSearch}
+                            className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row"
+                        >
                             <input
                                 aria-label="Search customers"
-                                className="w-52 rounded-md border bg-background px-3 py-2 text-sm"
+                                className="w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm sm:w-52"
                                 placeholder="Name, phone, or email"
                                 value={search}
                                 onChange={(event) =>
@@ -386,7 +389,119 @@ export default function CustomersIndex({
                             )}
                         </form>
                     </div>
-                    <div className="overflow-x-auto">
+                    <div className="space-y-3 p-3 md:hidden">
+                        {customers.data.map((customer) => (
+                            <article
+                                key={customer.id}
+                                className="rounded-xl border bg-background p-4"
+                            >
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                        <h3 className="font-semibold break-words text-foreground">
+                                            {customer.name}
+                                        </h3>
+                                        <p className="mt-1 text-sm break-words text-muted-foreground">
+                                            {customer.phone || 'No phone'}
+                                        </p>
+                                        {customer.email && (
+                                            <p className="text-sm break-all text-muted-foreground">
+                                                {customer.email}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <span
+                                        className={
+                                            customer.status === 'active'
+                                                ? 'shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+                                                : 'shrink-0 rounded-full bg-muted px-2 py-1 text-xs'
+                                        }
+                                    >
+                                        {customer.status}
+                                    </span>
+                                </div>
+                                <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                    <div className="min-w-0">
+                                        <dt className="text-xs font-medium text-muted-foreground">
+                                            Source
+                                        </dt>
+                                        <dd className="mt-1 break-words">
+                                            {customer.source || '—'}
+                                        </dd>
+                                    </div>
+                                    <div className="min-w-0">
+                                        <dt className="text-xs font-medium text-muted-foreground">
+                                            Follow-up
+                                        </dt>
+                                        <dd className="mt-1 break-words">
+                                            {customer.follow_up_at
+                                                ? new Date(
+                                                      customer.follow_up_at,
+                                                  ).toLocaleString()
+                                                : 'Not scheduled'}
+                                        </dd>
+                                    </div>
+                                </dl>
+                                {customer.notes && (
+                                    <p className="mt-3 line-clamp-3 text-sm whitespace-pre-wrap text-muted-foreground">
+                                        {customer.notes}
+                                    </p>
+                                )}
+                                {customer.follow_up_notes && (
+                                    <p className="mt-2 text-sm break-words">
+                                        <span className="font-medium">
+                                            Follow-up note:
+                                        </span>{' '}
+                                        {customer.follow_up_notes}
+                                    </p>
+                                )}
+                                <div className="mt-4 grid grid-cols-3 gap-2 border-t pt-3">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            router.get(
+                                                '/customers/' +
+                                                    customer.id +
+                                                    '/interactions',
+                                                {
+                                                    workspace_id:
+                                                        currentWorkspaceId,
+                                                },
+                                            )
+                                        }
+                                        className="min-h-10 rounded-lg border px-2 text-xs font-medium hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                                    >
+                                        History
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => beginEdit(customer)}
+                                        className="min-h-10 rounded-lg border px-2 text-xs font-medium hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            removeCustomer(customer.id)
+                                        }
+                                        className="min-h-10 rounded-lg border border-destructive/30 px-2 text-xs font-medium text-destructive hover:bg-destructive/5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </article>
+                        ))}
+                        {customers.data.length === 0 && (
+                            <div className="rounded-xl border border-dashed p-8 text-center">
+                                <p className="font-medium">No customers yet</p>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    Add your first customer using the form
+                                    above.
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                    <div className="hidden overflow-x-auto md:block">
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 text-muted-foreground">
                                 <tr>
@@ -454,6 +569,23 @@ export default function CustomersIndex({
                                             </span>
                                         </td>
                                         <td className="px-4 py-3 text-right whitespace-nowrap">
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    router.get(
+                                                        '/customers/' +
+                                                            customer.id +
+                                                            '/interactions',
+                                                        {
+                                                            workspace_id:
+                                                                currentWorkspaceId,
+                                                        },
+                                                    )
+                                                }
+                                                className="mr-3 text-primary hover:underline"
+                                            >
+                                                History
+                                            </button>
                                             <button
                                                 type="button"
                                                 onClick={() =>

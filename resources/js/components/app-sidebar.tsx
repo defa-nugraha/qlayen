@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {
     BookOpen,
+    CalendarClock,
     Building2,
     FolderGit2,
     LayoutGrid,
@@ -24,26 +25,12 @@ import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Workspaces',
-        href: '/workspaces',
-        icon: Building2,
-    },
-    {
-        title: 'Customers',
-        href: '/customers',
-        icon: UsersRound,
-    },
-    {
-        title: 'QR & NFC Capture',
-        href: '/capture-links',
-        icon: QrCode,
-    },
+    { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+    { title: 'Workspaces', href: '/workspaces', icon: Building2 },
+    { title: 'Customers', href: '/customers', icon: UsersRound },
+    { title: 'Follow-ups', href: '/follow-ups', icon: CalendarClock },
+    { title: 'QR & NFC Capture', href: '/capture-links', icon: QrCode },
+    { title: 'Activation QR', href: '/activation-qr-codes', icon: QrCode },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -73,11 +60,9 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-
             <SidebarContent>
                 <NavMain items={mainNavItems} />
             </SidebarContent>
-
             <SidebarFooter>
                 <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />

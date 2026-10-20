@@ -55,7 +55,7 @@ export default function CaptureIndex({
                 <label className="block text-sm font-medium">
                     Active workspace
                     <select
-                        className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-auto sm:min-w-56"
                         value={currentWorkspaceId}
                         onChange={(event) =>
                             router.get(
@@ -128,7 +128,7 @@ export default function CaptureIndex({
                         <button
                             type="submit"
                             disabled={form.processing}
-                            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                            className="min-h-11 w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 md:w-auto"
                         >
                             {form.processing ? 'Creating…' : 'Create link'}
                         </button>
@@ -148,7 +148,7 @@ export default function CaptureIndex({
                     {links.map((link) => (
                         <article
                             key={link.id}
-                            className="grid gap-4 rounded-xl border bg-card p-4 md:grid-cols-[220px_1fr] md:p-5"
+                            className="grid min-w-0 gap-4 rounded-2xl border bg-card p-4 shadow-sm transition hover:shadow-md md:grid-cols-[200px_minmax(0,1fr)] md:p-5"
                         >
                             {link.source === 'qr' ? (
                                 <div className="flex flex-col items-center gap-2 rounded-lg bg-white p-3">
@@ -178,7 +178,7 @@ export default function CaptureIndex({
                                     </span>
                                 </div>
                             )}
-                            <div className="flex flex-col items-start gap-3">
+                            <div className="flex min-w-0 flex-col items-start gap-3">
                                 <div className="flex flex-wrap items-center gap-2">
                                     <h3 className="text-lg font-semibold">
                                         {link.name}
@@ -207,7 +207,7 @@ export default function CaptureIndex({
                                                 link.url,
                                             )
                                         }
-                                        className="rounded-md border px-3 py-2 text-sm"
+                                        className="inline-flex min-h-10 items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                                     >
                                         Copy URL
                                     </button>
@@ -215,7 +215,7 @@ export default function CaptureIndex({
                                         href={link.url}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="rounded-md border px-3 py-2 text-sm"
+                                        className="inline-flex min-h-10 items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                                     >
                                         Preview form
                                     </a>
@@ -234,7 +234,7 @@ export default function CaptureIndex({
                                                 },
                                             )
                                         }
-                                        className="rounded-md border px-3 py-2 text-sm"
+                                        className="inline-flex min-h-10 items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium transition hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                                     >
                                         {link.is_active
                                             ? 'Disable link'
