@@ -17,6 +17,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $sent_at
  * @property array<string, mixed>|null $provider_response
  * @property string|null $last_error
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 #[Fillable([
     'workspace_id',
