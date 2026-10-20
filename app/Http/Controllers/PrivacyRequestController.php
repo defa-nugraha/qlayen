@@ -7,9 +7,9 @@ use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
-use Illuminate\Validation\Rule;
 
 class PrivacyRequestController extends Controller
 {
@@ -33,7 +33,7 @@ class PrivacyRequestController extends Controller
                 'created_at' => $item->created_at?->toIso8601String(),
                 'resolved_at' => $item->resolved_at?->toIso8601String(),
                 'customer' => $item->customer?->name,
-                'requested_by' => $item->requestedBy?->name ?? 'Former user',
+                'requested_by' => data_get($item, 'requestedBy.name', 'Former user'),
                 'resolved_by' => $item->resolvedBy?->name,
             ]);
 
