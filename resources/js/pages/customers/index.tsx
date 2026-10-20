@@ -457,6 +457,23 @@ export default function CustomersIndex({
                                             <button
                                                 type="button"
                                                 onClick={() =>
+                                                    router.get(
+                                                        '/customers/' +
+                                                            customer.id +
+                                                            '/interactions',
+                                                        {
+                                                            workspace_id:
+                                                                currentWorkspaceId,
+                                                        },
+                                                    )
+                                                }
+                                                className="mr-3 text-primary hover:underline"
+                                            >
+                                                History
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
                                                     beginEdit(customer)
                                                 }
                                                 className="mr-3 text-primary hover:underline"
