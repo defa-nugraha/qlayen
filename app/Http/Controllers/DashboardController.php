@@ -34,7 +34,7 @@ class DashboardController extends Controller
                 'id' => $interaction->id,
                 'type' => $interaction->type,
                 'summary' => $interaction->summary,
-                'occurred_at' => $interaction->occurred_at?->toIso8601String(),
+                'occurred_at' => $interaction->occurred_at->toIso8601String(),
                 'customer' => $interaction->customer?->name,
                 'actor' => $interaction->user?->name,
             ]);
@@ -55,7 +55,7 @@ class DashboardController extends Controller
             'workspace' => [
                 'id' => $workspace->id,
                 'name' => $workspace->name,
-                'role' => $workspace->pivot?->role,
+                'role' => $request->user()->workspaces()->whereKey($workspace->id)->firstOrFail()->pivot->role,
             ],
             'metrics' => [
                 'customers_total' => (clone $customers)->count(),
