@@ -107,7 +107,10 @@ export default function FollowUpsIndex({
                         { label: 'Due today', value: counts.today },
                         { label: 'Upcoming', value: counts.upcoming },
                     ].map((item) => (
-                        <div key={item.label} className="rounded-xl border bg-card p-4">
+                        <div
+                            key={item.label}
+                            className="rounded-xl border bg-card p-4"
+                        >
                             <p className="text-sm text-muted-foreground">
                                 {item.label}
                             </p>
@@ -125,8 +128,12 @@ export default function FollowUpsIndex({
                                 <button
                                     key={option.value}
                                     type="button"
-                                    onClick={() => navigate({ filter: option.value })}
-                                    aria-pressed={filters.filter === option.value}
+                                    onClick={() =>
+                                        navigate({ filter: option.value })
+                                    }
+                                    aria-pressed={
+                                        filters.filter === option.value
+                                    }
                                     className={
                                         'rounded-md border px-3 py-2 text-sm ' +
                                         (filters.filter === option.value
@@ -147,7 +154,9 @@ export default function FollowUpsIndex({
                             <input
                                 className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
                                 value={search}
-                                onChange={(event) => setSearch(event.target.value)}
+                                onChange={(event) =>
+                                    setSearch(event.target.value)
+                                }
                                 placeholder="Search name, phone, email, or follow-up note"
                                 aria-label="Search follow-ups"
                             />
@@ -164,31 +173,50 @@ export default function FollowUpsIndex({
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 text-muted-foreground">
                                 <tr>
-                                    <th className="px-4 py-3 font-medium">Customer</th>
-                                    <th className="px-4 py-3 font-medium">Scheduled for</th>
-                                    <th className="px-4 py-3 font-medium">Follow-up note</th>
-                                    <th className="px-4 py-3 font-medium">Actions</th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Customer
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Scheduled for
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Follow-up note
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y">
                                 {customers.data.map((customer) => (
                                     <tr key={customer.id}>
                                         <td className="px-4 py-3">
-                                            <p className="font-medium">{customer.name}</p>
+                                            <p className="font-medium">
+                                                {customer.name}
+                                            </p>
                                             <p className="mt-1 text-xs text-muted-foreground">
-                                                {customer.phone ?? customer.email ?? 'No contact details'}
+                                                {customer.phone ??
+                                                    customer.email ??
+                                                    'No contact details'}
                                             </p>
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-3">
-                                            {new Date(customer.follow_up_at).toLocaleString()}
+                                        <td className="px-4 py-3 whitespace-nowrap">
+                                            {new Date(
+                                                customer.follow_up_at,
+                                            ).toLocaleString()}
                                         </td>
                                         <td className="max-w-sm px-4 py-3 whitespace-pre-wrap text-muted-foreground">
                                             {customer.follow_up_notes || '—'}
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-3">
+                                        <td className="px-4 py-3 whitespace-nowrap">
                                             <a
                                                 className="font-medium text-primary hover:underline"
-                                                href={'/customers/' + customer.id + '/interactions?workspace_id=' + currentWorkspaceId}
+                                                href={
+                                                    '/customers/' +
+                                                    customer.id +
+                                                    '/interactions?workspace_id=' +
+                                                    currentWorkspaceId
+                                                }
                                             >
                                                 Interaction history
                                             </a>
@@ -197,8 +225,12 @@ export default function FollowUpsIndex({
                                 ))}
                                 {customers.data.length === 0 && (
                                     <tr>
-                                        <td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">
-                                            No scheduled follow-ups match this view.
+                                        <td
+                                            colSpan={4}
+                                            className="px-4 py-10 text-center text-muted-foreground"
+                                        >
+                                            No scheduled follow-ups match this
+                                            view.
                                         </td>
                                     </tr>
                                 )}
@@ -208,7 +240,8 @@ export default function FollowUpsIndex({
 
                     <div className="flex flex-wrap items-center justify-between gap-3 border-t p-4">
                         <p className="text-sm text-muted-foreground">
-                            {customers.total} scheduled follow-up{customers.total === 1 ? '' : 's'}
+                            {customers.total} scheduled follow-up
+                            {customers.total === 1 ? '' : 's'}
                         </p>
                         {customers.last_page > 1 && (
                             <div className="flex flex-wrap gap-2">
@@ -216,14 +249,20 @@ export default function FollowUpsIndex({
                                     <button
                                         key={index}
                                         disabled={!link.url}
-                                        onClick={() => link.url && router.visit(link.url)}
+                                        onClick={() =>
+                                            link.url && router.visit(link.url)
+                                        }
                                         className={
                                             'rounded-md border px-3 py-1 text-sm disabled:opacity-40 ' +
-                                            (link.active ? 'bg-primary text-primary-foreground' : '')
+                                            (link.active
+                                                ? 'bg-primary text-primary-foreground'
+                                                : '')
                                         }
                                         type="button"
                                     >
-                                        {link.label.replace(/&laquo;|&raquo;/g, '').replace(/&amp;/g, '&')}
+                                        {link.label
+                                            .replace(/&laquo;|&raquo;/g, '')
+                                            .replace(/&amp;/g, '&')}
                                     </button>
                                 ))}
                             </div>
