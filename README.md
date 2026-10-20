@@ -25,7 +25,7 @@ Automated feature tests cover authentication, validation, create/read/update/del
 
 ## Follow-up workflow MVP
 
-The authenticated `/follow-ups` screen lists scheduled follow-ups for active customers in the selected workspace. It provides overdue, due-today, upcoming, and all-scheduled filters; workspace-scoped search across customer name, phone, email, and follow-up notes; summary counts; and pagination. Date buckets use the application timezone and calendar-day boundaries. Customers without a follow-up date, inactive customers, and completed follow-ups are excluded from the active queue. Users can mark a scheduled follow-up complete; the completion timestamp is retained on the customer, and editing the follow-up date makes it pending again. Completion is workspace-scoped and protected by membership resolution. This remains a manual work queue: no notification or WhatsApp message is sent automatically, and delivery queues, retries, and scheduled reminders remain out of scope.
+The authenticated `/follow-ups` screen lists scheduled follow-ups for active customers in the selected workspace. It provides overdue, due-today, upcoming, and all-scheduled filters; workspace-scoped search across customer name, phone, email, and follow-up notes; summary counts; and pagination. Date buckets use the application timezone and calendar-day boundaries. Customers without a follow-up date, inactive customers, and completed follow-ups are excluded from the active queue. Users can mark a scheduled follow-up complete; the completion timestamp is retained on the customer, and editing the follow-up date makes it pending again. Completion is workspace-scoped and protected by membership resolution. This remains a manual work queue for human follow-up. Optional automated WhatsApp delivery is documented in the section below and is disabled by default per customer.
 
 ## Automated WhatsApp follow-up delivery
 
@@ -77,4 +77,4 @@ Authenticated users can create named QR or NFC capture links at `/capture-links`
 
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
-Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, automated follow-up scheduling/delivery, WhatsApp CRM integration and webhook processing, and a QR scan analytics dashboard are not yet implemented.
+Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, inbound WhatsApp webhook processing, retry management UI, delivery reconciliation, and a QR scan analytics dashboard are not yet implemented.
