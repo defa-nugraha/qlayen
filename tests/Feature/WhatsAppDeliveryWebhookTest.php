@@ -1,10 +1,10 @@
 <?php
 
-use App\\Models\\Customer;
-use App\\Models\\CustomerFollowUpDelivery;
-use App\\Models\\User;
-use App\\Models\\Workspace;
-use App\\Models\\WhatsAppWebhookEvent;
+use App\Models\Customer;
+use App\Models\CustomerFollowUpDelivery;
+use App\Models\User;
+use App\Models\Workspace;
+use App\Models\WhatsAppWebhookEvent;
 
 function makeWebhookDelivery(array $overrides = []): CustomerFollowUpDelivery
 {
