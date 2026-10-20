@@ -38,7 +38,8 @@ type DashboardProps = {
 };
 
 const cardClass = 'rounded-xl border bg-card p-4';
-const linkClass = 'mt-3 inline-block text-sm font-medium text-primary hover:underline';
+const linkClass =
+    'mt-3 inline-block text-sm font-medium text-primary hover:underline';
 
 function MetricCard({
     title,
@@ -128,7 +129,8 @@ export default function Dashboard({
                         title="Customer records"
                         value={metrics.customers_total}
                         description={
-                            metrics.customers_active + ' active. ' +
+                            metrics.customers_active +
+                            ' active. ' +
                             definitions.customers
                         }
                         href={'/customers' + workspaceQuery}
