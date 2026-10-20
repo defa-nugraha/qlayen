@@ -48,7 +48,7 @@ class BrandAssetController extends Controller
 
         $validated = $request->validate([
             'key' => ['required', 'string', Rule::in(array_keys(BrandAsset::PLACEMENTS))],
-            'logo' => ['required', 'image', 'mimes:png,jpg,jpeg,webp,ico', 'max:2048'],
+            'logo' => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],
             'alt_text' => ['nullable', 'string', 'max:160'],
         ]);
 
