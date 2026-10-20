@@ -19,6 +19,64 @@ type Workspace = {
     }[];
 };
 
+function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
+    const form = useForm({
+        name: workspace.name,
+        description: workspace.description ?? '',
+    });
+
+    function submit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        form.put('/workspaces/' + workspace.id, {
+            preserveScroll: true,
+        });
+    }
+
+    const inputClass =
+        'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+
+    return (
+        <form onSubmit={submit} className="mt-4 flex flex-col gap-3 border-t pt-4">
+            <h4 className="text-sm font-semibold">Business settings</h4>
+            <label className="block text-sm font-medium">
+                Business name
+                <input
+                    className={inputClass}
+                    value={form.data.name}
+                    onChange={(event) => form.setData('name', event.target.value)}
+                    maxLength={120}
+                    required
+                />
+                {form.errors.name && (
+                    <span className="text-sm text-destructive">{form.errors.name}</span>
+                )}
+            </label>
+            <label className="block text-sm font-medium">
+                Description
+                <textarea
+                    className={inputClass}
+                    value={form.data.description}
+                    onChange={(event) => form.setData('description', event.target.value)}
+                    maxLength={2000}
+                    rows={3}
+                />
+                {form.errors.description && (
+                    <span className="text-sm text-destructive">{form.errors.description}</span>
+                )}
+            </label>
+            <div>
+                <button
+                    type="submit"
+                    disabled={form.processing}
+                    className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                >
+                    {form.processing ? 'Saving…' : 'Save settings'}
+                </button>
+            </div>
+        </form>
+    );
+}
+
 export default function WorkspacesIndex({
     workspaces,
 }: {
@@ -170,6 +228,9 @@ export default function WorkspacesIndex({
                                         : 'Shared workspace'}
                                 </span>
                             </div>
+                            {workspace.is_owner && (
+                                <WorkspaceSettingsForm workspace={workspace} />
+                            )}
                             <div className="mt-5 border-t pt-4">
                                 <h4 className="mb-3 text-sm font-semibold">
                                     Workspace members
