@@ -1,14 +1,14 @@
 <?php
 
-namespace App\\Http\\Controllers\\Customers;
+namespace App\Http\Controllers\Customers;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Models\\Workspace;
-use App\\Support\\WorkspaceContext;
-use Illuminate\\Database\\Eloquent\\Builder;
-use Illuminate\\Http\\Request;
-use Inertia\\Inertia;
-use Inertia\\Response;
+use App\Http\Controllers\Controller;
+use App\Models\Workspace;
+use App\Support\WorkspaceContext;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class FollowUpController extends Controller
 {
