@@ -317,7 +317,9 @@ export default function ActivationQrIndex({
                                     className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center"
                                 >
                                     <div className="flex flex-col items-center">
-                                        <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600">
+                                        <div
+                                            className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600"
+                                        >
                                             <QrCode className="size-7" />
                                         </div>
                                         <p className="mt-2 text-[10px] font-extrabold text-blue-950">
@@ -330,7 +332,9 @@ export default function ActivationQrIndex({
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-center">
-                                        <div className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]">
+                                        <div
+                                            className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]"
+                                        >
                                             <svg
                                                 viewBox="0 0 32 32"
                                                 aria-label="WhatsApp"
@@ -352,7 +356,9 @@ export default function ActivationQrIndex({
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-center">
-                                        <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
+                                        <div
+                                            className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600"
+                                        >
                                             <svg
                                                 viewBox="0 0 24 24"
                                                 fill="none"
