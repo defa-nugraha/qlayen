@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\SendCustomerFollowUpWhatsApp;
 use App\Models\CustomerFollowUpDelivery;
 use App\Models\Workspace;
+use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -88,7 +89,7 @@ class FollowUpController extends Controller
         ]);
     }
 
-    public function retryDelivery(Request $request, string $delivery, WorkspaceContext $workspaceContext): RedirectResponse
+    public function retryDelivery(Request $request, string $delivery, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
 
@@ -127,6 +128,7 @@ class FollowUpController extends Controller
 
         if ($updated === 1) {
             SendCustomerFollowUpWhatsApp::dispatch($record->id);
+            $auditLogger->record($request, $workspace, 'whatsapp_delivery.retry_requested', 'follow_up_delivery', $record->id);
         }
 
         return to_route('follow-ups.index', [
@@ -138,7 +140,7 @@ class FollowUpController extends Controller
             : 'This delivery has already been updated and was not queued again.');
     }
 
-    public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
+    public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()
@@ -148,6 +150,7 @@ class FollowUpController extends Controller
 
         if ($record->follow_up_completed_at === null) {
             $record->update(['follow_up_completed_at' => now()]);
+            $auditLogger->record($request, $workspace, 'follow_up.completed', 'customer', $record->id);
         }
 
         return to_route('follow-ups.index', [
