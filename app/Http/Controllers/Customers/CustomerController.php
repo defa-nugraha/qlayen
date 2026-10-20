@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerCommunicationConsent;
 use App\Models\Workspace;
 use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
@@ -62,6 +63,22 @@ class CustomerController extends Controller
             'whatsapp_consent_at' => $whatsappEnabled ? now() : null,
         ]);
 
+        CustomerCommunicationConsent::query()->create([
+            'workspace_id' => $workspace->id,
+            'customer_id' => $customer->id,
+            'recorded_by_user_id' => $request->user()->id,
+            'channel' => 'whatsapp',
+            'status' => $whatsappEnabled ? 'opted_in' : 'unknown',
+            'source' => 'dashboard',
+            'notice_version' => config('services.privacy.notice_version'),
+            'recorded_at' => now(),
+        ]);
+
+        $auditLogger->record($request, $workspace, 'customer.communication_consent_recorded', 'customer', $customer->id, [
+            'channel' => 'whatsapp',
+            'status' => $whatsappEnabled ? 'opted_in' : 'unknown',
+        ]);
+
         $auditLogger->record($request, $workspace, 'customer.created', 'customer', $customer->id, [
             'source' => $customer->source,
         ]);
@@ -92,6 +109,30 @@ class CustomerController extends Controller
         }
 
         $record->update($validated);
+
+        if (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
+            $consentStatus = filter_var(
+                $validated['follow_up_whatsapp_enabled'],
+                FILTER_VALIDATE_BOOLEAN,
+            ) ? 'opted_in' : 'opted_out';
+
+            CustomerCommunicationConsent::query()->create([
+                'workspace_id' => $workspace->id,
+                'customer_id' => $record->id,
+                'recorded_by_user_id' => $request->user()->id,
+                'channel' => 'whatsapp',
+                'status' => $consentStatus,
+                'source' => 'dashboard',
+                'notice_version' => config('services.privacy.notice_version'),
+                'recorded_at' => now(),
+            ]);
+
+            $auditLogger->record($request, $workspace, 'customer.communication_consent_changed', 'customer', $record->id, [
+                'channel' => 'whatsapp',
+                'status' => $consentStatus,
+            ]);
+        }
+
         $auditLogger->record($request, $workspace, 'customer.updated', 'customer', $record->id, [
             'status' => $record->status,
         ]);
