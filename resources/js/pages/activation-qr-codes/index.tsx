@@ -204,34 +204,93 @@ export default function ActivationQrIndex({
                             className="overflow-hidden rounded-2xl border bg-card shadow-sm"
                         >
                             <div
-                                className="activation-qr-print p-5"
+                                className="activation-qr-print relative isolate mx-auto flex w-full max-w-[105mm] flex-col overflow-hidden rounded-[22px] border border-cyan-200 bg-white text-slate-950 shadow-lg"
                                 style={{
                                     backgroundColor: code.background_color,
                                     color: code.foreground_color,
                                 }}
                             >
-                                <div className="mb-3 text-center text-xs font-bold tracking-[0.18em] uppercase">
-                                    {code.frame_text}
+                                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]">
+                                    <div className="absolute -left-16 -top-14 size-48 rounded-full bg-blue-600" />
+                                    <div className="absolute -right-20 -top-16 size-56 rounded-full bg-cyan-400" />
+                                    <div className="absolute -bottom-16 -left-16 size-52 rounded-full bg-blue-700" />
+                                    <div className="absolute -bottom-20 -right-16 size-56 rounded-full bg-cyan-400" />
+                                    <div className="absolute inset-[10px] rounded-[18px] bg-white" />
+                                    <div className="absolute inset-x-0 top-0 h-[30%] rounded-b-[48%] bg-gradient-to-br from-white via-white to-blue-50" />
                                 </div>
-                                <div
-                                    className="mx-auto w-fit rounded-xl p-2"
-                                    style={{
-                                        backgroundColor: code.background_color,
-                                    }}
-                                >
+
+                                <div className="relative px-5 pb-2 pt-5 text-center">
+                                    <div className="mx-auto flex min-h-12 items-center justify-center">
+                                        <img
+                                            src="/storage/settings/logo.png"
+                                            alt="QLayen"
+                                            className="max-h-12 max-w-[65%] object-contain"
+                                            onError={(event) => {
+                                                event.currentTarget.style.display = 'none';
+                                            }}
+                                        />
+                                        <span className="text-3xl font-black tracking-tight text-slate-950">
+                                            QLayen
+                                        </span>
+                                    </div>
+                                    <p className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-slate-900">
+                                        SCAN <span className="text-cyan-500">•</span> SAMBUNG <span className="text-cyan-500">•</span> TERHUBUNG
+                                    </p>
+                                </div>
+
+                                <div className="relative mx-auto mt-3 w-[78%] rounded-[24px] border-[3px] border-cyan-400 bg-white p-2 shadow-[0_8px_24px_rgba(14,165,233,0.18)]">
                                     <img
                                         src={qrImage(code)}
                                         alt={'Activation QR for ' + code.name}
-                                        width={220}
-                                        height={220}
-                                        className="block size-52 max-w-full"
+                                        width={360}
+                                        height={360}
+                                        className="block aspect-square w-full object-contain"
                                     />
+                                    <div className="absolute left-1/2 top-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md">
+                                        <svg viewBox="0 0 32 32" role="img" aria-label="WhatsApp" className="size-[82%] fill-white">
+                                            <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <h3 className="mt-3 text-center text-lg font-bold">
-                                    {code.name}
-                                </h3>
-                                <p className="mt-1 text-center text-xs">
-                                    Scan to register your business
+
+                                <div className="relative mx-4 mt-3 rounded-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 px-4 py-3 text-center text-white shadow-md">
+                                    <p className="text-xl font-black tracking-tight">SCAN DI SINI</p>
+                                    <p className="mt-0.5 text-[11px] leading-snug text-blue-50">
+                                        Terhubung langsung dengan kami
+                                    </p>
+                                    <p className="text-[11px] leading-snug text-blue-50">melalui WhatsApp</p>
+                                </div>
+
+                                <div className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center">
+                                    <div className="flex flex-col items-center">
+                                        <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600">
+                                            <QrCode className="size-7" />
+                                        </div>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">1. Scan QR</p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Arahkan kamera<br />ke QR Code</p>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <div className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]">
+                                            <svg viewBox="0 0 32 32" aria-label="WhatsApp" role="img" className="size-8 fill-current">
+                                                <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                            </svg>
+                                        </div>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">2. WhatsApp</p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Ikuti tautan<br />yang terbuka</p>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-7">
+                                                <circle cx="12" cy="7" r="4" />
+                                                <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
+                                            </svg>
+                                        </div>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">3. Kenali kami</p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Info, promo,<br />dan layanan</p>
+                                    </div>
+                                </div>
+                                <p className="relative mb-3 text-center text-[8px] font-medium tracking-wide text-slate-500">
+                                    {code.frame_text}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-3 p-4">
@@ -318,9 +377,26 @@ export default function ActivationQrIndex({
                 </section>
             </div>
             <style>
-                {
-                    '@media print { body * { visibility: hidden; } .activation-qr-print, .activation-qr-print * { visibility: visible; } .activation-qr-print { position: relative; break-inside: avoid; } article { break-inside: avoid; } }'
-                }
+                {`
+                    @page { size: A6 portrait; margin: 0; }
+                    @media print {
+                        body * { visibility: hidden !important; }
+                        .activation-qr-print, .activation-qr-print * { visibility: visible !important; }
+                        .activation-qr-print {
+                            position: fixed !important;
+                            inset: 0 auto auto 0 !important;
+                            width: 105mm !important;
+                            height: 148mm !important;
+                            max-width: none !important;
+                            margin: 0 !important;
+                            border-radius: 0 !important;
+                            box-shadow: none !important;
+                            print-color-adjust: exact !important;
+                            -webkit-print-color-adjust: exact !important;
+                            overflow: hidden !important;
+                        }
+                    }
+                `}
             </style>
         </AppLayout>
     );
