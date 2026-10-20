@@ -49,13 +49,6 @@ jobs:
         id: frontend-deps
         run: npm ci
 
-      - name: Temporary formatter audit (remove after review)
-        if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
-        run: |
-          composer lint -- app/Jobs/SendCustomerFollowUpWhatsApp.php
-          npm run check:fix -- README.md resources/js/pages/customers/index.tsx
-          git diff -- app/Jobs/SendCustomerFollowUpWhatsApp.php README.md resources/js/pages/customers/index.tsx
-
       # Run every quality gate even if another check fails, so one CI run
       # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
