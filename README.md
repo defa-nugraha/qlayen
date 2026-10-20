@@ -85,6 +85,22 @@ The current Follow-ups page remains a manual work queue and does not display pro
 
 Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
 
+## Operational dashboard
+
+The authenticated `/dashboard` page summarizes the selected workspace: total and active customer records, customer interactions from the last 30 calendar days, active QR/NFC links, overdue follow-ups, and follow-ups due today. It also shows the latest interactions and a short list of due/overdue follow-ups. Every query is workspace-scoped. Active links are explicitly not treated as scan counts, and a customer record is not proof of identity or a verified visit.
+
+## Communication consent history
+
+The authenticated `/communication-consents` page provides a paginated, workspace-scoped history of consent events. Public QR/NFC capture records consent for data processing only; it does not imply WhatsApp marketing or follow-up consent. WhatsApp follow-up opt-in/opt-out changes from the CRM are stored as separate append-only events, including channel, status, source, optional notice version, recording user, and timestamp. The notice version is only populated when `services.privacy.notice_version` is configured; product/legal review of notice wording and retention policy is still required.
+
+## Privacy requests
+
+The authenticated `/privacy-requests` workflow records access, correction, and deletion requests against a customer within the selected workspace. Workspace members can submit requests; only owners/admins can move a request through review, completion, or rejection. Rejections require a resolution note, and status changes record the resolving user and timestamp. Recording a deletion request does not itself delete customer data: execution must follow the organization's approved retention, legal-hold, backup, and deletion policy.
+
+## Audit logs
+
+The authenticated `/audit-logs` page is restricted to workspace owners and admins and shows paginated events for important workspace actions, including workspace/member changes, customer changes, capture-link changes, interaction recording, follow-up completion/retry, communication-consent changes, and privacy-request updates. Metadata is deliberately limited to operational fields; customer contact details, message contents, credentials, and tokens must not be written to audit metadata. Audit events are workspace-scoped. The current MVP does not provide global platform-admin or QA/auditor roles.
+
 ## Local demo data
 
 Run the migrations before seeding:
