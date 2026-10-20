@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $follow_up_notes
  * @property Carbon|null $follow_up_completed_at
  * @property bool $follow_up_whatsapp_enabled
+ * @property Carbon|null $whatsapp_consent_at
  * @property string $status
  * @property Carbon|null $consent_at
  * @property Carbon|null $created_at
@@ -38,6 +39,7 @@ use Illuminate\Support\Carbon;
     'follow_up_notes',
     'follow_up_completed_at',
     'follow_up_whatsapp_enabled',
+    'whatsapp_consent_at',
     'status',
     'consent_at',
 ])]
@@ -84,6 +86,7 @@ class Customer extends Model
             'follow_up_at' => 'datetime',
             'follow_up_completed_at' => 'datetime',
             'follow_up_whatsapp_enabled' => 'boolean',
+            'whatsapp_consent_at' => 'datetime',
             'consent_at' => 'datetime',
         ];
     }
