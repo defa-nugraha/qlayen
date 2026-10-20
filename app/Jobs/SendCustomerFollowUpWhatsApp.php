@@ -24,9 +24,7 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
      */
     public array $backoff = [60, 300, 900];
 
-    public function __construct(public int $deliveryId)
-    {
-    }
+    public function __construct(public int $deliveryId) {}
 
     public function handle(WhatsAppGateway $gateway): void
     {
