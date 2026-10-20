@@ -1,77 +1,38 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
-import Heading from '@/components/heading';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { useCurrentUrl } from '@/hooks/use-current-url';
-import { cn, toUrl } from '@/lib/utils';
-import { edit as editAppearance } from '@/routes/appearance';
-import { edit } from '@/routes/profile';
-import { edit as editSecurity } from '@/routes/security';
-import type { NavItem } from '@/types';
+import { Palette, ShieldCheck, UserRound } from 'lucide-react';
 
-const sidebarNavItems: NavItem[] = [
-    {
-        title: 'Profile',
-        href: edit(),
-        icon: null,
-    },
-    {
-        title: 'Security',
-        href: editSecurity(),
-        icon: null,
-    },
-    {
-        title: 'Appearance',
-        href: editAppearance(),
-        icon: null,
-    },
+const settingsLinks = [
+    { title: 'Profile', href: '/settings/profile', icon: UserRound, detail: 'Personal details' },
+    { title: 'Security', href: '/settings/security', icon: ShieldCheck, detail: 'Password and access' },
+    { title: 'Appearance', href: '/settings/appearance', icon: Palette, detail: 'Display preferences' },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
-    const { isCurrentOrParentUrl } = useCurrentUrl();
+    const currentPath = usePage().url.split('?')[0];
 
     return (
-        <div className="px-4 py-6">
-            <Heading
-                title="Settings"
-                description="Manage your profile and account settings"
-            />
-
-            <div className="flex flex-col lg:flex-row lg:space-x-12">
-                <aside className="w-full max-w-xl lg:w-48">
-                    <nav
-                        className="flex flex-col space-y-1 space-x-0"
-                        aria-label="Settings"
-                    >
-                        {sidebarNavItems.map((item, index) => (
-                            <Button
-                                key={`${toUrl(item.href)}-${index}`}
-                                size="sm"
-                                variant="ghost"
-                                asChild
-                                className={cn('w-full justify-start', {
-                                    'bg-muted': isCurrentOrParentUrl(item.href),
-                                })}
-                            >
-                                <Link href={item.href}>
-                                    {item.icon && (
-                                        <item.icon className="h-4 w-4" />
-                                    )}
-                                    {item.title}
-                                </Link>
-                            </Button>
-                        ))}
-                    </nav>
-                </aside>
-
-                <Separator className="my-6 lg:hidden" />
-
-                <div className="flex-1 md:max-w-2xl">
-                    <section className="max-w-xl space-y-12">
-                        {children}
-                    </section>
-                </div>
+        <div className="space-y-6">
+            <header className="rounded-2xl border border-[#e1e9f5] bg-white p-5 shadow-[0_8px_30px_rgba(28,63,117,0.04)] md:p-7">
+                <p className="text-[10px] font-extrabold tracking-[.16em] text-[#18a99f] uppercase">Personal workspace</p>
+                <h1 className="mt-2 text-2xl font-extrabold tracking-[-.045em] text-[#10264d]">Account settings</h1>
+                <p className="mt-2 text-sm leading-6 text-[#7586a0]">Manage your profile, sign-in security, and display preferences.</p>
+            </header>
+            <div className="grid gap-5 lg:grid-cols-[250px_minmax(0,1fr)]">
+                <nav aria-label="Account settings" className="grid h-fit gap-2 sm:grid-cols-3 lg:grid-cols-1">
+                    {settingsLinks.map(({ title, href, icon: Icon, detail }) => {
+                        const active = currentPath === href;
+                        return (
+                            <Link key={href} href={href} aria-current={active ? 'page' : undefined} className={`flex items-center gap-3 rounded-2xl border p-3 no-underline transition ${active ? 'border-[#c8dcff] bg-[#edf4ff]' : 'border-[#e1e9f5] bg-white hover:border-[#c8dcff] hover:bg-[#fbfdff]'}`}>
+                                <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${active ? 'bg-white text-[#145df5]' : 'bg-[#f0f4fb] text-[#637594]'}`}><Icon size={18} /></span>
+                                <span className="min-w-0"><span className={`block text-sm font-extrabold ${active ? 'text-[#145df5]' : 'text-[#263c5f]'}`}>{title}</span><span className="mt-1 block text-[11px] text-[#8494ae]">{detail}</span></span>
+                            </Link>
+                        );
+                    })}
+                </nav>
+                <section className="min-w-0 rounded-2xl border border-[#e1e9f5] bg-white p-5 shadow-[0_8px_30px_rgba(28,63,117,0.04)] md:p-7">
+                    {children}
+                </section>
             </div>
         </div>
     );
