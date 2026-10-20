@@ -9,6 +9,7 @@ type CaptureLink = {
     name: string;
     source: 'qr' | 'nfc';
     is_active: boolean;
+    visits_count: number;
     url: string;
     created_at: string | null;
 };
@@ -198,6 +199,9 @@ export default function CaptureIndex({
                                 </div>
                                 <p className="text-sm break-all text-muted-foreground">
                                     {link.url}
+                                </p>
+                                <p className="text-sm font-medium">
+                                    Form visits: {link.visits_count}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                     <button
