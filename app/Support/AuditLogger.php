@@ -9,13 +9,16 @@ use Illuminate\Http\Request;
 
 class AuditLogger
 {
+    /**
+     * @param array<string, bool|float|int|string|null>  $metadata
+     */
     public function record(
         Request $request,
         Workspace $workspace,
         string $event,
         string $subjectType,
         ?int $subjectId = null,
-        /** @var array<string, bool|float|int|string|null> $metadata */ array $metadata = [],
+        array $metadata = [],
     ): void {
         /** @var User|null $actor */
         $actor = $request->user();
