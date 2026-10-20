@@ -46,6 +46,20 @@ class WorkspaceController extends Controller
         ]);
     }
 
+    public function update(Request $request, Workspace $workspace): RedirectResponse
+    {
+        abort_unless($workspace->owner_id === $request->user()->id, 403);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'description' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $workspace->update($validated);
+
+        return to_route('workspaces.index')->with('success', 'Workspace settings updated.');
+    }
+
     public function updateMember(Request $request, Workspace $workspace, int $user): RedirectResponse
     {
         abort_unless($workspace->owner_id === $request->user()->id, 403);
