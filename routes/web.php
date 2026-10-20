@@ -6,6 +6,7 @@ use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomerInteractionController;
 use App\Http\Controllers\Customers\FollowUpController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PrivacyRequestController;
 use App\Http\Controllers\Webhooks\WhatsAppDeliveryWebhookController;
 use App\Http\Controllers\Workspaces\WorkspaceController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+    Route::get('privacy-requests', [PrivacyRequestController::class, 'index'])->name('privacy-requests.index');
+    Route::post('privacy-requests', [PrivacyRequestController::class, 'store'])->name('privacy-requests.store');
+    Route::patch('privacy-requests/{privacyRequest}', [PrivacyRequestController::class, 'update'])->name('privacy-requests.update');
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
     Route::post('workspaces', [WorkspaceController::class, 'store'])->name('workspaces.store');
