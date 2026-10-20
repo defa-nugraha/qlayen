@@ -38,7 +38,7 @@ Operational requirements:
 - Run the Laravel scheduler every minute using the standard `php artisan schedule:run` cron entry.
 - Run a queue worker (for example, `php artisan queue:work --tries=3`) to process delivery jobs.
 - Configure the WhatsApp gateway credentials in the deployment environment. Never expose the API key to the browser.
-- Monitor failed jobs and failed delivery records; this MVP does not yet provide a retry UI or inbound webhook reconciliation.
+- Monitor failed jobs and failed delivery records. Delivery webhooks are accepted at `POST /webhooks/whatsapp/delivery` and require the `X-WA-Webhook-Secret` header. Configure `WA_GATEWAY_WEBHOOK_SECRET` to a long random secret shared only with the provider. The endpoint accepts `event_id`, internal `delivery_id`, `status` (`delivered`, `read`, or `failed`), and optional `provider_message_id`/`error`. Events are stored idempotently by event ID; late delivery events cannot downgrade a `read` state. This payload contract must be mapped to the actual provider's webhook fields before production; the provider's signature mechanism should be preferred if documented.
 
 ## Business workspace and tenant isolation
 
@@ -57,6 +57,7 @@ WA_GATEWAY_BASE_URL=https://wa.digitalpelajar.id
 WA_GATEWAY_API_KEY=
 WA_GATEWAY_SENDER=
 WA_GATEWAY_TIMEOUT=15
+WA_GATEWAY_WEBHOOK_SECRET=
 ```
 
 Never commit a real API key. Keep credentials in the deployment environment or a secrets manager.
@@ -70,7 +71,7 @@ Supported client operations:
 
 The QR method calls the documented `generate-qe` endpoint and returns the gateway payload as-is. If the gateway returns `status: processing`, call it again according to the provider's documented lifecycle. Message and media methods use POST JSON and propagate HTTP errors; a successful HTTP response does not necessarily mean the provider's `status` field is true, so callers must inspect that field.
 
-Inbound webhook handling and delivery reconciliation should be implemented as separate application use cases with signature/authenticity verification where supported, idempotency, rate limits, and audit logging. Do not expose the gateway API key to the browser.
+Inbound delivery webhooks are handled at `POST /webhooks/whatsapp/delivery`, with a separate shared secret, rate limiting, idempotent event storage, and status reconciliation. Prefer provider-signed webhook verification when the provider documents it. The normalized payload currently requires an internal delivery ID; map the provider's actual payload to this contract before enabling production callbacks. Do not expose either secret or the gateway API key to the browser.
 
 ## QR/NFC customer capture MVP
 
@@ -78,4 +79,4 @@ Authenticated users can create named QR or NFC capture links at `/capture-links`
 
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
-Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, inbound WhatsApp webhook processing, retry management UI, delivery reconciliation, and a QR scan analytics dashboard are not yet implemented.
+Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, retry management UI, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
