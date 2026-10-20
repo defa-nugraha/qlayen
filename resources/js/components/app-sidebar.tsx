@@ -72,7 +72,10 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
             </SidebarContent>
             <SidebarFooter className="border-t border-sidebar-border/60 px-2 pb-3 pt-3">
-                <NavFooter items={footerNavItems} className="mt-auto px-1 py-1" />
+                <NavFooter
+                    items={footerNavItems}
+                    className="mt-auto px-1 py-1"
+                />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
