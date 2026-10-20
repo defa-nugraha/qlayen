@@ -33,7 +33,10 @@ export default function AuditLogsIndex({
     return (
         <AppLayout
             breadcrumbs={[
-                { title: 'Audit logs', href: '/audit-logs?workspace_id=' + workspace.id },
+                {
+                    title: 'Audit logs',
+                    href: '/audit-logs?workspace_id=' + workspace.id,
+                },
             ]}
         >
             <Head title="Audit logs" />
@@ -55,7 +58,11 @@ export default function AuditLogsIndex({
                             onChange={(event) =>
                                 router.get(
                                     '/audit-logs',
-                                    { workspace_id: Number(event.target.value) },
+                                    {
+                                        workspace_id: Number(
+                                            event.target.value,
+                                        ),
+                                    },
                                     { preserveState: false, replace: true },
                                 )
                             }
@@ -81,22 +88,36 @@ export default function AuditLogsIndex({
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 text-muted-foreground">
                                 <tr>
-                                    <th className="px-4 py-3 font-medium">Time</th>
-                                    <th className="px-4 py-3 font-medium">Actor</th>
-                                    <th className="px-4 py-3 font-medium">Event</th>
-                                    <th className="px-4 py-3 font-medium">Subject</th>
-                                    <th className="px-4 py-3 font-medium">Metadata</th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Time
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Actor
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Event
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Subject
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Metadata
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y">
                                 {logs.data.map((entry) => (
                                     <tr key={entry.id} className="align-top">
-                                        <td className="whitespace-nowrap px-4 py-3">
+                                        <td className="px-4 py-3 whitespace-nowrap">
                                             {entry.created_at
-                                                ? new Date(entry.created_at).toLocaleString()
+                                                ? new Date(
+                                                      entry.created_at,
+                                                  ).toLocaleString()
                                                 : 'Time unavailable'}
                                         </td>
-                                        <td className="px-4 py-3">{entry.actor}</td>
+                                        <td className="px-4 py-3">
+                                            {entry.actor}
+                                        </td>
                                         <td className="px-4 py-3 font-medium">
                                             {entry.event}
                                         </td>
@@ -109,7 +130,14 @@ export default function AuditLogsIndex({
                                         <td className="max-w-sm px-4 py-3">
                                             {entry.metadata
                                                 ? Object.entries(entry.metadata)
-                                                      .map(([key, value]) => key + ': ' + String(value ?? '—'))
+                                                      .map(
+                                                          ([key, value]) =>
+                                                              key +
+                                                              ': ' +
+                                                              String(
+                                                                  value ?? '—',
+                                                              ),
+                                                      )
                                                       .join(' · ')
                                                 : '—'}
                                         </td>
