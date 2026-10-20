@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
+use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class CustomerInteractionController extends Controller
         Request $request,
         string $customer,
         WorkspaceContext $workspaceContext,
+        AuditLogger $auditLogger,
     ): RedirectResponse {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
@@ -47,12 +49,16 @@ class CustomerInteractionController extends Controller
             'occurred_at' => ['required', 'date'],
         ]);
 
-        $record->interactions()->create([
+        $interaction = $record->interactions()->create([
             'user_id' => $request->user()->id,
             'type' => $validated['type'],
             'summary' => $validated['summary'],
             'details' => $validated['details'] ?? null,
             'occurred_at' => $validated['occurred_at'],
+        ]);
+
+        $auditLogger->record($request, $workspace, 'customer.interaction_recorded', 'customer_interaction', $interaction->id, [
+            'type' => $interaction->type,
         ]);
 
         return to_route('customers.interactions.index', [
