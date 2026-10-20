@@ -81,7 +81,9 @@ export default function Dashboard({
                             onChange={(event) =>
                                 router.get(
                                     '/dashboard',
-                                    {\n                                        workspace_id: Number(event.target.value),\n                                    },
+                                    {
+                                        workspace_id: Number(event.target.value),
+                                    },
                                     { preserveState: false, replace: true },
                                 )
                             }
@@ -164,7 +166,7 @@ export default function Dashboard({
                             {definitions.follow_ups}
                         </p>
                         <a
-                            href={'/follow-ups' + workspaceQuery + '&filter=overdue'}
+                            href={\n                                '/follow-ups' + workspaceQuery + '&filter=overdue'\n                            }
                             className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
                         >
                             Review overdue
@@ -181,7 +183,7 @@ export default function Dashboard({
                             Scheduled and not marked completed.
                         </p>
                         <a
-                            href={'/follow-ups' + workspaceQuery + '&filter=today'}
+                            href={\n                                '/follow-ups' + workspaceQuery + '&filter=today'\n                            }
                             className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
                         >
                             Review today's follow-ups
@@ -208,15 +210,20 @@ export default function Dashboard({
                         <div className="divide-y">
                             {recentInteractions.map((interaction) => (
                                 <article key={interaction.id} className="p-4">
-                                    <p className="font-medium">\n                                        {interaction.summary}\n                                    </p>
+                                    <p className="font-medium">
+                                        {interaction.summary}
+                                    </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
-                                        {interaction.customer ??\n                                            'Customer record unavailable'}
+                                        {interaction.customer ??
+                                            'Customer record unavailable'}
                                         {' · '}
                                         {interaction.type}
                                     </p>
                                     <p className="mt-1 text-xs text-muted-foreground">
                                         {interaction.occurred_at
-                                            ? new Date(\n                                                  interaction.occurred_at,\n                                              ).toLocaleString()
+                                            ? new Date(
+                                                  interaction.occurred_at,
+                                              ).toLocaleString()
                                             : 'Time unavailable'}
                                         {' · '}
                                         {interaction.actor ?? 'Former user'}
@@ -233,7 +240,9 @@ export default function Dashboard({
 
                     <div className="overflow-hidden rounded-xl border bg-card">
                         <div className="border-b p-4">
-                            <h2 className="font-semibold">\n                                Follow-ups due today or overdue\n                            </h2>
+                            <h2 className="font-semibold">
+                                Follow-ups due today or overdue
+                            </h2>
                             <p className="mt-1 text-sm text-muted-foreground">
                                 Scheduled follow-ups that have not been completed.
                             </p>
@@ -241,10 +250,14 @@ export default function Dashboard({
                         <div className="divide-y">
                             {dueFollowUps.map((followUp) => (
                                 <article key={followUp.id} className="p-4">
-                                    <p className="font-medium">\n                                        {followUp.name}\n                                    </p>
+                                    <p className="font-medium">
+                                        {followUp.name}
+                                    </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
                                         {followUp.scheduled_at
-                                            ? new Date(\n                                                  followUp.scheduled_at,\n                                              ).toLocaleString()
+                                            ? new Date(
+                                                  followUp.scheduled_at,
+                                              ).toLocaleString()
                                             : 'Schedule unavailable'}
                                     </p>
                                     {followUp.notes && (
