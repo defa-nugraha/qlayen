@@ -26,6 +26,7 @@ class CustomerCaptureController extends Controller
                 'name' => $link->name,
                 'source' => $link->source,
                 'is_active' => $link->is_active,
+                'visits_count' => $link->visits_count,
                 'url' => route('capture.show', $link->token),
                 'created_at' => $link->created_at?->toIso8601String(),
             ]);
@@ -80,6 +81,8 @@ class CustomerCaptureController extends Controller
             ->where('token', $token)
             ->where('is_active', true)
             ->firstOrFail();
+
+        $link->increment('visits_count');
 
         return Inertia::render('capture/show', [
             'campaignName' => $link->name,
