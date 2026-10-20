@@ -49,13 +49,6 @@ jobs:
         id: frontend-deps
         run: npm ci
 
-      - name: Diagnose interaction page formatting
-        if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
-        run: |
-          npm run check:fix
-          git diff -- resources/js/pages/customers/interactions/index.tsx
-          exit 1
-
       # Run every quality gate even if another check fails, so one CI run
       # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
