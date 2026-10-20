@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\CommunicationConsentController;
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomerInteractionController;
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+    Route::get('communication-consents', [CommunicationConsentController::class, 'index'])->name('communication-consents.index');
     Route::get('privacy-requests', [PrivacyRequestController::class, 'index'])->name('privacy-requests.index');
     Route::post('privacy-requests', [PrivacyRequestController::class, 'store'])->name('privacy-requests.store');
     Route::patch('privacy-requests/{privacyRequest}', [PrivacyRequestController::class, 'update'])->name('privacy-requests.update');
