@@ -57,7 +57,7 @@ it('does not queue follow-ups without recorded consent or explicit opt-in', func
     Queue::assertNothingPushed();
 });
 
-it('records a successful gateway response and prevents a second send', function () {
+it('records gateway acceptance without duplicating a second send', function () {
     config([
         'services.wa_gateway.api_key' => 'test-key',
         'services.wa_gateway.sender' => 'test-sender',
@@ -78,8 +78,8 @@ it('records a successful gateway response and prevents a second send', function 
     $job->handle(app(WhatsAppGateway::class));
     $job->handle(app(WhatsAppGateway::class));
 
-    expect($delivery->fresh()->status)->toBe('sent')
-        ->and($delivery->fresh()->sent_at)->not->toBeNull();
+    expect($delivery->fresh()->status)->toBe('accepted')
+        ->and($delivery->fresh()->accepted_at)->not->toBeNull();
 
     Http::assertSentCount(1);
 });
