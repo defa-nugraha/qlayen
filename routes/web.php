@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'destroyMember'])->name('workspaces.members.destroy');
 
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('follow-ups', [FollowUpController::class, 'index'])->name('follow-ups.index');
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
