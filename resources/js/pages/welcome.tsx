@@ -42,7 +42,12 @@ const steps = [
 export default function Welcome() {
     const page = usePage();
     const { auth } = page.props;
-    const brandAssets = (page.props as typeof page.props & { brandAssets?: Record<string, { url: string; alt_text: string }> }).brandAssets ?? {};
+    const brandAssets =
+        (
+            page.props as typeof page.props & {
+                brandAssets?: Record<string, { url: string; alt_text: string }>;
+            }
+        ).brandAssets ?? {};
     const headerLogo = brandAssets.public_header;
     const footerLogo = brandAssets.public_footer;
 
@@ -63,10 +68,17 @@ export default function Welcome() {
                             aria-label="QLayen beranda"
                         >
                             {headerLogo ? (
-                                <img src={headerLogo.url} alt={headerLogo.alt_text || 'QLayen'} className="max-h-10 max-w-36 object-contain" />
+                                <img
+                                    src={headerLogo.url}
+                                    alt={headerLogo.alt_text || 'QLayen'}
+                                    className="max-h-10 max-w-36 object-contain"
+                                />
                             ) : (
                                 <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
-                                    <Workflow className="size-5" aria-hidden="true" />
+                                    <Workflow
+                                        className="size-5"
+                                        aria-hidden="true"
+                                    />
                                 </span>
                             )}
                             <span>
@@ -382,8 +394,17 @@ export default function Welcome() {
                 <footer className="border-t border-slate-200 bg-white">
                     <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
                         <div className="flex items-center gap-3">
-                            {footerLogo && <img src={footerLogo.url} alt={footerLogo.alt_text || 'QLayen'} className="max-h-8 max-w-28 object-contain" />}
-                            <p>© {new Date().getFullYear()} QLayen. Kelola relasi pelanggan dengan lebih terarah.</p>
+                            {footerLogo && (
+                                <img
+                                    src={footerLogo.url}
+                                    alt={footerLogo.alt_text || 'QLayen'}
+                                    className="max-h-8 max-w-28 object-contain"
+                                />
+                            )}
+                            <p>
+                                © {new Date().getFullYear()} QLayen. Kelola
+                                relasi pelanggan dengan lebih terarah.
+                            </p>
                         </div>
                         <div className="flex items-center gap-4">
                             <Link

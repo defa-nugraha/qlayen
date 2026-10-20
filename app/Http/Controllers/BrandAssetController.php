@@ -89,7 +89,7 @@ class BrandAssetController extends Controller
             ->with('success', 'Logo dihapus. Tampilan kembali menggunakan logo bawaan.');
     }
 
-    private function authorizeManager(\App\Models\Workspace $workspace, Request $request): void
+    private function authorizeManager(Workspace $workspace, Request $request): void
     {
         $role = $workspace->members()
             ->whereKey($request->user()->id)

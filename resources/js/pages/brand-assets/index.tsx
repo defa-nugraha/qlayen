@@ -37,9 +37,12 @@ function LogoCard({
     }
 
     function removeLogo() {
-        router.delete(`/brand-assets/${placement.key}?workspace_id=${workspaceId}`, {
-            preserveScroll: true,
-        });
+        router.delete(
+            `/brand-assets/${placement.key}?workspace_id=${workspaceId}`,
+            {
+                preserveScroll: true,
+            },
+        );
     }
 
     return (
@@ -70,7 +73,10 @@ function LogoCard({
 
             <form onSubmit={submit} className="space-y-4">
                 <div className="grid gap-2">
-                    <label htmlFor={`logo-${placement.key}`} className="text-sm font-medium">
+                    <label
+                        htmlFor={`logo-${placement.key}`}
+                        className="text-sm font-medium"
+                    >
                         File logo
                     </label>
                     <input
@@ -78,7 +84,10 @@ function LogoCard({
                         type="file"
                         accept=".png,.jpg,.jpeg,.webp,.ico,image/png,image/jpeg,image/webp,image/x-icon"
                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            form.setData('logo', event.target.files?.[0] ?? null)
+                            form.setData(
+                                'logo',
+                                event.target.files?.[0] ?? null,
+                            )
                         }
                         className="block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-2 file:text-primary-foreground"
                     />
@@ -93,13 +102,18 @@ function LogoCard({
                 </div>
 
                 <div className="grid gap-2">
-                    <label htmlFor={`alt-${placement.key}`} className="text-sm font-medium">
+                    <label
+                        htmlFor={`alt-${placement.key}`}
+                        className="text-sm font-medium"
+                    >
                         Teks alternatif (aksesibilitas)
                     </label>
                     <input
                         id={`alt-${placement.key}`}
                         value={form.data.alt_text}
-                        onChange={(event) => form.setData('alt_text', event.target.value)}
+                        onChange={(event) =>
+                            form.setData('alt_text', event.target.value)
+                        }
                         maxLength={160}
                         placeholder="Logo QLayen"
                         className="h-10 rounded-md border border-input bg-background px-3 text-sm"
@@ -134,7 +148,8 @@ function LogoCard({
             </form>
             {placement.updated_at && (
                 <p className="text-xs text-muted-foreground">
-                    Terakhir diperbarui: {new Date(placement.updated_at).toLocaleString('id-ID')}
+                    Terakhir diperbarui:{' '}
+                    {new Date(placement.updated_at).toLocaleString('id-ID')}
                 </p>
             )}
         </article>
@@ -158,10 +173,13 @@ export default function BrandAssetsIndex({
             <div className="space-y-6 p-4 md:p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold tracking-tight">Kelola Logo</h1>
+                        <h1 className="text-2xl font-semibold tracking-tight">
+                            Kelola Logo
+                        </h1>
                         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                            Atur logo untuk topbar dan footer publik, sidebar admin, serta halaman masuk.
-                            Perubahan berlaku untuk seluruh aplikasi.
+                            Atur logo untuk topbar dan footer publik, sidebar
+                            admin, serta halaman masuk. Perubahan berlaku untuk
+                            seluruh aplikasi.
                         </p>
                     </div>
                     {workspaces.length > 1 && (
@@ -170,15 +188,26 @@ export default function BrandAssetsIndex({
                             <select
                                 value={currentWorkspaceId}
                                 onChange={(event) =>
-                                    router.get('/brand-assets', { workspace_id: Number(event.target.value) }, {
-                                        preserveState: false,
-                                        replace: true,
-                                    })
+                                    router.get(
+                                        '/brand-assets',
+                                        {
+                                            workspace_id: Number(
+                                                event.target.value,
+                                            ),
+                                        },
+                                        {
+                                            preserveState: false,
+                                            replace: true,
+                                        },
+                                    )
                                 }
                                 className="h-10 rounded-md border border-input bg-background px-3"
                             >
                                 {workspaces.map((workspace) => (
-                                    <option key={workspace.id} value={workspace.id}>
+                                    <option
+                                        key={workspace.id}
+                                        value={workspace.id}
+                                    >
                                         {workspace.name} ({workspace.role})
                                     </option>
                                 ))}
@@ -198,10 +227,14 @@ export default function BrandAssetsIndex({
                 </div>
 
                 <div className="flex items-start gap-3 rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
-                    <RotateCcw className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                    <RotateCcw
+                        className="mt-0.5 size-4 shrink-0"
+                        aria-hidden="true"
+                    />
                     <p>
-                        Logo hanya menerima format gambar umum untuk mengurangi risiko file aktif.
-                        Menghapus logo kustom mengembalikan tampilan ke logo bawaan aplikasi.
+                        Logo hanya menerima format gambar umum untuk mengurangi
+                        risiko file aktif. Menghapus logo kustom mengembalikan
+                        tampilan ke logo bawaan aplikasi.
                     </p>
                 </div>
             </div>

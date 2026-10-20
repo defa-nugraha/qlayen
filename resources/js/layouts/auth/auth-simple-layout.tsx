@@ -9,7 +9,12 @@ export default function AuthSimpleLayout({
     description,
 }: AuthLayoutProps) {
     const page = usePage();
-    const brandAssets = (page.props as typeof page.props & { brandAssets?: Record<string, { url: string; alt_text: string }> }).brandAssets ?? {};
+    const brandAssets =
+        (
+            page.props as typeof page.props & {
+                brandAssets?: Record<string, { url: string; alt_text: string }>;
+            }
+        ).brandAssets ?? {};
     const authLogo = brandAssets.auth;
 
     return (
@@ -22,7 +27,11 @@ export default function AuthSimpleLayout({
                     className="relative inline-flex w-fit items-center gap-3 rounded-xl focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
                     {authLogo ? (
-                        <img src={authLogo.url} alt={authLogo.alt_text || 'QLayen'} className="max-h-11 max-w-40 object-contain" />
+                        <img
+                            src={authLogo.url}
+                            alt={authLogo.alt_text || 'QLayen'}
+                            className="max-h-11 max-w-40 object-contain"
+                        />
                     ) : (
                         <span className="flex size-11 items-center justify-center rounded-xl bg-indigo-500 text-white shadow-lg shadow-indigo-950/30">
                             <Workflow className="size-6" aria-hidden="true" />
@@ -97,10 +106,17 @@ export default function AuthSimpleLayout({
                         className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-indigo-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none lg:hidden"
                     >
                         {authLogo ? (
-                            <img src={authLogo.url} alt={authLogo.alt_text || 'QLayen'} className="max-h-9 max-w-28 object-contain" />
+                            <img
+                                src={authLogo.url}
+                                alt={authLogo.alt_text || 'QLayen'}
+                                className="max-h-9 max-w-28 object-contain"
+                            />
                         ) : (
                             <span className="flex size-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
-                                <Workflow className="size-5" aria-hidden="true" />
+                                <Workflow
+                                    className="size-5"
+                                    aria-hidden="true"
+                                />
                             </span>
                         )}
                         <span className="text-base font-bold text-slate-950">
