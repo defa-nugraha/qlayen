@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => config('app.name'),\n            'brandAssets' => BrandAsset::query()->get()->mapWithKeys(fn (BrandAsset $asset) => [\n                $asset->key => [\n                    'url' => Storage::disk('public')->url($asset->path),\n                    'alt_text' => $asset->alt_text ?? $asset->label,\n                ],\n            ]),
             'auth' => [
                 'user' => $request->user(),
             ],
