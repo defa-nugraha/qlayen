@@ -70,7 +70,9 @@ export default function ActivationQrIndex({
                         <h1 className="text-2xl font-semibold tracking-tight">
                             Business activation QR
                         </h1>
-                        <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
+                        <p
+                            className="mt-1 max-w-3xl text-sm text-muted-foreground"
+                        >
                             Generate a branded QR card for a new business owner.
                             Scanning it opens registration; after activation,
                             the same QR collects customer details for that
@@ -146,7 +148,9 @@ export default function ActivationQrIndex({
                                 </span>
                             )}
                         </label>
-                        <label className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium">
+                        <label
+                            className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium"
+                        >
                             QR foreground
                             <input
                                 aria-label="QR foreground color"
@@ -161,7 +165,9 @@ export default function ActivationQrIndex({
                                 }
                             />
                         </label>
-                        <label className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium">
+                        <label
+                            className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium"
+                        >
                             Card and QR background
                             <input
                                 aria-label="Background color"
@@ -194,7 +200,9 @@ export default function ActivationQrIndex({
 
                 <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {codes.length === 0 && (
-                        <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground sm:col-span-2 xl:col-span-3">
+                        <div
+                            className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground sm:col-span-2 xl:col-span-3"
+                        >
                             No activation QR codes yet. Generate one to begin.
                         </div>
                     )}
@@ -233,8 +241,12 @@ export default function ActivationQrIndex({
                                     />
                                 </div>
 
-                                <div className="relative px-5 pb-2 pt-5 text-center">
-                                    <div className="mx-auto flex min-h-12 items-center justify-center">
+                                <div
+                                    className="relative px-5 pb-2 pt-5 text-center"
+                                >
+                                    <div
+                                        className="mx-auto flex min-h-12 items-center justify-center"
+                                    >
                                         <img
                                             src="/storage/settings/logo.png"
                                             alt="QLayen"
@@ -244,11 +256,15 @@ export default function ActivationQrIndex({
                                                     'none';
                                             }}
                                         />
-                                        <span className="text-3xl font-black tracking-tight text-slate-950">
+                                        <span
+                                            className="text-3xl font-black tracking-tight text-slate-950"
+                                        >
                                             QLayen
                                         </span>
                                     </div>
-                                    <p className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-slate-900">
+                                    <p
+                                        className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-slate-900"
+                                    >
                                         SCAN{' '}
                                         <span className="text-cyan-500">•</span>{' '}
                                         SAMBUNG{' '}
@@ -358,12 +374,16 @@ export default function ActivationQrIndex({
                                         </p>
                                     </div>
                                 </div>
-                                <p className="relative mb-3 text-center text-[8px] font-medium tracking-wide text-slate-500">
+                                <p
+                                    className="relative mb-3 text-center text-[8px] font-medium tracking-wide text-slate-500"
+                                >
                                     {code.frame_text}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-3 p-4">
-                                <div className="flex flex-wrap items-center gap-2">
+                                <div
+                                    className="flex flex-wrap items-center gap-2"
+                                >
                                     <span
                                         className={
                                             'rounded-full px-2 py-1 text-xs font-medium ' +
@@ -381,12 +401,16 @@ export default function ActivationQrIndex({
                                               : 'Pending activation'}
                                     </span>
                                     {code.business_name && (
-                                        <span className="text-xs text-muted-foreground">
+                                        <span
+                                            className="text-xs text-muted-foreground"
+                                        >
                                             {code.business_name}
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-xs break-all text-muted-foreground">
+                                <p
+                                    className="text-xs break-all text-muted-foreground"
+                                >
                                     {code.url}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
