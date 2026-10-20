@@ -6,7 +6,7 @@ import {
     MessageCircle,
     QrCode,
     ShieldCheck,
-    Sparkles,
+    Send,
     Users,
     Workflow,
 } from 'lucide-react';
@@ -115,10 +115,10 @@ export default function Welcome() {
                 <main>
                     <section className="relative isolate">
                         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_rgba(99,102,241,0.13),_transparent_45%),radial-gradient(ellipse_at_bottom_left,_rgba(14,165,233,0.09),_transparent_40%)]" />
-                        <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-28">
+                        <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-8 sm:px-8 sm:py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-16">
                             <div className="max-w-2xl">
                                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-3.5 py-2 text-sm font-medium text-indigo-700 shadow-sm">
-                                    <Sparkles
+                                    <Send
                                         className="size-4"
                                         aria-hidden="true"
                                     />
