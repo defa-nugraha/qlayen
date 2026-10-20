@@ -35,6 +35,10 @@ return [
         ],
     ],
 
+    'privacy' => [
+        'notice_version' => env('QLAYEN_PRIVACY_NOTICE_VERSION'),
+    ],
+
     'wa_gateway' => [
         'base_url' => env('WA_GATEWAY_BASE_URL', 'https://wa.digitalpelajar.id'),
         'api_key' => env('WA_GATEWAY_API_KEY'),
