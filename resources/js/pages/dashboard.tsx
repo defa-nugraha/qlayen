@@ -166,7 +166,9 @@ export default function Dashboard({
                             {definitions.follow_ups}
                         </p>
                         <a
-                            href={\n                                '/follow-ups' + workspaceQuery + '&filter=overdue'\n                            }
+                            href={
+                                '/follow-ups' + workspaceQuery + '&filter=overdue'
+                            }
                             className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
                         >
                             Review overdue
@@ -183,7 +185,9 @@ export default function Dashboard({
                             Scheduled and not marked completed.
                         </p>
                         <a
-                            href={\n                                '/follow-ups' + workspaceQuery + '&filter=today'\n                            }
+                            href={
+                                '/follow-ups' + workspaceQuery + '&filter=today'
+                            }
                             className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
                         >
                             Review today's follow-ups
