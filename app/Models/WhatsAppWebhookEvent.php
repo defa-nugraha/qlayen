@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['event_id', 'delivery_id', 'event_status', 'payload'])]
 class WhatsAppWebhookEvent extends Model
 {
+    protected $table = 'whatsapp_webhook_events';
+
     /**
      * @return BelongsTo<CustomerFollowUpDelivery, $this>
      */
