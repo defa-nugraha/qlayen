@@ -2,7 +2,7 @@
 
 use App\Models\CustomerCaptureLink;
 use App\Models\User;
-use App\Models\Workspace;
+use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 
 function createAnalyticsCaptureLink(User $user, string $name = 'Analytics workspace'): CustomerCaptureLink
