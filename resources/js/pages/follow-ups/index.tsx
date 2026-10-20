@@ -228,18 +228,12 @@ export default function FollowUpsIndex({
                                                         Attempts:{' '}
                                                         {customer.whatsapp_delivery.attempts}
                                                     </p>
-                                                    {customer.whatsapp_delivery
-                                                        .last_error && (
+                                                    {customer.whatsapp_delivery.last_error && (
                                                         <p className="max-w-xs text-xs text-destructive">
-                                                            {
-                                                                customer
-                                                                    .whatsapp_delivery
-                                                                    .last_error
-                                                            }
+                                                            {customer.whatsapp_delivery.last_error}
                                                         </p>
                                                     )}
-                                                    {customer.whatsapp_delivery
-                                                        .retryable && (
+                                                    {customer.whatsapp_delivery.retryable && (
                                                         <button
                                                             type="button"
                                                             className="rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
@@ -262,9 +256,7 @@ export default function FollowUpsIndex({
                                                     )}
                                                 </div>
                                             ) : (
-                                                <span className="text-muted-foreground">
-                                                    Not queued
-                                                </span>
+                                                <span className="text-muted-foreground">Not queued</span>
                                             )}
                                         </td>
                                         <td className="px-4 py-3 whitespace-nowrap">
