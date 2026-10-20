@@ -70,9 +70,7 @@ export default function ActivationQrIndex({
                         <h1 className="text-2xl font-semibold tracking-tight">
                             Business activation QR
                         </h1>
-                        <p
-                            className="mt-1 max-w-3xl text-sm text-muted-foreground"
-                        >
+                        <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
                             Generate a branded QR card for a new business owner.
                             Scanning it opens registration; after activation,
                             the same QR collects customer details for that
@@ -148,9 +146,7 @@ export default function ActivationQrIndex({
                                 </span>
                             )}
                         </label>
-                        <label
-                            className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium"
-                        >
+                        <label className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium">
                             QR foreground
                             <input
                                 aria-label="QR foreground color"
@@ -165,9 +161,7 @@ export default function ActivationQrIndex({
                                 }
                             />
                         </label>
-                        <label
-                            className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium"
-                        >
+                        <label className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm font-medium">
                             Card and QR background
                             <input
                                 aria-label="Background color"
@@ -216,17 +210,15 @@ export default function ActivationQrIndex({
                                     color: code.foreground_color,
                                 }}
                             >
-                                <div
-                                    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]"
-                                >
-                                    <div className="absolute -left-16 -top-14 size-48 rounded-full bg-blue-600" />
-                                    <div className="absolute -right-20 -top-16 size-56 rounded-full bg-cyan-400" />
+                                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]">
+                                    <div className="absolute -top-14 -left-16 size-48 rounded-full bg-blue-600" />
+                                    <div className="absolute -top-16 -right-20 size-56 rounded-full bg-cyan-400" />
                                     <div className="absolute -bottom-16 -left-16 size-52 rounded-full bg-blue-700" />
-                                    <div className="absolute -bottom-20 -right-16 size-56 rounded-full bg-cyan-400" />
+                                    <div className="absolute -right-16 -bottom-20 size-56 rounded-full bg-cyan-400" />
                                     <div className="absolute inset-[10px] rounded-[18px] bg-white" />
                                     <div className="absolute inset-x-0 top-0 h-[30%] rounded-b-[48%] bg-gradient-to-br from-white via-white to-blue-50" />
                                 </div>
-                                <div className="relative px-5 pb-2 pt-5 text-center">
+                                <div className="relative px-5 pt-5 pb-2 text-center">
                                     <div className="mx-auto flex min-h-12 items-center justify-center">
                                         <span className="text-3xl font-black tracking-tight text-slate-950">
                                             QLayen
@@ -248,9 +240,14 @@ export default function ActivationQrIndex({
                                         height={360}
                                         className="block aspect-square w-full object-contain"
                                     />
-                                    <div className="absolute left-1/2 top-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md">
-                                        <svg viewBox="0 0 32 32" role="img" aria-label="WhatsApp" className="size-[82%] fill-white">
-                                            <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                    <div className="absolute top-1/2 left-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md">
+                                        <svg
+                                            viewBox="0 0 32 32"
+                                            role="img"
+                                            aria-label="WhatsApp"
+                                            className="size-[82%] fill-white"
+                                        >
+                                            <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z" />
                                         </svg>
                                     </div>
                                 </div>
@@ -265,7 +262,7 @@ export default function ActivationQrIndex({
                                         melalui WhatsApp
                                     </p>
                                 </div>
-                                <div className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center">
+                                <div className="relative mx-3 mt-3 mb-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center">
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600">
                                             <QrCode className="size-7" />
@@ -274,25 +271,40 @@ export default function ActivationQrIndex({
                                             1. Scan QR
                                         </p>
                                         <p className="mt-1 text-[9px] leading-tight text-blue-950">
-                                            Arahkan kamera<br />ke QR Code
+                                            Arahkan kamera
+                                            <br />
+                                            ke QR Code
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]">
-                                            <svg viewBox="0 0 32 32" aria-label="WhatsApp" role="img" className="size-8 fill-current">
-                                                <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                            <svg
+                                                viewBox="0 0 32 32"
+                                                aria-label="WhatsApp"
+                                                role="img"
+                                                className="size-8 fill-current"
+                                            >
+                                                <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z" />
                                             </svg>
                                         </div>
                                         <p className="mt-2 text-[10px] font-extrabold text-blue-950">
                                             2. WhatsApp
                                         </p>
                                         <p className="mt-1 text-[9px] leading-tight text-blue-950">
-                                            Ikuti tautan<br />yang terbuka
+                                            Ikuti tautan
+                                            <br />
+                                            yang terbuka
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-7">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="1.8"
+                                                className="size-7"
+                                            >
                                                 <circle cx="12" cy="7" r="4" />
                                                 <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
                                             </svg>
@@ -301,7 +313,9 @@ export default function ActivationQrIndex({
                                             3. Kenali kami
                                         </p>
                                         <p className="mt-1 text-[9px] leading-tight text-blue-950">
-                                            Info, promo,<br />dan layanan
+                                            Info, promo,
+                                            <br />
+                                            dan layanan
                                         </p>
                                     </div>
                                 </div>
