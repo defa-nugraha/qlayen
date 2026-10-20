@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Customers\CustomerCaptureController;
-use App\Http\Controllers\Customers\CustomerController;
-use App\Http\Controllers\Customers\CustomerInteractionController;
-use App\Http\Controllers\Customers\FollowUpController;
-use App\Http\Controllers\Workspaces\WorkspaceController;
-use Illuminate\Support\Facades\Route;
+use App\\Http\\Controllers\\Customers\\CustomerCaptureController;
+use App\\Http\\Controllers\\Customers\\CustomerController;
+use App\\Http\\Controllers\\Customers\\CustomerInteractionController;
+use App\\Http\\Controllers\\Customers\\FollowUpController;
+use App\\Http\\Controllers\\Workspaces\\WorkspaceController;
+use Illuminate\\Support\\Facades\\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
@@ -26,6 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('follow-ups', [FollowUpController::class, 'index'])->name('follow-ups.index');
+    Route::patch('follow-ups/{customer}/complete', [FollowUpController::class, 'complete'])->name('follow-ups.complete');
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
