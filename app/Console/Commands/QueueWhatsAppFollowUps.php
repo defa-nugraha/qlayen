@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\SendCustomerFollowUpWhatsApp;
 use App\Models\Customer;
+use App\Models\CustomerFollowUpDelivery;
 use Illuminate\Console\Command;
 
 class QueueWhatsAppFollowUps extends Command
