@@ -28,7 +28,7 @@ class CommunicationConsentController extends Controller
                 'source' => $consent->source,
                 'notice_version' => $consent->notice_version,
                 'recorded_at' => $consent->recorded_at->toIso8601String(),
-                'customer' => $consent->customer?->name ?? 'Deleted customer',
+                'customer' => data_get($consent, 'customer.name', 'Deleted customer'),
                 'recorded_by' => data_get($consent, 'recordedBy.name', 'Former user'),
             ]);
 
