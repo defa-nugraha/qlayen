@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {
     BookOpen,
+    CalendarClock,
     Building2,
     FolderGit2,
     LayoutGrid,
@@ -38,6 +39,11 @@ const mainNavItems: NavItem[] = [
         title: 'Customers',
         href: '/customers',
         icon: UsersRound,
+    },
+    {
+        title: 'Follow-ups',
+        href: '/follow-ups',
+        icon: CalendarClock,
     },
     {
         title: 'QR & NFC Capture',
