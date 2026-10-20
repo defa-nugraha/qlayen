@@ -130,7 +130,6 @@ test('users cannot view follow-ups for a workspace they do not belong to', funct
         ->assertNotFound();
 });
 
-
 test('users can complete a follow-up in their selected workspace', function () {
     $user = User::factory()->create();
     $workspace = followUpTestWorkspace($user);
