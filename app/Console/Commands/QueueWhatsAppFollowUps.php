@@ -17,6 +17,15 @@ class QueueWhatsAppFollowUps extends Command
         $queued = 0;
         $now = now();
 
+        CustomerFollowUpDelivery::query()
+            ->where('status', 'sending')
+            ->where('updated_at', '<', $now->copy()->subMinutes(15))
+            ->update([
+                'status' => 'pending',
+                'last_error' => 'Recovered a stale in-progress delivery.',
+                'updated_at' => $now,
+            ]);
+
         Customer::query()
             ->whereNotNull('workspace_id')
             ->whereNotNull('follow_up_at')
@@ -40,7 +49,11 @@ class QueueWhatsAppFollowUps extends Command
                         ],
                     );
 
-                    if ($delivery->wasRecentlyCreated) {
+                    $isStalePending = $delivery->status === 'pending'
+                        && $delivery->updated_at?->lt(now()->subMinutes(5));
+
+                    if ($delivery->wasRecentlyCreated || $isStalePending) {
+                        $delivery->update(['updated_at' => now()]);
                         SendCustomerFollowUpWhatsApp::dispatch($delivery->id);
                         $queued++;
                     }
