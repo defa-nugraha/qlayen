@@ -49,10 +49,9 @@ export default function WorkspacesIndex({
     }
 
     function removeMember(workspace: Workspace, memberId: number) {
-        router.delete(
-            '/workspaces/' + workspace.id + '/members/' + memberId,
-            { preserveScroll: true },
-        );
+        router.delete('/workspaces/' + workspace.id + '/members/' + memberId, {
+            preserveScroll: true,
+        });
     }
 
     const inputClass =
@@ -192,7 +191,8 @@ export default function WorkspacesIndex({
                                                     {member.email}
                                                 </p>
                                             </div>
-                                            {workspace.is_owner && !member.is_owner ? (
+                                            {workspace.is_owner &&
+                                            !member.is_owner ? (
                                                 <div className="flex items-center gap-2">
                                                     <select
                                                         className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
