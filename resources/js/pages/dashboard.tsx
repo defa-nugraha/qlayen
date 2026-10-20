@@ -1,8 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import {
-    ArrowDownRight,
     ArrowRight,
-    ArrowUpRight,
     CalendarClock,
     CheckCircle2,
     ChevronRight,
