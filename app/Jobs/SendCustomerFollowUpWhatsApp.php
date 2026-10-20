@@ -85,8 +85,8 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
             }
 
             $delivery->update([
-                'status' => 'sent',
-                'sent_at' => now(),
+                'status' => 'accepted',
+                'accepted_at' => now(),
                 'provider_response' => $response,
                 'last_error' => null,
             ]);
@@ -104,7 +104,7 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
     {
         CustomerFollowUpDelivery::query()
             ->whereKey($this->deliveryId)
-            ->whereNotIn('status', ['sent', 'skipped'])
+            ->whereNotIn('status', ['accepted', 'skipped'])
             ->update([
                 'status' => 'failed',
                 'last_error' => mb_substr(
