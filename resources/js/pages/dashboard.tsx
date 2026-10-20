@@ -81,7 +81,7 @@ export default function Dashboard({
                             onChange={(event) =>
                                 router.get(
                                     '/dashboard',
-                                    { workspace_id: Number(event.target.value) },
+                                    {\n                                        workspace_id: Number(event.target.value),\n                                    },
                                     { preserveState: false, replace: true },
                                 )
                             }
@@ -208,15 +208,15 @@ export default function Dashboard({
                         <div className="divide-y">
                             {recentInteractions.map((interaction) => (
                                 <article key={interaction.id} className="p-4">
-                                    <p className="font-medium">{interaction.summary}</p>
+                                    <p className="font-medium">\n                                        {interaction.summary}\n                                    </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
-                                        {interaction.customer ?? 'Customer record unavailable'}
+                                        {interaction.customer ??\n                                            'Customer record unavailable'}
                                         {' · '}
                                         {interaction.type}
                                     </p>
                                     <p className="mt-1 text-xs text-muted-foreground">
                                         {interaction.occurred_at
-                                            ? new Date(interaction.occurred_at).toLocaleString()
+                                            ? new Date(\n                                                  interaction.occurred_at,\n                                              ).toLocaleString()
                                             : 'Time unavailable'}
                                         {' · '}
                                         {interaction.actor ?? 'Former user'}
@@ -233,7 +233,7 @@ export default function Dashboard({
 
                     <div className="overflow-hidden rounded-xl border bg-card">
                         <div className="border-b p-4">
-                            <h2 className="font-semibold">Follow-ups due today or overdue</h2>
+                            <h2 className="font-semibold">\n                                Follow-ups due today or overdue\n                            </h2>
                             <p className="mt-1 text-sm text-muted-foreground">
                                 Scheduled follow-ups that have not been completed.
                             </p>
@@ -241,10 +241,10 @@ export default function Dashboard({
                         <div className="divide-y">
                             {dueFollowUps.map((followUp) => (
                                 <article key={followUp.id} className="p-4">
-                                    <p className="font-medium">{followUp.name}</p>
+                                    <p className="font-medium">\n                                        {followUp.name}\n                                    </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
                                         {followUp.scheduled_at
-                                            ? new Date(followUp.scheduled_at).toLocaleString()
+                                            ? new Date(\n                                                  followUp.scheduled_at,\n                                              ).toLocaleString()
                                             : 'Schedule unavailable'}
                                     </p>
                                     {followUp.notes && (
