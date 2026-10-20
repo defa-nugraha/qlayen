@@ -76,7 +76,8 @@ it('records delivery status and ignores duplicate event identifiers', function (
 });
 
 it('does not downgrade a read delivery when a late delivered event arrives', function () {
-    $delivery = makeWebhookDelivery(['status' => 'read', 'delivered_at' => now(), 'read_at' => now()]);
+    $delivery = makeWebhookDelivery(['status' => 'read', 'delivered_at' => now()]);
+    $delivery->forceFill(['read_at' => now()])->save();
 
     $this->withHeader('X-WA-Webhook-Secret', 'test-webhook-secret')
         ->postJson('/webhooks/whatsapp/delivery', [
