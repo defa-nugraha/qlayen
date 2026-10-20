@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             $table->boolean('follow_up_whatsapp_enabled')->default(false)->after('follow_up_completed_at');
+            $table->dateTime('whatsapp_consent_at')->nullable()->after('follow_up_whatsapp_enabled');
         });
 
         Schema::create('customer_follow_up_deliveries', function (Blueprint $table) {
@@ -35,7 +36,7 @@ return new class extends Migration
         Schema::dropIfExists('customer_follow_up_deliveries');
 
         Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('follow_up_whatsapp_enabled');
+            $table->dropColumn(['follow_up_whatsapp_enabled', 'whatsapp_consent_at']);
         });
     }
 };
