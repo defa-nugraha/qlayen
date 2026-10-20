@@ -1,0 +1,41 @@
+name: Temporary format repair
+
+on:
+  push:
+    branches:
+      - feature/qr-business-activation
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: \${{ github.ref_name }}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: npm ci
+      - name: Apply repository formatters
+        run: |
+          npm run check:fix
+          composer lint
+      - name: Commit formatted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/Models/ActivationQrCode.php app/Http/Controllers/Customers/ActivationQrCodeController.php tests/Feature/ActivationQrCodeTest.php resources/js/components/app-sidebar.tsx resources/js/pages/activation-qr-codes/index.tsx resources/js/pages/activation-qr-codes/activate.tsx resources/js/pages/capture/show.tsx
+          if git diff --cached --quiet; then
+            echo "No formatting changes to commit."
+          else
+            git commit -m "style: format activation QR implementation"
+            git push origin "HEAD:\${{ github.ref_name }}"
+          fi
