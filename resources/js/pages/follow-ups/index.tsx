@@ -209,17 +209,38 @@ export default function FollowUpsIndex({
                                             {customer.follow_up_notes || '—'}
                                         </td>
                                         <td className="px-4 py-3 whitespace-nowrap">
-                                            <a
-                                                className="font-medium text-primary hover:underline"
-                                                href={
-                                                    '/customers/' +
-                                                    customer.id +
-                                                    '/interactions?workspace_id=' +
-                                                    currentWorkspaceId
-                                                }
-                                            >
-                                                Interaction history
-                                            </a>
+                                            <div className="flex flex-col items-start gap-2">
+                                                <a
+                                                    className="font-medium text-primary hover:underline"
+                                                    href={
+                                                        '/customers/' +
+                                                        customer.id +
+                                                        '/interactions?workspace_id=' +
+                                                        currentWorkspaceId
+                                                    }
+                                                >
+                                                    Interaction history
+                                                </a>
+                                                <button
+                                                    type="button"
+                                                    className="rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+                                                    onClick={() =>
+                                                        router.patch(
+                                                            '/follow-ups/' +
+                                                                customer.id +
+                                                                '/complete',
+                                                            {
+                                                                workspace_id: currentWorkspaceId,
+                                                                filter: filters.filter,
+                                                                search: filters.search,
+                                                            },
+                                                            { preserveScroll: true },
+                                                        )
+                                                    }
+                                                >
+                                                    Mark completed
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
