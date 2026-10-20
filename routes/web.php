@@ -1,11 +1,11 @@
 <?php
 
-use App\\Http\\Controllers\\Customers\\CustomerCaptureController;
-use App\\Http\\Controllers\\Customers\\CustomerController;
-use App\\Http\\Controllers\\Customers\\CustomerInteractionController;
-use App\\Http\\Controllers\\Customers\\FollowUpController;
-use App\\Http\\Controllers\\Workspaces\\WorkspaceController;
-use Illuminate\\Support\\Facades\\Route;
+use App\Http\Controllers\Customers\CustomerCaptureController;
+use App\Http\Controllers\Customers\CustomerController;
+use App\Http\Controllers\Customers\CustomerInteractionController;
+use App\Http\Controllers\Customers\FollowUpController;
+use App\Http\Controllers\Workspaces\WorkspaceController;
+use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
