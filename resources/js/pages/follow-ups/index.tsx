@@ -230,11 +230,14 @@ export default function FollowUpsIndex({
                                                                 customer.id +
                                                                 '/complete',
                                                             {
-                                                                workspace_id: currentWorkspaceId,
+                                                                workspace_id:
+                                                                    currentWorkspaceId,
                                                                 filter: filters.filter,
                                                                 search: filters.search,
                                                             },
-                                                            { preserveScroll: true },
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
                                                         )
                                                     }
                                                 >
