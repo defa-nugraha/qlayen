@@ -168,7 +168,9 @@ export default function AppLayout({
                         <Link
                             key={href}
                             href={href}
-                            aria-current={currentPath === href ? 'page' : undefined}
+                            aria-current={
+                                currentPath === href ? 'page' : undefined
+                            }
                         >
                             <Icon size={19} strokeWidth={1.9} />
                             <span>{label}</span>
@@ -181,7 +183,14 @@ export default function AppLayout({
                     id="ql-mobile-more-menu"
                     className="fixed right-3 bottom-[82px] z-[60] grid w-[min(320px,calc(100vw-24px))] gap-1 rounded-2xl border border-[#e1e9f5] bg-white p-3 shadow-2xl sm:hidden"
                 >
-                    {[...workspaceNavigation, { label: 'Account settings', href: '/settings/profile', icon: Settings2 }].map(({ label, href, icon: Icon }) => (
+                    {[
+                        ...workspaceNavigation,
+                        {
+                            label: 'Account settings',
+                            href: '/settings/profile',
+                            icon: Settings2,
+                        },
+                    ].map(({ label, href, icon: Icon }) => (
                         <Link
                             key={href}
                             href={href}
@@ -192,7 +201,12 @@ export default function AppLayout({
                             {label}
                         </Link>
                     ))}
-                    <Link href="/logout" method="post" as="button" className="flex items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-[#d92d48] hover:bg-[#fff1f2]">
+                    <Link
+                        href="/logout"
+                        method="post"
+                        as="button"
+                        className="flex items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-[#d92d48] hover:bg-[#fff1f2]"
+                    >
                         <LogOut size={17} />
                         Sign out
                     </Link>
