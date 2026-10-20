@@ -1,4 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
+import { useState } from 'react';
 import {
     Activity,
     BellRing,
@@ -49,6 +50,7 @@ export default function AppLayout({
     breadcrumbs?: BreadcrumbItem[];
     children: React.ReactNode;
 }) {
+    const [moreOpen, setMoreOpen] = useState(false);
     const page = usePage();
     const currentPath = page.url.split('?')[0];
     const auth = page.props.auth;
@@ -149,16 +151,52 @@ export default function AppLayout({
                 <main className="ql-page-content">{children}</main>
             </div>
             <nav className="ql-mobile-nav" aria-label="Mobile navigation">
-                {mobileNavigation.map(({ label, href, icon: Icon }) => (
-                    <Link
-                        key={href}
-                        href={href}
-                        aria-current={currentPath === href ? 'page' : undefined}
-                    >
-                        <Icon size={19} strokeWidth={1.9} />
-                        <span>{label}</span>
+                {mobileNavigation.map(({ label, href, icon: Icon }) =>
+                    label === 'More' ? (
+                        <button
+                            key={href}
+                            type="button"
+                            aria-expanded={moreOpen}
+                            aria-controls="ql-mobile-more-menu"
+                            onClick={() => setMoreOpen((open) => !open)}
+                            className={moreOpen ? 'rounded-xl bg-[#edf4ff] text-[#145df5]' : ''}
+                        >
+                            <Icon size={19} strokeWidth={1.9} />
+                            <span>More</span>
+                        </button>
+                    ) : (
+                        <Link
+                            key={href}
+                            href={href}
+                            aria-current={currentPath === href ? 'page' : undefined}
+                        >
+                            <Icon size={19} strokeWidth={1.9} />
+                            <span>{label}</span>
+                        </Link>
+                    ),
+                )}
+            </nav>
+            {moreOpen && (
+                <div
+                    id="ql-mobile-more-menu"
+                    className="fixed right-3 bottom-[82px] z-[60] grid w-[min(320px,calc(100vw-24px))] gap-1 rounded-2xl border border-[#e1e9f5] bg-white p-3 shadow-2xl sm:hidden"
+                >
+                    {[...workspaceNavigation, { label: 'Account settings', href: '/settings/profile', icon: Settings2 }].map(({ label, href, icon: Icon }) => (
+                        <Link
+                            key={href}
+                            href={href}
+                            onClick={() => setMoreOpen(false)}
+                            className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-[#536786] no-underline hover:bg-[#edf4ff] hover:text-[#145df5]"
+                        >
+                            <Icon size={17} />
+                            {label}
+                        </Link>
+                    ))}
+                    <Link href="/logout" method="post" as="button" className="flex items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-[#d92d48] hover:bg-[#fff1f2]">
+                        <LogOut size={17} />
+                        Sign out
                     </Link>
-                ))}
+                </div>
             </nav>
         </div>
     );
