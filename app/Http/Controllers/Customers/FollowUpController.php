@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -65,7 +66,7 @@ class FollowUpController extends Controller
         ]);
     }
 
-    public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext): \Illuminate\Http\RedirectResponse
+    public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()
