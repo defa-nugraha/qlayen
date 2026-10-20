@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
+use App\Http\Controllers\Customers\CustomerInteractionController;
 use App\Http\Controllers\Workspaces\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::get('customers/{customer}/interactions', [CustomerInteractionController::class, 'index'])
+        ->name('customers.interactions.index');
+    Route::post('customers/{customer}/interactions', [CustomerInteractionController::class, 'store'])
+        ->name('customers.interactions.store');
 
     Route::get('capture-links', [CustomerCaptureController::class, 'index'])->name('capture.index');
     Route::post('capture-links', [CustomerCaptureController::class, 'store'])->name('capture.store');
