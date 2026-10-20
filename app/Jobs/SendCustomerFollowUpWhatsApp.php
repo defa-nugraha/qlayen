@@ -42,7 +42,7 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
         if (
             $customer === null
             || ! $customer->follow_up_whatsapp_enabled
-            || $customer->consent_at === null
+            || $customer->whatsapp_consent_at === null
             || blank($customer->phone)
             || $customer->status !== 'active'
             || $customer->follow_up_completed_at !== null
