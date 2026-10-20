@@ -83,5 +83,4 @@ class FollowUpController extends Controller
             'search' => $request->input('search'),
         ])->with('success', 'Follow-up marked as completed.');
     }
-
 }
