@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Throwable;
 
@@ -29,11 +30,24 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
 
     public function handle(WhatsAppGateway $gateway): void
     {
+        $claimed = CustomerFollowUpDelivery::query()
+            ->whereKey($this->deliveryId)
+            ->where('status', 'pending')
+            ->update([
+                'status' => 'sending',
+                'attempts' => DB::raw('attempts + 1'),
+                'updated_at' => now(),
+            ]);
+
+        if ($claimed !== 1) {
+            return;
+        }
+
         $delivery = CustomerFollowUpDelivery::query()
             ->with('customer')
             ->find($this->deliveryId);
 
-        if ($delivery === null || $delivery->status === 'sent' || $delivery->status === 'skipped') {
+        if ($delivery === null) {
             return;
         }
 
@@ -57,7 +71,6 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
             return;
         }
 
-        $delivery->increment('attempts');
         $message = 'Halo '.$customer->name.', ini pengingat tindak lanjut dari kami.';
 
         if (filled($customer->follow_up_notes)) {
@@ -66,18 +79,27 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
 
         $message .= "\nJika tidak ingin menerima pesan lanjutan, silakan beri tahu kami.";
 
-        $response = $gateway->sendMessage((string) $customer->phone, $message);
+        try {
+            $response = $gateway->sendMessage((string) $customer->phone, $message);
 
-        if (($response['status'] ?? false) !== true) {
-            throw new RuntimeException('WhatsApp gateway did not confirm message acceptance.');
+            if (($response['status'] ?? false) !== true) {
+                throw new RuntimeException('WhatsApp gateway did not confirm message acceptance.');
+            }
+
+            $delivery->update([
+                'status' => 'sent',
+                'sent_at' => now(),
+                'provider_response' => $response,
+                'last_error' => null,
+            ]);
+        } catch (Throwable $exception) {
+            $delivery->update([
+                'status' => 'pending',
+                'last_error' => mb_substr($exception->getMessage(), 0, 2000),
+            ]);
+
+            throw $exception;
         }
-
-        $delivery->update([
-            'status' => 'sent',
-            'sent_at' => now(),
-            'provider_response' => $response,
-            'last_error' => null,
-        ]);
     }
 
     public function failed(?Throwable $exception): void
