@@ -226,7 +226,8 @@ export default function ActivationQrIndex({
                                             alt="QLayen"
                                             className="max-h-12 max-w-[65%] object-contain"
                                             onError={(event) => {
-                                                event.currentTarget.style.display = 'none';
+                                                event.currentTarget.style.display =
+                                                    'none';
                                             }}
                                         />
                                         <span className="text-3xl font-black tracking-tight text-slate-950">
@@ -234,7 +235,11 @@ export default function ActivationQrIndex({
                                         </span>
                                     </div>
                                     <p className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-slate-900">
-                                        SCAN <span className="text-cyan-500">•</span> SAMBUNG <span className="text-cyan-500">•</span> TERHUBUNG
+                                        SCAN{' '}
+                                        <span className="text-cyan-500">•</span>{' '}
+                                        SAMBUNG{' '}
+                                        <span className="text-cyan-500">•</span>{' '}
+                                        TERHUBUNG
                                     </p>
                                 </div>
 
@@ -247,18 +252,27 @@ export default function ActivationQrIndex({
                                         className="block aspect-square w-full object-contain"
                                     />
                                     <div className="absolute left-1/2 top-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md">
-                                        <svg viewBox="0 0 32 32" role="img" aria-label="WhatsApp" className="size-[82%] fill-white">
-                                            <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                        <svg
+                                            viewBox="0 0 32 32"
+                                            role="img"
+                                            aria-label="WhatsApp"
+                                            className="size-[82%] fill-white"
+                                        >
+                                            <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z" />
                                         </svg>
                                     </div>
                                 </div>
 
                                 <div className="relative mx-4 mt-3 rounded-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 px-4 py-3 text-center text-white shadow-md">
-                                    <p className="text-xl font-black tracking-tight">SCAN DI SINI</p>
+                                    <p className="text-xl font-black tracking-tight">
+                                        SCAN DI SINI
+                                    </p>
                                     <p className="mt-0.5 text-[11px] leading-snug text-blue-50">
                                         Terhubung langsung dengan kami
                                     </p>
-                                    <p className="text-[11px] leading-snug text-blue-50">melalui WhatsApp</p>
+                                    <p className="text-[11px] leading-snug text-blue-50">
+                                        melalui WhatsApp
+                                    </p>
                                 </div>
 
                                 <div className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center">
@@ -271,8 +285,13 @@ export default function ActivationQrIndex({
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]">
-                                            <svg viewBox="0 0 32 32" aria-label="WhatsApp" role="img" className="size-8 fill-current">
-                                                <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+                                            <svg
+                                                viewBox="0 0 32 32"
+                                                aria-label="WhatsApp"
+                                                role="img"
+                                                className="size-8 fill-current"
+                                            >
+                                                <path d="M16.02 3.2A12.65 12.65 0 0 0 5.18 22.36L3.5 28.5l6.3-1.65A12.65 12.65 0 1 0 16.02 3.2Zm0 22.95c-1.95 0-3.86-.52-5.53-1.51l-.4-.24-3.74.98 1-3.64-.26-.42a10.12 10.12 0 1 1 8.93 4.83Zm5.56-7.58c-.3-.15-1.78-.88-2.05-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.88.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z" />
                                             </svg>
                                         </div>
                                         <p className="mt-2 text-[10px] font-extrabold text-blue-950">2. WhatsApp</p>
@@ -280,7 +299,13 @@ export default function ActivationQrIndex({
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-7">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="1.8"
+                                                className="size-7"
+                                            >
                                                 <circle cx="12" cy="7" r="4" />
                                                 <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
                                             </svg>
@@ -381,7 +406,10 @@ export default function ActivationQrIndex({
                     @page { size: A6 portrait; margin: 0; }
                     @media print {
                         body * { visibility: hidden !important; }
-                        .activation-qr-print, .activation-qr-print * { visibility: visible !important; }
+                        .activation-qr-print,
+                        .activation-qr-print * {
+                            visibility: visible !important;
+                        }
                         .activation-qr-print {
                             position: fixed !important;
                             inset: 0 auto auto 0 !important;
