@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('follow-ups', [FollowUpController::class, 'index'])->name('follow-ups.index');
     Route::patch('follow-ups/{customer}/complete', [FollowUpController::class, 'complete'])->name('follow-ups.complete');
+    Route::post('follow-ups/deliveries/{delivery}/retry', [FollowUpController::class, 'retryDelivery'])->name('follow-ups.deliveries.retry');
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
