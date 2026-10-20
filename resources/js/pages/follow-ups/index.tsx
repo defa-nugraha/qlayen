@@ -84,7 +84,7 @@ export default function FollowUpsIndex({
                     <label className="block text-sm font-medium">
                         Active workspace
                         <select
-                            className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-auto sm:min-w-56"
                             value={currentWorkspaceId}
                             onChange={(event) =>
                                 navigate({
@@ -150,7 +150,7 @@ export default function FollowUpsIndex({
                                 </button>
                             ))}
                         </div>
-                        <form onSubmit={runSearch} className="flex gap-2">
+                        <form onSubmit={runSearch} className="flex flex-col gap-2 sm:flex-row">
                             <input
                                 className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
                                 value={search}
@@ -162,14 +162,46 @@ export default function FollowUpsIndex({
                             />
                             <button
                                 type="submit"
-                                className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
+                                className="min-h-10 rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:self-start"
                             >
                                 Search
                             </button>
                         </form>
                     </div>
 
-                    <div className="overflow-x-auto">
+                    <div className="space-y-3 p-3 md:hidden">
+                        {customers.data.map((customer) => (
+                            <article key={customer.id} className="rounded-xl border bg-background p-4">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                        <h3 className="break-words font-semibold">{customer.name}</h3>
+                                        <p className="mt-1 break-words text-sm text-muted-foreground">{customer.phone ?? customer.email ?? 'No contact details'}</p>
+                                    </div>
+                                    <span className="shrink-0 rounded-lg bg-muted px-2.5 py-1.5 text-xs font-medium">{new Date(customer.follow_up_at).toLocaleDateString()}</span>
+                                </div>
+                                <div className="mt-4 rounded-lg bg-muted/50 p-3">
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Scheduled for</p>
+                                    <p className="mt-1 text-sm font-medium">{new Date(customer.follow_up_at).toLocaleString()}</p>
+                                    <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Follow-up note</p>
+                                    <p className="mt-1 break-words text-sm text-muted-foreground">{customer.follow_up_notes || 'No note added'}</p>
+                                </div>
+                                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                                    <a className="inline-flex min-h-10 items-center justify-center rounded-lg border px-3 py-2 text-sm font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" href={'/customers/' + customer.id + '/interactions?workspace_id=' + currentWorkspaceId}>
+                                        Interaction history
+                                    </a>
+                                    <button type="button" className="min-h-10 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" onClick={() => router.patch('/follow-ups/' + customer.id + '/complete', { workspace_id: currentWorkspaceId, filter: filters.filter, search: filters.search }, { preserveScroll: true })}>
+                                        Mark completed
+                                    </button>
+                                </div>
+                            </article>
+                        ))}
+                        {customers.data.length === 0 && (
+                            <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
+                                No scheduled follow-ups match this view.
+                            </div>
+                        )}
+                    </div>
+                    <div className="hidden overflow-x-auto md:block">
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 text-muted-foreground">
                                 <tr>
