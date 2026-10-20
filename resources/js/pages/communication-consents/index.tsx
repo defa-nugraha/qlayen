@@ -34,7 +34,8 @@ export default function CommunicationConsentsIndex({
             breadcrumbs={[
                 {
                     title: 'Communication consent',
-                    href: '/communication-consents?workspace_id=' + workspace.id,
+                    href:
+                        '/communication-consents?workspace_id=' + workspace.id,
                 },
             ]}
         >
@@ -57,7 +58,11 @@ export default function CommunicationConsentsIndex({
                             onChange={(event) =>
                                 router.get(
                                     '/communication-consents',
-                                    { workspace_id: Number(event.target.value) },
+                                    {
+                                        workspace_id: Number(
+                                            event.target.value,
+                                        ),
+                                    },
                                     { preserveState: false, replace: true },
                                 )
                             }
@@ -83,29 +88,56 @@ export default function CommunicationConsentsIndex({
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 text-muted-foreground">
                                 <tr>
-                                    <th className="px-4 py-3 font-medium">Recorded</th>
-                                    <th className="px-4 py-3 font-medium">Customer</th>
-                                    <th className="px-4 py-3 font-medium">Channel</th>
-                                    <th className="px-4 py-3 font-medium">Status</th>
-                                    <th className="px-4 py-3 font-medium">Source</th>
-                                    <th className="px-4 py-3 font-medium">Notice version</th>
-                                    <th className="px-4 py-3 font-medium">Recorded by</th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Recorded
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Customer
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Channel
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Status
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Source
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Notice version
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Recorded by
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y">
                                 {consents.data.map((consent) => (
                                     <tr key={consent.id}>
-                                        <td className="whitespace-nowrap px-4 py-3">
-                                            {new Date(consent.recorded_at).toLocaleString()}
+                                        <td className="px-4 py-3 whitespace-nowrap">
+                                            {new Date(
+                                                consent.recorded_at,
+                                            ).toLocaleString()}
                                         </td>
-                                        <td className="px-4 py-3">{consent.customer}</td>
-                                        <td className="px-4 py-3">{consent.channel}</td>
-                                        <td className="px-4 py-3">{consent.status}</td>
-                                        <td className="px-4 py-3">{consent.source}</td>
                                         <td className="px-4 py-3">
-                                            {consent.notice_version ?? 'Not configured'}
+                                            {consent.customer}
                                         </td>
-                                        <td className="px-4 py-3">{consent.recorded_by}</td>
+                                        <td className="px-4 py-3">
+                                            {consent.channel}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {consent.status}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {consent.source}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {consent.notice_version ??
+                                                'Not configured'}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {consent.recorded_by}
+                                        </td>
                                     </tr>
                                 ))}
                                 {consents.data.length === 0 && (
