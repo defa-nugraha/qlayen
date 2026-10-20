@@ -343,7 +343,7 @@ export default function CustomersIndex({
                                 }
                             />
                             <span>
-                                Enable automatic WhatsApp follow-up for this customer.
+                                Customer has explicitly agreed to receive automated WhatsApp follow-up.
                                 <span className="mt-1 block text-xs text-muted-foreground">
                                     Only use this after the customer has agreed to receive WhatsApp follow-up messages. A scheduled date, phone number, and recorded consent are also required.
                                 </span>
