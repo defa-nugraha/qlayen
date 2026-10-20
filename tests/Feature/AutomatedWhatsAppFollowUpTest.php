@@ -42,7 +42,7 @@ it('queues each eligible WhatsApp follow-up only once', function () {
 
     expect(CustomerFollowUpDelivery::query()->count())->toBe(1);
 
-    Queue::assertPushed(SendCustomerFollowUpWhatsApp::class, 1);
+    Queue::assertPushedTimes(SendCustomerFollowUpWhatsApp::class, 1);
 });
 
 it('does not queue follow-ups without recorded consent or explicit opt-in', function () {
