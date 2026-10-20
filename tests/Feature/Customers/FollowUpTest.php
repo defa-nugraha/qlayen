@@ -1,10 +1,10 @@
 <?php
 
-use App\\Models\\Customer;
-use App\\Models\\User;
-use App\\Models\\Workspace;
-use Inertia\\Testing\\AssertableInertia as Assert;
-use Illuminate\\Support\\Carbon;
+use App\Models\Customer;
+use App\Models\User;
+use App\Models\Workspace;
+use Inertia\Testing\AssertableInertia as Assert;
+use Illuminate\Support\Carbon;
 
 function followUpTestWorkspace(User $user, string $name = 'Follow-up workspace'): Workspace
 {
