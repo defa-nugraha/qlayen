@@ -31,7 +31,7 @@ The authenticated `/follow-ups` screen lists scheduled follow-ups for active cus
 
 Customers can explicitly enable automated WhatsApp follow-up from the CRM form. The scheduler queues a delivery only when the customer is active, has a due follow-up date, has a phone number, has a WhatsApp-specific consent timestamp, and the WhatsApp follow-up option is enabled. The option defaults to off. Do not enable it unless the customer has agreed to receive WhatsApp follow-up messages.
 
-Each delivery is recorded in `customer_follow_up_deliveries` with a unique customer/scheduled-time key, status, attempts, provider response, and send timestamp. Queue jobs re-check customer eligibility before sending and treat a provider response as accepted only when its `status` value is boolean `true`. Failed queue attempts use backoff; exhausted failures are marked failed for investigation. A delivery that is already sent is not sent again by a repeated job execution.
+Each delivery is recorded in `customer_follow_up_deliveries` with a unique customer/scheduled-time key, status, attempts, provider response, and provider-acceptance timestamp. Queue jobs re-check customer eligibility before sending and treat a provider response as accepted only when its `status` value is boolean `true`. Failed queue attempts use backoff; exhausted failures are marked failed for investigation. A delivery already accepted by the gateway is not submitted again by a repeated job execution.
 
 Operational requirements:
 
