@@ -5,7 +5,6 @@ use App\Models\Customer;
 use App\Models\PrivacyRequest;
 use App\Models\User;
 use App\Models\Workspace;
-use Inertia\Testing\AssertableInertia as Assert;
 
 function privacyTestWorkspace(User $owner, string $name = 'Privacy workspace'): Workspace
 {
