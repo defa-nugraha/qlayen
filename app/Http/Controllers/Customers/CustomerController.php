@@ -98,6 +98,7 @@ class CustomerController extends Controller
             'notes' => ['nullable', 'string', 'max:10000'],
             'follow_up_at' => ['nullable', 'date'],
             'follow_up_notes' => ['nullable', 'string', 'max:10000'],
+            'follow_up_whatsapp_enabled' => ['sometimes', 'boolean'],
             'status' => ['required', 'in:active,inactive'],
         ];
     }
