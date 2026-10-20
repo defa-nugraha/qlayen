@@ -23,7 +23,8 @@ class FollowUpController extends Controller
 
         $baseQuery = $workspace->customers()
             ->whereNotNull('follow_up_at')
-            ->where('status', 'active');
+            ->where('status', 'active')
+            ->whereNull('follow_up_completed_at');
 
         $counts = [
             'overdue' => (clone $baseQuery)->where('follow_up_at', '<', $today)->count(),
@@ -63,4 +64,24 @@ class FollowUpController extends Controller
             'currentWorkspaceId' => $workspace->id,
         ]);
     }
+
+    public function complete(Request $request, string $customer, WorkspaceContext $workspaceContext): \Illuminate\Http\RedirectResponse
+    {
+        $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $record = $workspace->customers()
+            ->where('status', 'active')
+            ->whereNotNull('follow_up_at')
+            ->findOrFail($customer);
+
+        if ($record->follow_up_completed_at === null) {
+            $record->update(['follow_up_completed_at' => now()]);
+        }
+
+        return to_route('follow-ups.index', [
+            'workspace_id' => $workspace->id,
+            'filter' => $request->input('filter', 'upcoming'),
+            'search' => $request->input('search'),
+        ])->with('success', 'Follow-up marked as completed.');
+    }
+
 }
