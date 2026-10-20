@@ -150,8 +150,7 @@ export default function CustomerInteractionsIndex({
                                 onChange={(event) =>
                                     form.setData(
                                         'type',
-                                        event.target
-                                            .value as InteractionType,
+                                        event.target.value as InteractionType,
                                     )
                                 }
                                 required
@@ -261,7 +260,7 @@ export default function CustomerInteractionsIndex({
                                             <p className="font-medium">
                                                 {interaction.summary}
                                             </p>
-                                            <p className="mt-1 text-xs capitalize text-muted-foreground">
+                                            <p className="mt-1 text-xs text-muted-foreground capitalize">
                                                 {interaction.type} ·{' '}
                                                 {interaction.user?.name ??
                                                     'Former user'}
@@ -277,7 +276,7 @@ export default function CustomerInteractionsIndex({
                                         </time>
                                     </div>
                                     {interaction.details && (
-                                        <p className="mt-3 whitespace-pre-wrap text-sm text-muted-foreground">
+                                        <p className="mt-3 text-sm whitespace-pre-wrap text-muted-foreground">
                                             {interaction.details}
                                         </p>
                                     )}
