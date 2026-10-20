@@ -80,3 +80,35 @@ Authenticated users can create named QR or NFC capture links at `/capture-links`
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
 Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, retry management UI, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
+
+
+## Local demo data
+
+Run the migrations before seeding:
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+The demo seeder is idempotent and creates sample records for the currently implemented workspace roles and MVP features:
+
+- Workspace roles: `owner`, `admin`, and `member`.
+- Workspace and member assignments.
+- CRM customers with active/inactive states, acquisition sources, consent fields, and follow-up dates.
+- QR and NFC capture links, including one disabled link.
+- Customer interaction history.
+- Manual follow-up examples and WhatsApp delivery records in read/failed states.
+- Idempotent sample WhatsApp webhook events.
+
+Local demo accounts (all share the default password `password` unless overridden):
+
+| Role | Email |
+| --- | --- |
+| Owner | `owner@qlayen.test` |
+| Admin | `admin@qlayen.test` |
+| Member | `member@qlayen.test` |
+
+Override the demo password before seeding with `QLAYEN_DEMO_PASSWORD`. These are development-only credentials; do not reuse them in a real environment. Demo data is skipped in production unless `QLAYEN_SEED_DEMO=true` is explicitly set.
+
+The SRS also describes platform administrator and QA/auditor actors, but the current application schema does not implement global roles for those actors. The seeder intentionally does not fabricate those roles or permissions. End customers are sample CRM records, not QLayen dashboard accounts.
