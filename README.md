@@ -69,7 +69,7 @@ Supported client operations:
 
 The QR method calls the documented `generate-qe` endpoint and returns the gateway payload as-is. If the gateway returns `status: processing`, call it again according to the provider's documented lifecycle. Message and media methods use POST JSON and propagate HTTP errors; a successful HTTP response does not necessarily mean the provider's `status` field is true, so callers must inspect that field.
 
-Webhook handling and automated follow-up delivery should be implemented as separate application use cases with signature/authenticity verification where supported, idempotency, rate limits, and audit logging. Do not expose the gateway API key to the browser.
+Inbound webhook handling and delivery reconciliation should be implemented as separate application use cases with signature/authenticity verification where supported, idempotency, rate limits, and audit logging. Do not expose the gateway API key to the browser.
 
 ## QR/NFC customer capture MVP
 
