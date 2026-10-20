@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { ArrowLeft, CheckCircle2, QrCode, Users, Workflow } from 'lucide-react';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -8,6 +8,10 @@ export default function AuthSimpleLayout({
     title,
     description,
 }: AuthLayoutProps) {
+    const page = usePage();
+    const brandAssets = (page.props as typeof page.props & { brandAssets?: Record<string, { url: string; alt_text: string }> }).brandAssets ?? {};
+    const authLogo = brandAssets.auth;
+
     return (
         <main className="min-h-svh bg-slate-50 text-slate-900 lg:grid lg:grid-cols-2">
             <section className="relative hidden overflow-hidden bg-slate-950 px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between xl:px-16 xl:py-14">
@@ -17,9 +21,13 @@ export default function AuthSimpleLayout({
                     href={home()}
                     className="relative inline-flex w-fit items-center gap-3 rounded-xl focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
-                    <span className="flex size-11 items-center justify-center rounded-xl bg-indigo-500 text-white shadow-lg shadow-indigo-950/30">
-                        <Workflow className="size-6" aria-hidden="true" />
-                    </span>
+                    {authLogo ? (
+                        <img src={authLogo.url} alt={authLogo.alt_text || 'QLayen'} className="max-h-11 max-w-40 object-contain" />
+                    ) : (
+                        <span className="flex size-11 items-center justify-center rounded-xl bg-indigo-500 text-white shadow-lg shadow-indigo-950/30">
+                            <Workflow className="size-6" aria-hidden="true" />
+                        </span>
+                    )}
                     <span>
                         <span className="block text-lg font-bold tracking-tight">
                             QLayen
@@ -88,9 +96,13 @@ export default function AuthSimpleLayout({
                         href={home()}
                         className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-indigo-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none lg:hidden"
                     >
-                        <span className="flex size-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
-                            <Workflow className="size-5" aria-hidden="true" />
-                        </span>
+                        {authLogo ? (
+                            <img src={authLogo.url} alt={authLogo.alt_text || 'QLayen'} className="max-h-9 max-w-28 object-contain" />
+                        ) : (
+                            <span className="flex size-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
+                                <Workflow className="size-5" aria-hidden="true" />
+                            </span>
+                        )}
                         <span className="text-base font-bold text-slate-950">
                             QLayen
                         </span>
