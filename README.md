@@ -81,7 +81,6 @@ The QR preview currently uses the external QR Server image endpoint and sends on
 
 Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, retry management UI, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
 
-
 ## Local demo data
 
 Run the migrations before seeding:
