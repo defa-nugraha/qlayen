@@ -36,19 +36,26 @@ function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
         'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
     return (
-        <form onSubmit={submit} className="mt-4 flex flex-col gap-3 border-t pt-4">
+        <form
+            onSubmit={submit}
+            className="mt-4 flex flex-col gap-3 border-t pt-4"
+        >
             <h4 className="text-sm font-semibold">Business settings</h4>
             <label className="block text-sm font-medium">
                 Business name
                 <input
                     className={inputClass}
                     value={form.data.name}
-                    onChange={(event) => form.setData('name', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('name', event.target.value)
+                    }
                     maxLength={120}
                     required
                 />
                 {form.errors.name && (
-                    <span className="text-sm text-destructive">{form.errors.name}</span>
+                    <span className="text-sm text-destructive">
+                        {form.errors.name}
+                    </span>
                 )}
             </label>
             <label className="block text-sm font-medium">
@@ -56,12 +63,16 @@ function WorkspaceSettingsForm({ workspace }: { workspace: Workspace }) {
                 <textarea
                     className={inputClass}
                     value={form.data.description}
-                    onChange={(event) => form.setData('description', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('description', event.target.value)
+                    }
                     maxLength={2000}
                     rows={3}
                 />
                 {form.errors.description && (
-                    <span className="text-sm text-destructive">{form.errors.description}</span>
+                    <span className="text-sm text-destructive">
+                        {form.errors.description}
+                    </span>
                 )}
             </label>
             <div>
