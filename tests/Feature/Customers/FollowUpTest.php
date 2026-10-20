@@ -3,10 +3,10 @@
 use App\Jobs\SendCustomerFollowUpWhatsApp;
 use App\Models\Customer;
 use App\Models\CustomerFollowUpDelivery;
-use Illuminate\Support\Facades\Queue;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
 function followUpTestWorkspace(User $user, string $name = 'Follow-up workspace'): Workspace
@@ -195,7 +195,6 @@ test('rescheduling an existing follow-up makes it pending again', function () {
 
     expect($customer->fresh()->follow_up_completed_at)->toBeNull();
 });
-
 
 test('users can retry a failed WhatsApp delivery in their workspace once', function () {
     Queue::fake();
