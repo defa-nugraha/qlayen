@@ -82,7 +82,7 @@ function LogoCard({
                     <input
                         id={`logo-${placement.key}`}
                         type="file"
-                        accept=".png,.jpg,.jpeg,.webp,.ico,image/png,image/jpeg,image/webp,image/x-icon"
+                        accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
                             form.setData(
                                 'logo',
