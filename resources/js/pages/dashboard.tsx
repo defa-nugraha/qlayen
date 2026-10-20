@@ -7,11 +7,9 @@ import {
     CircleHelp,
     QrCode,
     Users,
-    Workflow,
     Building2,
     Sparkles,
 } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 
 const shortcuts = [
