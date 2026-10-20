@@ -57,7 +57,7 @@ jobs:
 
       - name: Check frontend lint
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
-        run: npm run check:fix && cat resources/js/pages/privacy-requests/index.tsx && npm run check
+        run: npm run check
 
       - name: Generate Wayfinder TypeScript definitions
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
