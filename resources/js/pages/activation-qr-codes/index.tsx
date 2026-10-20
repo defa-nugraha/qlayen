@@ -210,7 +210,9 @@ export default function ActivationQrIndex({
                                     color: code.foreground_color,
                                 }}
                             >
-                                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]">
+                                <div
+                                    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]"
+                                >
                                     <div className="absolute -left-16 -top-14 size-48 rounded-full bg-blue-600" />
                                     <div className="absolute -right-20 -top-16 size-56 rounded-full bg-cyan-400" />
                                     <div className="absolute -bottom-16 -left-16 size-52 rounded-full bg-blue-700" />
@@ -243,7 +245,9 @@ export default function ActivationQrIndex({
                                     </p>
                                 </div>
 
-                                <div className="relative mx-auto mt-3 w-[78%] rounded-[24px] border-[3px] border-cyan-400 bg-white p-2 shadow-[0_8px_24px_rgba(14,165,233,0.18)]">
+                                <div
+                                    className="relative mx-auto mt-3 w-[78%] rounded-[24px] border-[3px] border-cyan-400 bg-white p-2 shadow-[0_8px_24px_rgba(14,165,233,0.18)]"
+                                >
                                     <img
                                         src={qrImage(code)}
                                         alt={'Activation QR for ' + code.name}
@@ -251,7 +255,9 @@ export default function ActivationQrIndex({
                                         height={360}
                                         className="block aspect-square w-full object-contain"
                                     />
-                                    <div className="absolute left-1/2 top-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md">
+                                    <div
+                                        className="absolute left-1/2 top-1/2 flex size-[22%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[5px] border-white bg-[#25D366] shadow-md"
+                                    >
                                         <svg
                                             viewBox="0 0 32 32"
                                             role="img"
@@ -263,7 +269,9 @@ export default function ActivationQrIndex({
                                     </div>
                                 </div>
 
-                                <div className="relative mx-4 mt-3 rounded-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 px-4 py-3 text-center text-white shadow-md">
+                                <div
+                                    className="relative mx-4 mt-3 rounded-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 px-4 py-3 text-center text-white shadow-md"
+                                >
                                     <p className="text-xl font-black tracking-tight">
                                         SCAN DI SINI
                                     </p>
@@ -275,7 +283,9 @@ export default function ActivationQrIndex({
                                     </p>
                                 </div>
 
-                                <div className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center">
+                                <div
+                                    className="relative mx-3 mb-3 mt-3 grid grid-cols-3 gap-1 rounded-[20px] bg-white/95 px-2 py-3 text-center"
+                                >
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600">
                                             <QrCode className="size-7" />
