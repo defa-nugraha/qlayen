@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('scheduled_for');
             $table->string('status', 20)->default('pending');
             $table->unsignedSmallInteger('attempts')->default(0);
-            $table->dateTime('sent_at')->nullable();
+            $table->dateTime('accepted_at')->nullable();
             $table->json('provider_response')->nullable();
             $table->text('last_error')->nullable();
             $table->timestamps();
