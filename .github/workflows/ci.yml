@@ -10,7 +10,7 @@ on:
       - 'fix/**'
 
 permissions:
-  contents: write
+  contents: read
 
 # Keep only the newest run for a branch; superseded commits should not occupy runners.
 concurrency:
@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Setup PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
@@ -48,19 +48,6 @@ jobs:
       - name: Install frontend dependencies
         id: frontend-deps
         run: npm ci
-
-      # Temporary formatter repair: format the QR page, then commit only that file.
-      - name: Apply QR page formatting
-        if: ${{ steps.frontend-deps.outcome == 'success' }}
-        run: |
-          npm run check:fix
-          if ! git diff --quiet -- resources/js/pages/activation-qr-codes/index.tsx; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add resources/js/pages/activation-qr-codes/index.tsx
-            git commit -m "style: format activation QR card"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
 
       # Run every quality gate even if another check fails, so one CI run
       # reveals all current issues instead of hiding them behind the first failure.
