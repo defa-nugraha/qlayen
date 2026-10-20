@@ -213,12 +213,24 @@ export default function ActivationQrIndex({
                                 <div
                                     className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px]"
                                 >
-                                    <div className="absolute -left-16 -top-14 size-48 rounded-full bg-blue-600" />
-                                    <div className="absolute -right-20 -top-16 size-56 rounded-full bg-cyan-400" />
-                                    <div className="absolute -bottom-16 -left-16 size-52 rounded-full bg-blue-700" />
-                                    <div className="absolute -bottom-20 -right-16 size-56 rounded-full bg-cyan-400" />
-                                    <div className="absolute inset-[10px] rounded-[18px] bg-white" />
-                                    <div className="absolute inset-x-0 top-0 h-[30%] rounded-b-[48%] bg-gradient-to-br from-white via-white to-blue-50" />
+                                    <div
+                                        className="absolute -left-16 -top-14 size-48 rounded-full bg-blue-600"
+                                    />
+                                    <div
+                                        className="absolute -right-20 -top-16 size-56 rounded-full bg-cyan-400"
+                                    />
+                                    <div
+                                        className="absolute -bottom-16 -left-16 size-52 rounded-full bg-blue-700"
+                                    />
+                                    <div
+                                        className="absolute -bottom-20 -right-16 size-56 rounded-full bg-cyan-400"
+                                    />
+                                    <div
+                                        className="absolute inset-[10px] rounded-[18px] bg-white"
+                                    />
+                                    <div
+                                        className="absolute inset-x-0 top-0 h-[30%] rounded-b-[48%] bg-gradient-to-br from-white via-white to-blue-50"
+                                    />
                                 </div>
 
                                 <div className="relative px-5 pb-2 pt-5 text-center">
@@ -292,8 +304,14 @@ export default function ActivationQrIndex({
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-blue-600">
                                             <QrCode className="size-7" />
                                         </div>
-                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">1. Scan QR</p>
-                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Arahkan kamera<br />ke QR Code</p>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">
+                                            1. Scan QR
+                                        </p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">
+                                            Arahkan kamera
+                                            <br />
+                                            ke QR Code
+                                        </p>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-[#25D366]">
@@ -308,8 +326,14 @@ export default function ActivationQrIndex({
                                             />
                                             </svg>
                                         </div>
-                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">2. WhatsApp</p>
-                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Ikuti tautan<br />yang terbuka</p>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">
+                                            2. WhatsApp
+                                        </p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">
+                                            Ikuti tautan
+                                            <br />
+                                            yang terbuka
+                                        </p>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <div className="flex size-12 items-center justify-center rounded-full bg-sky-100 text-sky-600">
@@ -324,8 +348,14 @@ export default function ActivationQrIndex({
                                                 <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
                                             </svg>
                                         </div>
-                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">3. Kenali kami</p>
-                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">Info, promo,<br />dan layanan</p>
+                                        <p className="mt-2 text-[10px] font-extrabold text-blue-950">
+                                            3. Kenali kami
+                                        </p>
+                                        <p className="mt-1 text-[9px] leading-tight text-blue-950">
+                                            Info, promo,
+                                            <br />
+                                            dan layanan
+                                        </p>
                                     </div>
                                 </div>
                                 <p className="relative mb-3 text-center text-[8px] font-medium tracking-wide text-slate-500">
