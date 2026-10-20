@@ -129,3 +129,67 @@ test('users cannot view follow-ups for a workspace they do not belong to', funct
         ->get(route('follow-ups.index', ['workspace_id' => $workspace->id]))
         ->assertNotFound();
 });
+
+
+test('users can complete a follow-up in their selected workspace', function () {
+    $user = User::factory()->create();
+    $workspace = followUpTestWorkspace($user);
+    $customer = followUpTestCustomer($user, $workspace, 'Completed customer', '2026-10-20 10:00:00');
+
+    $this->actingAs($user)
+        ->patch(route('follow-ups.complete', [
+            'customer' => $customer->id,
+            'workspace_id' => $workspace->id,
+            'filter' => 'all',
+        ]))
+        ->assertRedirect(route('follow-ups.index', [
+            'workspace_id' => $workspace->id,
+            'filter' => 'all',
+        ]));
+
+    expect($customer->fresh()->follow_up_completed_at)->not->toBeNull();
+
+    $this->actingAs($user)
+        ->get(route('follow-ups.index', ['workspace_id' => $workspace->id, 'filter' => 'all']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->has('customers.data', 0));
+});
+
+test('users cannot complete a follow-up in another workspace', function () {
+    $owner = User::factory()->create();
+    $workspace = followUpTestWorkspace($owner);
+    $customer = followUpTestCustomer($owner, $workspace, 'Private customer', '2026-10-21 09:00:00');
+    $otherUser = User::factory()->create();
+
+    $this->actingAs($otherUser)
+        ->patch(route('follow-ups.complete', [
+            'customer' => $customer->id,
+            'workspace_id' => $workspace->id,
+        ]))
+        ->assertNotFound();
+
+    expect($customer->fresh()->follow_up_completed_at)->toBeNull();
+});
+
+test('rescheduling an existing follow-up makes it pending again', function () {
+    $user = User::factory()->create();
+    $workspace = followUpTestWorkspace($user);
+    $customer = followUpTestCustomer($user, $workspace, 'Rescheduled customer', '2026-10-20 10:00:00');
+    $customer->update(['follow_up_completed_at' => Carbon::parse('2026-10-20 12:00:00')]);
+
+    $this->actingAs($user)
+        ->put(route('customers.update', $customer), [
+            'workspace_id' => $workspace->id,
+            'name' => $customer->name,
+            'phone' => $customer->phone,
+            'email' => $customer->email,
+            'source' => $customer->source,
+            'notes' => $customer->notes,
+            'follow_up_at' => '2026-10-22 10:00:00',
+            'follow_up_notes' => $customer->follow_up_notes,
+            'status' => $customer->status,
+        ])
+        ->assertRedirect();
+
+    expect($customer->fresh()->follow_up_completed_at)->toBeNull();
+});
