@@ -27,6 +27,18 @@ Automated feature tests cover authentication, validation, create/read/update/del
 
 The authenticated `/follow-ups` screen lists scheduled follow-ups for active customers in the selected workspace. It provides overdue, due-today, upcoming, and all-scheduled filters; workspace-scoped search across customer name, phone, email, and follow-up notes; summary counts; and pagination. Date buckets use the application timezone and calendar-day boundaries. Customers without a follow-up date, inactive customers, and completed follow-ups are excluded from the active queue. Users can mark a scheduled follow-up complete; the completion timestamp is retained on the customer, and editing the follow-up date makes it pending again. Completion is workspace-scoped and protected by membership resolution. This remains a manual work queue: no notification or WhatsApp message is sent automatically, and delivery queues, retries, and scheduled reminders remain out of scope.
 
+## Automated WhatsApp follow-up delivery
+
+Customers can explicitly enable automated WhatsApp follow-up from the CRM form. The scheduler queues a delivery only when the customer is active, has a due follow-up date, has a phone number, has a recorded consent timestamp, and the WhatsApp follow-up option is enabled. The option defaults to off. Do not enable it unless the customer has agreed to receive WhatsApp follow-up messages.
+
+Each delivery is recorded in `customer_follow_up_deliveries` with a unique customer/scheduled-time key, status, attempts, provider response, and send timestamp. Queue jobs re-check customer eligibility before sending and treat a provider response as accepted only when its `status` value is boolean `true`. Failed queue attempts use backoff; exhausted failures are marked failed for investigation. A delivery that is already sent is not sent again by a repeated job execution.
+
+Operational requirements:
+- Run the Laravel scheduler every minute using the standard `php artisan schedule:run` cron entry.
+- Run a queue worker (for example, `php artisan queue:work --tries=3`) to process delivery jobs.
+- Configure the WhatsApp gateway credentials in the deployment environment. Never expose the API key to the browser.
+- Monitor failed jobs and failed delivery records; this MVP does not yet provide a retry UI or inbound webhook reconciliation.
+
 ## Business workspace and tenant isolation
 
 The authenticated `/workspaces` screen lets a user create a business workspace and view workspaces they belong to. Workspace membership uses a unique `(workspace_id, user_id)` constraint and records a role (`owner`, `admin`, or `member`). Creating a workspace and attaching its owner are performed in a database transaction. Feature tests cover guest access, validation, owner membership, unique membership, and visibility limited to a user's memberships.
