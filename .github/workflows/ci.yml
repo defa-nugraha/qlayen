@@ -59,7 +59,7 @@ jobs:
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: |
           npm run check:fix
-          cat resources/css/app.css
+          cat resources/js/app.tsx resources/js/layouts/app-layout.tsx resources/js/layouts/auth/auth-simple-layout.tsx resources/js/layouts/settings/layout.tsx resources/js/pages/capture/show.tsx resources/js/pages/welcome.tsx
 
       - name: Generate Wayfinder TypeScript definitions
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
