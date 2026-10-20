@@ -79,7 +79,11 @@ Authenticated users can create named QR or NFC capture links at `/capture-links`
 
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
-Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, retry management UI, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
+## WhatsApp delivery retry
+
+The Follow-ups page displays the current delivery status and attempt count for a scheduled WhatsApp follow-up. Workspace members can retry a failed delivery from that page. The retry endpoint scopes the delivery to the selected workspace, accepts only records in `failed` state, and checks that the customer is still active, has not completed the follow-up, still has explicit WhatsApp opt-in/consent, has a phone number, and has not changed the scheduled follow-up. The queued job repeats eligibility checks immediately before sending. Retrying does not reset the historical attempt count. Provider-specific payload mapping and webhook authenticity verification remain prerequisites for production callbacks.
+
+Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, provider-specific webhook signature verification/payload mapping, and a QR scan analytics dashboard are not yet implemented.
 
 ## Local demo data
 
