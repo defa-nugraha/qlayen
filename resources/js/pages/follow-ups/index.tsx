@@ -225,23 +225,20 @@ export default function FollowUpsIndex({
                                                         {customer.whatsapp_delivery.status}
                                                     </p>
                                                     <p className="text-xs text-muted-foreground">
-                                                        Attempts:{' '}
-                                                        {customer.whatsapp_delivery.attempts}
+                                                        Attempts: {customer.whatsapp_delivery.attempts}
                                                     </p>
-                                                    {customer.whatsapp_delivery.last_error && (
+                                                    {customer.whatsapp_delivery.last_error ? (
                                                         <p className="max-w-xs text-xs text-destructive">
                                                             {customer.whatsapp_delivery.last_error}
                                                         </p>
-                                                    )}
-                                                    {customer.whatsapp_delivery.retryable && (
+                                                    ) : null}
+                                                    {customer.whatsapp_delivery.retryable ? (
                                                         <button
                                                             type="button"
                                                             className="rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
                                                             onClick={() =>
                                                                 router.post(
-                                                                    '/follow-ups/deliveries/' +
-                                                                        customer.whatsapp_delivery!.id +
-                                                                        '/retry',
+                                                                    `/follow-ups/deliveries/${customer.whatsapp_delivery!.id}/retry`,
                                                                     {
                                                                         workspace_id: currentWorkspaceId,
                                                                         filter: filters.filter,
@@ -253,7 +250,7 @@ export default function FollowUpsIndex({
                                                         >
                                                             Retry failed delivery
                                                         </button>
-                                                    )}
+                                                    ) : null}
                                                 </div>
                                             ) : (
                                                 <span className="text-muted-foreground">
