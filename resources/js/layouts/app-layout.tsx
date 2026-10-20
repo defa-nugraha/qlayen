@@ -159,7 +159,7 @@ export default function AppLayout({
                             aria-expanded={moreOpen}
                             aria-controls="ql-mobile-more-menu"
                             onClick={() => setMoreOpen((open) => !open)}
-                            className={moreOpen ? 'rounded-xl bg-[#edf4ff] text-[#145df5]' : ''}
+                            className={`flex min-w-0 flex-col items-center gap-1.5 rounded-xl px-0.5 py-1.5 text-[9px] font-bold ${moreOpen ? 'bg-[#edf4ff] text-[#145df5]' : 'text-[#7788a4]'}`}
                         >
                             <Icon size={19} strokeWidth={1.9} />
                             <span>More</span>
