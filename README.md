@@ -21,7 +21,7 @@ php artisan test
 
 The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, status, and follow-up date/notes. A customer interaction timeline is available from each customer row; members can record notes, calls, messages, purchases, or other interactions with a summary, optional details, occurrence time, and recording user. Interaction history is scoped through the customer in the selected workspace, ordered newest-first, and paginated. Interaction entries are append-only in this MVP. Customer list, search, creation, updates, and deletion are scoped to the selected workspace; cross-workspace customer IDs return 404. Workspace membership is checked server-side, including when a workspace ID is supplied directly. Workspace selection is available on the CRM screen.
 
-Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
+Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation. Customer interaction history is available at `/customers/{customer}/interactions` (GET to list and POST to record); both endpoints require authentication and email verification, resolve the selected workspace server-side, and return 404 when the customer is outside that workspace. Interaction entries are append-only in the current MVP and are deleted when their customer is deleted.
 
 ## Business workspace and tenant isolation
 
