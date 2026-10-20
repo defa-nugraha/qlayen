@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -26,6 +28,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read WorkspaceMembership $pivot
  */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
@@ -33,6 +36,41 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+
+    /**
+     * @return HasMany<Customer, $this>
+     */
+    public function customers(): HasMany
+    {
+        return $this->hasMany(Customer::class);
+    }
+
+    /**
+     * @return HasMany<CustomerCaptureLink, $this>
+     */
+    public function customerCaptureLinks(): HasMany
+    {
+        return $this->hasMany(CustomerCaptureLink::class);
+    }
+
+    /**
+     * @return HasMany<Workspace, $this>
+     */
+    public function ownedWorkspaces(): HasMany
+    {
+        return $this->hasMany(Workspace::class, 'owner_id');
+    }
+
+    /**
+     * @return BelongsToMany<Workspace, $this, WorkspaceMembership, 'pivot'>
+     */
+    public function workspaces(): BelongsToMany
+    {
+        return $this->belongsToMany(Workspace::class, 'workspace_user')
+            ->using(WorkspaceMembership::class)
+            ->withPivot('role')
+            ->withTimestamps();
+    }
 
     /**
      * Get the attributes that should be cast.

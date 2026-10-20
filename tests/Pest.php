@@ -18,6 +18,11 @@ pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
     ->in('Feature');
 
+// Unit tests that exercise Laravel's container, config repository, or facades
+// must boot the application test case instead of PHPUnit's bare test case.
+pest()->extend(TestCase::class)
+    ->in('Unit');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
