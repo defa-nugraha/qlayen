@@ -28,7 +28,7 @@ Route::post('activate/{token}/capture', [ActivationQrCodeController::class, 'cap
     ->name('activation-qr.capture');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::inertia('dashboard', 'dashboard')->name('dashboard');\n\n    Route::get('brand-assets', [BrandAssetController::class, 'index'])->name('brand-assets.index');\n    Route::post('brand-assets', [BrandAssetController::class, 'store'])->name('brand-assets.store');\n    Route::delete('brand-assets/{key}', [BrandAssetController::class, 'destroy'])->name('brand-assets.destroy');
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
     Route::post('workspaces', [WorkspaceController::class, 'store'])->name('workspaces.store');
