@@ -23,13 +23,13 @@ class DemoDataSeeder extends Seeder
      */
     public function run(): void
     {
-        if (app()->environment('production') && ! (bool) env('QLAYEN_SEED_DEMO', false)) {
-            $this->command?->warn('Demo data skipped in production. Set QLAYEN_SEED_DEMO=true only for an intentional demo environment.');
+        if (app()->environment('production') && config('qlayen.seed_demo') !== true) {
+            $this->command->warn('Demo data skipped in production. Set QLAYEN_SEED_DEMO=true only for an intentional demo environment.');
 
             return;
         }
 
-        $password = (string) env('QLAYEN_DEMO_PASSWORD', 'password');
+        $password = (string) config('qlayen.demo_password', 'password');
 
         $owner = $this->user('owner@qlayen.test', 'QLayen Demo Owner', $password);
         $admin = $this->user('admin@qlayen.test', 'QLayen Demo Admin', $password);
@@ -52,7 +52,7 @@ class DemoDataSeeder extends Seeder
         $deliveries = $this->seedFollowUpDeliveries($workspace, $customers);
         $this->seedWebhookEvents($deliveries);
 
-        $this->command?->info('QLayen demo data seeded: owner/admin/member, workspace, customers, QR/NFC links, interactions, follow-ups, WhatsApp deliveries and webhook events.');
+        $this->command->info('QLayen demo data seeded: owner/admin/member, workspace, customers, QR/NFC links, interactions, follow-ups, WhatsApp deliveries and webhook events.');
     }
 
     private function user(string $email, string $name, string $password): User
@@ -60,7 +60,7 @@ class DemoDataSeeder extends Seeder
         $user = User::query()->firstOrNew(['email' => $email]);
         $user->name = $name;
         $user->password = Hash::make($password);
-        $user->email_verified_at = $user->email_verified_at ?? now();
+        $user->email_verified_at = $user->email_verified_at ?? Carbon::now();
         $user->save();
 
         return $user;
