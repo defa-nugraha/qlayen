@@ -225,7 +225,8 @@ export default function FollowUpsIndex({
                                                         {customer.whatsapp_delivery.status}
                                                     </p>
                                                     <p className="text-xs text-muted-foreground">
-                                                        Attempts: {customer.whatsapp_delivery.attempts}
+                                                        Attempts:{' '}
+                                                        {customer.whatsapp_delivery.attempts}
                                                     </p>
                                                     {customer.whatsapp_delivery.last_error ? (
                                                         <p className="max-w-xs text-xs text-destructive">
