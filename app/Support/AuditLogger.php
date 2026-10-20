@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AuditLogger
 {
     /**
-     * @param array<string, mixed> $metadata
+     * @param  array<string, mixed>  $metadata
      */
     public function record(
         Request $request,
@@ -33,3 +33,9 @@ class AuditLogger
         ]);
     }
 }
+
+  ............................................................................
+  ......................
+
+  ──────────────────────────────────────────────────────────────────── Laravel  
+    PASS   .......................................................... 98 files
