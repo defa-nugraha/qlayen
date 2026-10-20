@@ -2,10 +2,12 @@ import { Link } from '@inertiajs/react';
 import {
     BookOpen,
     CalendarClock,
+    ClipboardList,
     Building2,
     FolderGit2,
     LayoutGrid,
     QrCode,
+    ShieldCheck,
     UsersRound,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -49,6 +51,21 @@ const mainNavItems: NavItem[] = [
         title: 'QR & NFC Capture',
         href: '/capture-links',
         icon: QrCode,
+    },
+    {
+        title: 'Communication Consent',
+        href: '/communication-consents',
+        icon: ShieldCheck,
+    },
+    {
+        title: 'Privacy Requests',
+        href: '/privacy-requests',
+        icon: ShieldCheck,
+    },
+    {
+        title: 'Audit Logs',
+        href: '/audit-logs',
+        icon: ClipboardList,
     },
 ];
 
