@@ -34,6 +34,7 @@ Customers can explicitly enable automated WhatsApp follow-up from the CRM form. 
 Each delivery is recorded in `customer_follow_up_deliveries` with a unique customer/scheduled-time key, status, attempts, provider response, and send timestamp. Queue jobs re-check customer eligibility before sending and treat a provider response as accepted only when its `status` value is boolean `true`. Failed queue attempts use backoff; exhausted failures are marked failed for investigation. A delivery that is already sent is not sent again by a repeated job execution.
 
 Operational requirements:
+
 - Run the Laravel scheduler every minute using the standard `php artisan schedule:run` cron entry.
 - Run a queue worker (for example, `php artisan queue:work --tries=3`) to process delivery jobs.
 - Configure the WhatsApp gateway credentials in the deployment environment. Never expose the API key to the browser.
