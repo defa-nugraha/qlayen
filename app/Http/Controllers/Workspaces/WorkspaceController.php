@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Workspaces;
 
 use App\Http\Controllers\Controller;
 use App\Models\Workspace;
+use App\Support\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +47,7 @@ class WorkspaceController extends Controller
         ]);
     }
 
-    public function update(Request $request, Workspace $workspace): RedirectResponse
+    public function update(Request $request, Workspace $workspace, AuditLogger $auditLogger): RedirectResponse
     {
         abort_unless($workspace->owner_id === $request->user()->id, 403);
 
@@ -56,11 +57,12 @@ class WorkspaceController extends Controller
         ]);
 
         $workspace->update($validated);
+        $auditLogger->record($request, $workspace, 'workspace.settings_updated', 'workspace', $workspace->id);
 
         return to_route('workspaces.index')->with('success', 'Workspace settings updated.');
     }
 
-    public function updateMember(Request $request, Workspace $workspace, int $user): RedirectResponse
+    public function updateMember(Request $request, Workspace $workspace, int $user, AuditLogger $auditLogger): RedirectResponse
     {
         abort_unless($workspace->owner_id === $request->user()->id, 403);
 
@@ -72,11 +74,14 @@ class WorkspaceController extends Controller
         ]);
 
         $workspace->members()->updateExistingPivot($user, ['role' => $validated['role']]);
+        $auditLogger->record($request, $workspace, 'workspace.member_role_updated', 'workspace_member', $user, [
+            'role' => $validated['role'],
+        ]);
 
         return to_route('workspaces.index')->with('success', 'Workspace member role updated.');
     }
 
-    public function destroyMember(Request $request, Workspace $workspace, int $user): RedirectResponse
+    public function destroyMember(Request $request, Workspace $workspace, int $user, AuditLogger $auditLogger): RedirectResponse
     {
         abort_unless($workspace->owner_id === $request->user()->id, 403);
 
@@ -84,24 +89,28 @@ class WorkspaceController extends Controller
         abort_if($workspace->owner_id === $membership->id, 422, 'The workspace owner cannot be removed.');
 
         $workspace->members()->detach($user);
+        $auditLogger->record($request, $workspace, 'workspace.member_removed', 'workspace_member', $user);
 
         return to_route('workspaces.index')->with('success', 'Workspace member removed.');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, AuditLogger $auditLogger): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        DB::transaction(function () use ($request, $validated): void {
+        $workspace = DB::transaction(function () use ($request, $validated): Workspace {
             $workspace = $request->user()->ownedWorkspaces()->create($validated);
 
             $workspace->members()->attach($request->user()->id, [
                 'role' => 'owner',
             ]);
+
+            return $workspace;
         });
+        $auditLogger->record($request, $workspace, 'workspace.created', 'workspace', $workspace->id);
 
         return to_route('workspaces.index')->with('success', 'Workspace created successfully.');
     }
