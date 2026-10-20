@@ -152,7 +152,11 @@ export default function PrivacyRequestsIndex({
                             onChange={(event) =>
                                 router.get(
                                     '/privacy-requests',
-                                    { workspace_id: Number(event.target.value) },
+                                    {
+                                        workspace_id: Number(
+                                            event.target.value,
+                                        ),
+                                    },
                                     { preserveState: false, replace: true },
                                 )
                             }
@@ -170,19 +174,30 @@ export default function PrivacyRequestsIndex({
                     <h2 className="mb-4 text-lg font-semibold">
                         Record a privacy request
                     </h2>
-                    <form onSubmit={submit} className="grid gap-4 md:grid-cols-2">
+                    <form
+                        onSubmit={submit}
+                        className="grid gap-4 md:grid-cols-2"
+                    >
                         <label className="block text-sm font-medium">
                             Related customer (optional)
                             <select
                                 className={inputClass}
                                 value={form.data.customer_id}
                                 onChange={(event) =>
-                                    form.setData('customer_id', event.target.value)
+                                    form.setData(
+                                        'customer_id',
+                                        event.target.value,
+                                    )
                                 }
                             >
-                                <option value="">Not linked to a profile</option>
+                                <option value="">
+                                    Not linked to a profile
+                                </option>
                                 {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
+                                    <option
+                                        key={customer.id}
+                                        value={customer.id}
+                                    >
                                         {customer.name}
                                     </option>
                                 ))}
@@ -232,8 +247,9 @@ export default function PrivacyRequestsIndex({
                         </label>
                         <p className="text-xs text-muted-foreground md:col-span-2">
                             Do not enter passwords, authentication tokens, or
-                            unnecessary sensitive information. Confirm applicable
-                            privacy and retention policies before resolving requests.
+                            unnecessary sensitive information. Confirm
+                            applicable privacy and retention policies before
+                            resolving requests.
                         </p>
                         <div className="md:col-span-2">
                             <button
@@ -270,36 +286,44 @@ export default function PrivacyRequestsIndex({
                                         </span>
                                     </div>
                                     <p className="mt-2 text-sm text-muted-foreground">
-                                        Customer: {item.customer ?? 'Not linked'}
+                                        Customer:{' '}
+                                        {item.customer ?? 'Not linked'}
                                     </p>
                                     <p className="mt-1 text-sm text-muted-foreground">
                                         Submitted by {item.requested_by}
                                     </p>
                                     <p className="mt-1 text-xs text-muted-foreground">
                                         {item.created_at
-                                            ? new Date(item.created_at).toLocaleString()
+                                            ? new Date(
+                                                  item.created_at,
+                                              ).toLocaleString()
                                             : 'Time unavailable'}
                                     </p>
                                     {item.details && (
-                                        <p className="mt-3 whitespace-pre-wrap text-sm">
+                                        <p className="mt-3 text-sm whitespace-pre-wrap">
                                             {item.details}
                                         </p>
                                     )}
                                     {item.resolution_note && (
-                                        <p className="mt-3 whitespace-pre-wrap text-sm text-muted-foreground">
+                                        <p className="mt-3 text-sm whitespace-pre-wrap text-muted-foreground">
                                             Resolution: {item.resolution_note}
                                         </p>
                                     )}
                                     {item.resolved_at && (
                                         <p className="mt-1 text-xs text-muted-foreground">
-                                            Resolved by {item.resolved_by ?? 'Former user'}
+                                            Resolved by{' '}
+                                            {item.resolved_by ?? 'Former user'}
                                             {' · '}
-                                            {new Date(item.resolved_at).toLocaleString()}
+                                            {new Date(
+                                                item.resolved_at,
+                                            ).toLocaleString()}
                                         </p>
                                     )}
                                 </div>
                                 {canResolve &&
-                                    !['completed', 'rejected'].includes(item.status) && (
+                                    !['completed', 'rejected'].includes(
+                                        item.status,
+                                    ) && (
                                         <RequestResolutionForm
                                             item={item}
                                             workspaceId={workspace.id}
