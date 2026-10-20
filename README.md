@@ -19,7 +19,7 @@ php artisan test
 
 ## Customer CRM MVP
 
-The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, interaction notes, status, and follow-up date/notes. Customer list, search, creation, updates, and deletion are scoped to the selected workspace; cross-workspace customer IDs return 404. Workspace membership is checked server-side, including when a workspace ID is supplied directly. Workspace selection is available on the CRM screen.
+The authenticated `/customers` screen supports creating, listing, searching, editing, and deleting customer records. Customer records include contact details, acquisition source, status, and follow-up date/notes. A customer interaction timeline is available from each customer row; members can record notes, calls, messages, purchases, or other interactions with a summary, optional details, occurrence time, and recording user. Interaction history is scoped through the customer in the selected workspace, ordered newest-first, and paginated. Interaction entries are append-only in this MVP. Customer list, search, creation, updates, and deletion are scoped to the selected workspace; cross-workspace customer IDs return 404. Workspace membership is checked server-side, including when a workspace ID is supplied directly. Workspace selection is available on the CRM screen.
 
 Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation.
 
@@ -61,4 +61,4 @@ Authenticated users can create named QR or NFC capture links at `/capture-links`
 
 The QR preview currently uses the external QR Server image endpoint and sends only the public capture URL to that service. NFC tags can store the same URL as an NDEF URI. For production, consider self-hosting QR generation if external image availability or third-party disclosure is unacceptable.
 
-Known limitations: campaigns are owned by individual user accounts (shared business workspaces are not implemented); consent wording and retention/deletion policies need product/legal review; deduplication, interaction history, automated follow-up, WhatsApp delivery, and a QR scan analytics dashboard are not yet implemented.
+Known limitations: consent wording and retention/deletion policies need product/legal review; customer deduplication, automated follow-up scheduling/delivery, WhatsApp CRM integration and webhook processing, and a QR scan analytics dashboard are not yet implemented.
