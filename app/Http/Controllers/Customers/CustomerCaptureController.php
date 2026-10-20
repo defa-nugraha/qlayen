@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerCaptureLink;
+use App\Models\CustomerCommunicationConsent;
 use App\Models\Workspace;
 use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
@@ -118,6 +119,17 @@ class CustomerCaptureController extends Controller
             'source' => Str::upper($link->source),
             'status' => 'active',
             'consent_at' => now(),
+        ]);
+
+        CustomerCommunicationConsent::query()->create([
+            'workspace_id' => $workspace->id,
+            'customer_id' => $customer->id,
+            'recorded_by_user_id' => null,
+            'channel' => 'data_processing',
+            'status' => 'opted_in',
+            'source' => 'customer_capture',
+            'notice_version' => config('services.privacy.notice_version'),
+            'recorded_at' => now(),
         ]);
 
         $auditLogger->record($request, $workspace, 'customer.capture_submitted', 'customer', $customer->id, [
