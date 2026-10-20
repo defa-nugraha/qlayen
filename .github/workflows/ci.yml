@@ -49,6 +49,7 @@ jobs:
         id: frontend-deps
         run: npm ci
 
+      # Temporary only; remove after applying the reported formatting diff.
       - name: Temporary formatter diagnostic
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
         run: |
