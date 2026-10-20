@@ -23,6 +23,10 @@ The authenticated `/customers` screen supports creating, listing, searching, edi
 
 Automated feature tests cover authentication, validation, create/read/update/delete, search, and cross-user isolation. Customer interaction history is available at `/customers/{customer}/interactions` (GET to list and POST to record); both endpoints require authentication and email verification, resolve the selected workspace server-side, and return 404 when the customer is outside that workspace. Interaction entries are append-only in the current MVP and are deleted when their customer is deleted.
 
+## Follow-up workflow MVP
+
+The authenticated `/follow-ups` screen lists scheduled follow-ups for active customers in the selected workspace. It provides overdue, due-today, upcoming, and all-scheduled filters; workspace-scoped search across customer name, phone, email, and follow-up notes; summary counts; and pagination. Date buckets use the application timezone and calendar-day boundaries. Customers without a follow-up date and inactive customers are excluded. The screen links to each customer's interaction history. This is a manual work queue only: it does not send notifications or WhatsApp messages, change follow-up dates, or mark follow-ups as completed. Automated reminders and delivery remain out of scope until scheduling, timezone, channel, retry, and completion semantics are defined.
+
 ## Business workspace and tenant isolation
 
 The authenticated `/workspaces` screen lets a user create a business workspace and view workspaces they belong to. Workspace membership uses a unique `(workspace_id, user_id)` constraint and records a role (`owner`, `admin`, or `member`). Creating a workspace and attaching its owner are performed in a database transaction. Feature tests cover guest access, validation, owner membership, unique membership, and visibility limited to a user's memberships.
