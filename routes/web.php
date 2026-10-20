@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Customers\ActivationQrCodeController;
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomerInteractionController;
@@ -15,6 +16,16 @@ Route::get('c/{token}', [CustomerCaptureController::class, 'show'])
 Route::post('c/{token}', [CustomerCaptureController::class, 'capture'])
     ->middleware('throttle:10,1')
     ->name('capture.submit');
+
+Route::get('activate/{token}', [ActivationQrCodeController::class, 'show'])
+    ->middleware('throttle:30,1')
+    ->name('activation-qr.show');
+Route::post('activate/{token}', [ActivationQrCodeController::class, 'activate'])
+    ->middleware('throttle:5,1')
+    ->name('activation-qr.activate');
+Route::post('activate/{token}/capture', [ActivationQrCodeController::class, 'capture'])
+    ->middleware('throttle:10,1')
+    ->name('activation-qr.capture');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
@@ -38,6 +49,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('capture-links', [CustomerCaptureController::class, 'index'])->name('capture.index');
     Route::post('capture-links', [CustomerCaptureController::class, 'store'])->name('capture.store');
     Route::patch('capture-links/{captureLink}/toggle', [CustomerCaptureController::class, 'toggle'])->name('capture.toggle');
+
+    Route::get('activation-qr-codes', [ActivationQrCodeController::class, 'index'])->name('activation-qr.index');
+    Route::post('activation-qr-codes', [ActivationQrCodeController::class, 'store'])->name('activation-qr.store');
+    Route::patch('activation-qr-codes/{activationQrCode}/toggle', [ActivationQrCodeController::class, 'toggle'])->name('activation-qr.toggle');
 });
 
 require __DIR__.'/settings.php';
