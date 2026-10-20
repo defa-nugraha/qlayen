@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\CustomerFollowUpDelivery;
 use App\Models\Customer;
+use App\Models\CustomerFollowUpDelivery;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WhatsAppWebhookEvent;
