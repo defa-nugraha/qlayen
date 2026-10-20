@@ -207,7 +207,7 @@ class DemoDataSeeder extends Seeder
     }
 
     /**
-     * @param array<string, Customer> $customers
+     * @param  array<string, Customer>  $customers
      * @return  array<string, CustomerFollowUpDelivery>
      */
     private function seedFollowUpDeliveries(Workspace $workspace, array $customers): array
