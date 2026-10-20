@@ -14,7 +14,7 @@ function createAnalyticsCaptureLink(User $user, string $name = 'Analytics worksp
         'user_id' => $user->id,
         'name' => 'Campaign',
         'source' => 'qr',
-        'token' => str()->random(48),
+        'token' => Str::random(48),
         'is_active' => true,
     ]);
 }
