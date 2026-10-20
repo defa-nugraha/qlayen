@@ -28,6 +28,7 @@ function makeFollowUpCustomer(array $overrides = []): Customer
         'follow_up_notes' => 'Please check the order status.',
         'follow_up_whatsapp_enabled' => true,
         'consent_at' => now()->subDay(),
+        'whatsapp_consent_at' => now()->subDay(),
         ...$overrides,
     ]);
 }
@@ -46,7 +47,7 @@ it('queues each eligible WhatsApp follow-up only once', function () {
 
 it('does not queue follow-ups without recorded consent or explicit opt-in', function () {
     Queue::fake();
-    makeFollowUpCustomer(['consent_at' => null]);
+    makeFollowUpCustomer(['whatsapp_consent_at' => null]);
     makeFollowUpCustomer(['follow_up_whatsapp_enabled' => false]);
     makeFollowUpCustomer(['phone' => null]);
 
