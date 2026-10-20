@@ -50,11 +50,15 @@ class CustomerController extends Controller
     {
         $validated = $request->validate($this->rules());
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $whatsappEnabled = filter_var(
+            $validated['follow_up_whatsapp_enabled'] ?? false,
+            FILTER_VALIDATE_BOOLEAN,
+        );
 
         $workspace->customers()->create([
             'user_id' => $request->user()->id,
             ...$validated,
-            'whatsapp_consent_at' => ($validated['follow_up_whatsapp_enabled'] ?? false) ? now() : null,
+            'whatsapp_consent_at' => $whatsappEnabled ? now() : null,
         ]);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
