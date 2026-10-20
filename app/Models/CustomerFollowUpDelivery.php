@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $scheduled_for
  * @property string $status
  * @property int $attempts
- * @property Carbon|null $sent_at
+ * @property Carbon|null $accepted_at
  * @property array<string, mixed>|null $provider_response
  * @property string|null $last_error
  * @property Carbon|null $created_at
@@ -55,7 +55,7 @@ class CustomerFollowUpDelivery extends Model
     {
         return [
             'scheduled_for' => 'datetime',
-            'sent_at' => 'datetime',
+            'accepted_at' => 'datetime',
             'provider_response' => 'array',
             'attempts' => 'integer',
         ];
