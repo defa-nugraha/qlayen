@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
     'scheduled_for',
     'status',
     'attempts',
-    'sent_at',
+    'accepted_at',
     'provider_response',
     'last_error',
 ])]
