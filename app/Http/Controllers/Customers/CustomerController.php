@@ -54,6 +54,7 @@ class CustomerController extends Controller
         $workspace->customers()->create([
             'user_id' => $request->user()->id,
             ...$validated,
+            'whatsapp_consent_at' => ($validated['follow_up_whatsapp_enabled'] ?? false) ? now() : null,
         ]);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
@@ -65,6 +66,12 @@ class CustomerController extends Controller
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
         $validated = $request->validate($this->rules());
+
+        if (($validated['follow_up_whatsapp_enabled'] ?? false) === true) {
+            $validated['whatsapp_consent_at'] = $record->whatsapp_consent_at ?? now();
+        } elseif (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
+            $validated['whatsapp_consent_at'] = null;
+        }
 
         if (($validated['follow_up_at'] ?? null) !== null) {
             $validated['follow_up_completed_at'] = null;
