@@ -78,6 +78,67 @@ test('workspace membership is unique per user', function () {
         ->toThrow(QueryException::class);
 });
 
+test('workspace owners can update business settings', function () {
+    $owner = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Old business name',
+        'description' => 'Old description',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+
+    $this->actingAs($owner)
+        ->put(route('workspaces.update', $workspace), [
+            'name' => 'Updated business name',
+            'description' => 'Updated description',
+        ])
+        ->assertRedirect('/workspaces');
+
+    expect($workspace->fresh()->name)->toBe('Updated business name')
+        ->and($workspace->fresh()->description)->toBe('Updated description');
+});
+
+test('non-owners cannot update business settings', function () {
+    $owner = User::factory()->create();
+    $member = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Protected business',
+        'description' => 'Original description',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+    $workspace->members()->attach($member->id, ['role' => 'member']);
+
+    $this->actingAs($member)
+        ->put(route('workspaces.update', $workspace), [
+            'name' => 'Unauthorized change',
+            'description' => 'Should not be saved',
+        ])
+        ->assertForbidden();
+
+    expect($workspace->fresh()->name)->toBe('Protected business')
+        ->and($workspace->fresh()->description)->toBe('Original description');
+});
+
+test('workspace settings input is validated', function () {
+    $owner = User::factory()->create();
+    $workspace = Workspace::query()->create([
+        'owner_id' => $owner->id,
+        'name' => 'Valid business',
+    ]);
+    $workspace->members()->attach($owner->id, ['role' => 'owner']);
+
+    $this->actingAs($owner)
+        ->from('/workspaces')
+        ->put(route('workspaces.update', $workspace), [
+            'name' => str_repeat('x', 121),
+            'description' => str_repeat('x', 2001),
+        ])
+        ->assertSessionHasErrors(['name', 'description']);
+
+    expect($workspace->fresh()->name)->toBe('Valid business');
+});
+
 test('workspace owners can update a non-owner member role', function () {
     $owner = User::factory()->create();
     $member = User::factory()->create();
