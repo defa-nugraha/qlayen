@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customers;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerCaptureLink;
 use App\Models\Workspace;
+use App\Support\AuditLogger;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class CustomerCaptureController extends Controller
         ]);
     }
 
-    public function store(Request $request, WorkspaceContext $workspaceContext): RedirectResponse
+    public function store(Request $request, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
@@ -52,7 +53,7 @@ class CustomerCaptureController extends Controller
         ]);
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
 
-        $workspace->customerCaptureLinks()->create([
+        $link = $workspace->customerCaptureLinks()->create([
             'user_id' => $request->user()->id,
             'name' => $validated['name'],
             'source' => $validated['source'],
@@ -60,15 +61,22 @@ class CustomerCaptureController extends Controller
             'is_active' => true,
         ]);
 
+        $auditLogger->record($request, $workspace, 'capture_link.created', 'capture_link', $link->id, [
+            'source' => $link->source,
+        ]);
+
         return to_route('capture.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Capture link created.');
     }
 
-    public function toggle(Request $request, int $captureLink, WorkspaceContext $workspaceContext): RedirectResponse
+    public function toggle(Request $request, int $captureLink, WorkspaceContext $workspaceContext, AuditLogger $auditLogger): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $link = $workspace->customerCaptureLinks()->findOrFail($captureLink);
         $link->update(['is_active' => ! $link->is_active]);
+        $auditLogger->record($request, $workspace, 'capture_link.status_changed', 'capture_link', $link->id, [
+            'is_active' => $link->is_active,
+        ]);
 
         return to_route('capture.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Capture link status updated.');
@@ -87,7 +95,7 @@ class CustomerCaptureController extends Controller
         ]);
     }
 
-    public function capture(Request $request, string $token): RedirectResponse
+    public function capture(Request $request, string $token, AuditLogger $auditLogger): RedirectResponse
     {
         $link = CustomerCaptureLink::query()
             ->where('token', $token)
@@ -101,7 +109,8 @@ class CustomerCaptureController extends Controller
             'consent' => ['accepted'],
         ]);
 
-        $link->workspace()->firstOrFail()->customers()->create([
+        $workspace = $link->workspace()->firstOrFail();
+        $customer = $workspace->customers()->create([
             'user_id' => $link->user_id,
             'name' => $validated['name'],
             'phone' => $validated['phone'],
@@ -109,6 +118,10 @@ class CustomerCaptureController extends Controller
             'source' => Str::upper($link->source),
             'status' => 'active',
             'consent_at' => now(),
+        ]);
+
+        $auditLogger->record($request, $workspace, 'customer.capture_submitted', 'customer', $customer->id, [
+            'source' => $link->source,
         ]);
 
         return to_route('capture.show', $token)
