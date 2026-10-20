@@ -197,7 +197,6 @@ export default function AppLayout({
                         Sign out
                     </Link>
                 </div>
-            </nav>
         </div>
     );
 }
