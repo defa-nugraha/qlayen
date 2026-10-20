@@ -37,8 +37,7 @@ function LogoCard({
     }
 
     function removeLogo() {
-        router.delete(`/brand-assets/${placement.key}`, {
-            data: { workspace_id: workspaceId },
+        router.delete(`/brand-assets/${placement.key}?workspace_id=${workspaceId}`, {
             preserveScroll: true,
         });
     }
