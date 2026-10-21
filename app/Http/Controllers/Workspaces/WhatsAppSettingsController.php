@@ -93,6 +93,7 @@ class WhatsAppSettingsController extends Controller
     {
         $workspace = $context->resolve($request, $request->input('workspace_id'));
         $this->authorizeManager($request, $workspace);
+
         $data = $request->validate([
             'workspace_id' => ['required', 'integer'],
             'number' => ['required', 'string', 'regex:/^[0-9]{8,15}$/'],
