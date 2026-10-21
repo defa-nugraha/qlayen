@@ -50,6 +50,7 @@ class CustomerController extends Controller
     {
         $validated = $request->validate($this->rules());
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $this->authorizeManager($request, $workspace);
         $whatsappEnabled = filter_var(
             $validated['follow_up_whatsapp_enabled'] ?? false,
             FILTER_VALIDATE_BOOLEAN,
@@ -69,6 +70,7 @@ class CustomerController extends Controller
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
+        $this->authorizeManager($request, $workspace);
         $validated = $request->validate($this->rules());
 
         if (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
@@ -95,10 +97,22 @@ class CustomerController extends Controller
     public function destroy(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $workspace->customers()->findOrFail($customer);
+        $this->authorizeManager($request, $workspace);
         $workspace->customers()->findOrFail($customer)->delete();
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer deleted successfully.');
+    }
+
+    private function authorizeManager(Request $request, Workspace $workspace): void
+    {
+        $role = DB::table('workspace_user')
+            ->where('workspace_id', $workspace->id)
+            ->where('user_id', $request->user()->id)
+            ->value('role');
+
+        abort_unless(in_array($role, ['owner', 'admin'], true), 403);
     }
 
     /**
