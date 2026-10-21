@@ -1,25 +1,84 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\\Models\\User;
+use App\\Models\\Workspace;
+use Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents;
+use Illuminate\\Database\\Seeder;
+use Illuminate\\Support\\Facades\\DB;
+use Illuminate\\Support\\Facades\\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed idempotent demo accounts for each workspace role.
+     *
+     * Set QLAYEN_DEMO_USER_PASSWORD in the environment before seeding.
+     * These accounts are intended for local/staging development, not production.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $password = Hash::make((string) env('QLAYEN_DEMO_USER_PASSWORD', 'password'));
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $accounts = [
+            [
+                'name' => 'QLayen Demo Owner',
+                'email' => 'owner@qlayen.test',
+                'role' => 'owner',
+            ],
+            [
+                'name' => 'QLayen Demo Admin',
+                'email' => 'admin@qlayen.test',
+                'role' => 'admin',
+            ],
+            [
+                'name' => 'QLayen Demo Member',
+                'email' => 'member@qlayen.test',
+                'role' => 'member',
+            ],
+        ];
+
+        $users = collect($accounts)->map(function (array $account) use ($password): User {
+            return User::query()->updateOrCreate(
+                ['email' => $account['email']],
+                [
+                    'name' => $account['name'],
+                    'password' => $password,
+                    'email_verified_at' => now(),
+                ],
+            );
+        });
+
+        /** @var User $owner */
+        $owner = $users->firstWhere('email', 'owner@qlayen.test');
+
+        $workspace = Workspace::query()->firstOrCreate(
+            [
+                'owner_id' => $owner->id,
+                'name' => 'QLayen Demo Workspace',
+            ],
+            [
+                'description' => 'Workspace seeded for local and staging role testing.',
+            ],
+        );
+
+        foreach ($accounts as $account) {
+            $user = $users->firstWhere('email', $account['email']);
+
+            DB::table('workspace_user')->updateOrInsert(
+                [
+                    'workspace_id' => $workspace->id,
+                    'user_id' => $user->id,
+                ],
+                [
+                    'role' => $account['role'],
+                    'updated_at' => now(),
+                    'created_at' => DB::raw('COALESCE(created_at, CURRENT_TIMESTAMP)'),
+                ],
+            );
+        }
     }
 }
