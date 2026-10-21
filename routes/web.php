@@ -37,7 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
     Route::post('workspaces', [WorkspaceController::class, 'store'])
-        ->middleware('role:owner,admin')
         ->name('workspaces.store');
     Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])
         ->middleware('role:owner,admin')
