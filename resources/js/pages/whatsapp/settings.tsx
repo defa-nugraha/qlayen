@@ -1,6 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 
 type WorkspaceOption = { id: number; name: string; role: string };
@@ -25,14 +25,6 @@ export default function WhatsAppSettings({
     const [busy, setBusy] = useState(false);
     const [testMessage, setTestMessage] = useState('');
     const polling = useRef(false);
-
-    useEffect(() => {
-        form.setData('workspace_id', currentWorkspaceId);
-        form.setData('sender', sender ?? '');
-        form.setData('api_key', '');
-        setGateway(null);
-        setTestMessage('');
-    }, [currentWorkspaceId, sender]);
 
     async function requestQr() {
         setBusy(true);
