@@ -25,13 +25,21 @@ class WhatsAppGateway
         ]);
     }
 
-    /** Send using credentials configured for a specific workspace. */
+    /**
+     * Send using credentials configured for a specific workspace.
+     *
+     * @return array<string, mixed>
+     */
     public function sendMessageForWorkspace(Workspace $workspace, string $number, string $message): array
     {
         return $this->post('send-message', ['number' => $number, 'message' => $message], workspace: $workspace);
     }
 
-    /** Request a QR code using the workspace's device number and API key. */
+    /**
+     * Request a QR code using the workspace's device number and API key.
+     *
+     * @return array<string, mixed>
+     */
     public function generateQrForWorkspace(Workspace $workspace): array
     {
         if (blank($workspace->wa_gateway_api_key) || blank($workspace->wa_gateway_sender)) {
@@ -107,8 +115,12 @@ class WhatsAppGateway
      */
     private function post(string $endpoint, array $payload, bool $includeSender = true, ?Workspace $workspace = null): array
     {
-        $apiKey = (string) ($workspace?->wa_gateway_api_key ?? config('services.wa_gateway.api_key'));
-        $sender = (string) ($workspace?->wa_gateway_sender ?? config('services.wa_gateway.sender'));
+        $apiKey = $workspace !== null
+            ? (string) $workspace->wa_gateway_api_key
+            : (string) config('services.wa_gateway.api_key');
+        $sender = $workspace !== null
+            ? (string) $workspace->wa_gateway_sender
+            : (string) config('services.wa_gateway.sender');
 
         if ($apiKey === '' || ($includeSender && $sender === '')) {
             throw new UnexpectedValueException('WhatsApp gateway credentials are not configured.');
