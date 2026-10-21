@@ -1,7 +1,14 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import AppLayout from '@/layouts/app-layout';
 
 type Customer = {
