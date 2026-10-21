@@ -7,9 +7,9 @@ use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -98,9 +98,9 @@ class CustomerController extends Controller
     public function destroy(Request $request, string $customer, WorkspaceContext $workspaceContext): RedirectResponse
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
-        $workspace->customers()->findOrFail($customer);
+        $record = $workspace->customers()->findOrFail($customer);
         $this->authorizeManager($request, $workspace);
-        $workspace->customers()->findOrFail($customer)->delete();
+        $record->delete();
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Customer deleted successfully.');
