@@ -2,6 +2,7 @@
 
 use App\Models\ActivationQrCode;
 use App\Models\Customer;
+use App\Models\QlayenSetting;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Support\Str;
@@ -30,6 +31,10 @@ function createActiveQrForWebhook(): ActivationQrCode
 
 it('records an inbound WhatsApp sender against an activation QR workspace', function () {
     config(['services.wa_gateway.webhook_secret' => 'test-secret']);
+    QlayenSetting::write('whatsapp_capture', [
+        'mode' => 'webhook',
+        'message_template' => 'Halo. Kode: QLY-{token}',
+    ]);
     $code = createActiveQrForWebhook();
 
     $this->postJson(route('whatsapp.webhook.incoming'), [
