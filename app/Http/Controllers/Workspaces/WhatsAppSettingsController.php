@@ -47,6 +47,7 @@ class WhatsAppSettingsController extends Controller
         ]);
 
         $updates = ['wa_gateway_sender' => $data['sender']];
+
         if (filled($data['api_key'] ?? null)) {
             $updates['wa_gateway_api_key'] = $data['api_key'];
         }
@@ -68,6 +69,7 @@ class WhatsAppSettingsController extends Controller
         try {
             $result = $gateway->generateQrForWorkspace($workspace);
             $message = strtolower((string) ($result['msg'] ?? $result['message'] ?? ''));
+
             if (str_contains($message, 'already connected')) {
                 return response()->json(['status' => 'connected', 'message' => 'Perangkat WhatsApp sudah terhubung.']);
             }
