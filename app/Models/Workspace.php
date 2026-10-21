@@ -15,6 +15,8 @@ use Illuminate\Support\Carbon;
  * @property-read WorkspaceMembership $pivot
  * @property string $name
  * @property string|null $description
+ * @property string|null $wa_gateway_api_key
+ * @property string|null $wa_gateway_sender
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
