@@ -79,10 +79,7 @@ export default function WhatsAppCampaigns({
                             }
                         >
                             {workspaces.map((workspace) => (
-                                <option
-                                    key={workspace.id}
-                                    value={workspace.id}
-                                >
+                                <option key={workspace.id} value={workspace.id}>
                                     {workspace.name} ({workspace.role})
                                 </option>
                             ))}
@@ -172,7 +169,9 @@ export default function WhatsAppCampaigns({
                         <button
                             type="submit"
                             disabled={
-                                form.processing || !configured || eligibleCount === 0
+                                form.processing ||
+                                !configured ||
+                                eligibleCount === 0
                             }
                             className="self-start rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
                         >
