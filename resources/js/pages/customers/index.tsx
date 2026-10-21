@@ -197,23 +197,23 @@ export default function CustomersIndex({
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
-                        <button
-                                type="button"
-                                onClick={() => {
-                                    resetForm();
-                                    setFormOpen(true);
-                                }}
-                                className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
-                            >
-                                Add contact
-                            </button>
-                        <div className="rounded-lg border bg-card px-4 py-3">
-                            <p className="text-xs text-muted-foreground">
-                                Total customers
-                            </p>
-                            <p className="text-2xl font-semibold">
-                                {customers.total}
-                            </p>
+                            <button
+                                    type="button"
+                                    onClick={() => {
+                                        resetForm();
+                                        setFormOpen(true);
+                                    }}
+                                    className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
+                                >
+                                    Add contact
+                                </button>
+                            <div className="rounded-lg border bg-card px-4 py-3">
+                                <p className="text-xs text-muted-foreground">
+                                    Total customers
+                                </p>
+                                <p className="text-2xl font-semibold">
+                                    {customers.total}
+                                </p>
                         </div>
                         </div>
                     </div>
@@ -230,202 +230,202 @@ export default function CustomersIndex({
                             </DialogDescription>
                         </DialogHeader>
 
-                    <form
-                        onSubmit={submit}
-                        className="grid gap-4 md:grid-cols-2"
-                    >
-                        <label className={labelClass}>
-                            Full name *
-                            <input
-                                className={inputClass}
-                                value={form.data.name}
-                                onChange={(event) =>
-                                    form.setData('name', event.target.value)
-                                }
-                                required
-                                maxLength={255}
-                            />
-                            {form.errors.name && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.name}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Phone
-                            <input
-                                className={inputClass}
-                                value={form.data.phone}
-                                onChange={(event) =>
-                                    form.setData('phone', event.target.value)
-                                }
-                                maxLength={32}
-                            />
-                            {form.errors.phone && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.phone}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Email
-                            <input
-                                type="email"
-                                className={inputClass}
-                                value={form.data.email}
-                                onChange={(event) =>
-                                    form.setData('email', event.target.value)
-                                }
-                                maxLength={255}
-                            />
-                            {form.errors.email && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.email}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Acquisition source
-                            <input
-                                className={inputClass}
-                                placeholder="e.g. QR, NFC, referral, walk-in"
-                                value={form.data.source}
-                                onChange={(event) =>
-                                    form.setData('source', event.target.value)
-                                }
-                                maxLength={100}
-                            />
-                            {form.errors.source && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.source}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Follow-up date
-                            <input
-                                type="datetime-local"
-                                className={inputClass}
-                                value={form.data.follow_up_at}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'follow_up_at',
-                                        event.target.value,
-                                    )
-                                }
-                            />
-                            {form.errors.follow_up_at && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.follow_up_at}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Status
-                            <select
-                                className={inputClass}
-                                value={form.data.status}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'status',
-                                        event.target
-                                            .value as CustomerForm['status'],
-                                    )
-                                }
-                            >
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </label>
-                        <label className={labelClass}>
-                            Interaction notes
-                            <textarea
-                                className={inputClass}
-                                rows={3}
-                                value={form.data.notes}
-                                onChange={(event) =>
-                                    form.setData('notes', event.target.value)
-                                }
-                                maxLength={10000}
-                            />
-                            {form.errors.notes && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.notes}
-                                </span>
-                            )}
-                        </label>
-                        <label className={labelClass}>
-                            Follow-up notes
-                            <textarea
-                                className={inputClass}
-                                rows={3}
-                                value={form.data.follow_up_notes}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'follow_up_notes',
-                                        event.target.value,
-                                    )
-                                }
-                                maxLength={10000}
-                            />
-                            {form.errors.follow_up_notes && (
-                                <span className="text-sm text-destructive">
-                                    {form.errors.follow_up_notes}
-                                </span>
-                            )}
-                        </label>
-                        <label className="flex items-start gap-3 text-sm md:col-span-2">
-                            <input
-                                type="checkbox"
-                                className="mt-1"
-                                checked={form.data.follow_up_whatsapp_enabled}
-                                onChange={(event) =>
-                                    form.setData(
-                                        'follow_up_whatsapp_enabled',
-                                        event.target.checked,
-                                    )
-                                }
-                            />
-                            <span>
-                                Customer has explicitly agreed to receive
-                                automated WhatsApp follow-up.
-                                <span className="mt-1 block text-xs text-muted-foreground">
-                                    Only use this after the customer has agreed
-                                    to receive WhatsApp follow-up messages. A
-                                    scheduled date, phone number, and
-                                    WhatsApp-specific consent timestamp are also
-                                    required.
-                                </span>
-                                {form.errors.follow_up_whatsapp_enabled && (
-                                    <span className="block text-sm text-destructive">
-                                        {form.errors.follow_up_whatsapp_enabled}
+                        <form
+                            onSubmit={submit}
+                            className="grid gap-4 md:grid-cols-2"
+                        >
+                            <label className={labelClass}>
+                                Full name *
+                                <input
+                                    className={inputClass}
+                                    value={form.data.name}
+                                    onChange={(event) =>
+                                        form.setData('name', event.target.value)
+                                    }
+                                    required
+                                    maxLength={255}
+                                />
+                                {form.errors.name && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.name}
                                     </span>
                                 )}
-                            </span>
-                        </label>
-                        <div className="flex flex-wrap gap-2 md:col-span-2">
-                            <button
-                                type="submit"
-                                disabled={form.processing}
-                                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                            >
-                                {form.processing
-                                    ? 'Saving…'
-                                    : editingId === null
-                                      ? 'Save customer'
-                                      : 'Update customer'}
-                            </button>
-                            {editingId !== null && (
-                                <button
-                                    type="button"
-                                    onClick={resetForm}
-                                    className="rounded-md border px-4 py-2 text-sm"
+                            </label>
+                            <label className={labelClass}>
+                                Phone
+                                <input
+                                    className={inputClass}
+                                    value={form.data.phone}
+                                    onChange={(event) =>
+                                        form.setData('phone', event.target.value)
+                                    }
+                                    maxLength={32}
+                                />
+                                {form.errors.phone && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.phone}
+                                    </span>
+                                )}
+                            </label>
+                            <label className={labelClass}>
+                                Email
+                                <input
+                                    type="email"
+                                    className={inputClass}
+                                    value={form.data.email}
+                                    onChange={(event) =>
+                                        form.setData('email', event.target.value)
+                                    }
+                                    maxLength={255}
+                                />
+                                {form.errors.email && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.email}
+                                    </span>
+                                )}
+                            </label>
+                            <label className={labelClass}>
+                                Acquisition source
+                                <input
+                                    className={inputClass}
+                                    placeholder="e.g. QR, NFC, referral, walk-in"
+                                    value={form.data.source}
+                                    onChange={(event) =>
+                                        form.setData('source', event.target.value)
+                                    }
+                                    maxLength={100}
+                                />
+                                {form.errors.source && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.source}
+                                    </span>
+                                )}
+                            </label>
+                            <label className={labelClass}>
+                                Follow-up date
+                                <input
+                                    type="datetime-local"
+                                    className={inputClass}
+                                    value={form.data.follow_up_at}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'follow_up_at',
+                                            event.target.value,
+                                        )
+                                    }
+                                />
+                                {form.errors.follow_up_at && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.follow_up_at}
+                                    </span>
+                                )}
+                            </label>
+                            <label className={labelClass}>
+                                Status
+                                <select
+                                    className={inputClass}
+                                    value={form.data.status}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'status',
+                                            event.target
+                                                .value as CustomerForm['status'],
+                                        )
+                                    }
                                 >
-                                    Cancel edit
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </label>
+                            <label className={labelClass}>
+                                Interaction notes
+                                <textarea
+                                    className={inputClass}
+                                    rows={3}
+                                    value={form.data.notes}
+                                    onChange={(event) =>
+                                        form.setData('notes', event.target.value)
+                                    }
+                                    maxLength={10000}
+                                />
+                                {form.errors.notes && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.notes}
+                                    </span>
+                                )}
+                            </label>
+                            <label className={labelClass}>
+                                Follow-up notes
+                                <textarea
+                                    className={inputClass}
+                                    rows={3}
+                                    value={form.data.follow_up_notes}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'follow_up_notes',
+                                            event.target.value,
+                                        )
+                                    }
+                                    maxLength={10000}
+                                />
+                                {form.errors.follow_up_notes && (
+                                    <span className="text-sm text-destructive">
+                                        {form.errors.follow_up_notes}
+                                    </span>
+                                )}
+                            </label>
+                            <label className="flex items-start gap-3 text-sm md:col-span-2">
+                                <input
+                                    type="checkbox"
+                                    className="mt-1"
+                                    checked={form.data.follow_up_whatsapp_enabled}
+                                    onChange={(event) =>
+                                        form.setData(
+                                            'follow_up_whatsapp_enabled',
+                                            event.target.checked,
+                                        )
+                                    }
+                                />
+                                <span>
+                                    Customer has explicitly agreed to receive
+                                    automated WhatsApp follow-up.
+                                    <span className="mt-1 block text-xs text-muted-foreground">
+                                        Only use this after the customer has agreed
+                                        to receive WhatsApp follow-up messages. A
+                                        scheduled date, phone number, and
+                                        WhatsApp-specific consent timestamp are also
+                                        required.
+                                    </span>
+                                    {form.errors.follow_up_whatsapp_enabled && (
+                                        <span className="block text-sm text-destructive">
+                                            {form.errors.follow_up_whatsapp_enabled}
+                                        </span>
+                                    )}
+                                </span>
+                            </label>
+                            <div className="flex flex-wrap gap-2 md:col-span-2">
+                                <button
+                                    type="submit"
+                                    disabled={form.processing}
+                                    className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                >
+                                    {form.processing
+                                        ? 'Saving…'
+                                        : editingId === null
+                                          ? 'Save customer'
+                                          : 'Update customer'}
                                 </button>
-                            )}
-                        </div>
-                    </form>
+                                {editingId !== null && (
+                                    <button
+                                        type="button"
+                                        onClick={resetForm}
+                                        className="rounded-md border px-4 py-2 text-sm"
+                                    >
+                                        Cancel edit
+                                    </button>
+                                )}
+                            </div>
+                        </form>
                 </DialogContent>
                 </Dialog>
 
