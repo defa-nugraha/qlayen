@@ -36,6 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('brand-assets/{key}', [BrandAssetController::class, 'destroy'])->name('brand-assets.destroy');
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
+
+    Route::get('whatsapp/settings', [WhatsAppSettingsController::class, 'index'])->name('whatsapp.settings');
+    Route::put('whatsapp/settings', [WhatsAppSettingsController::class, 'update'])->name('whatsapp.settings.update');
+    Route::post('whatsapp/qr', [WhatsAppSettingsController::class, 'qr'])->middleware('throttle:12,1')->name('whatsapp.qr');
+    Route::post('whatsapp/test', [WhatsAppSettingsController::class, 'test'])->middleware('throttle:5,1')->name('whatsapp.test');
     Route::post('workspaces', [WorkspaceController::class, 'store'])
         ->name('workspaces.store');
     Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])
