@@ -1,7 +1,7 @@
 <?php
 
-use App\\Models\\User;
-use App\\Models\\Workspace;
+use App\Models\User;
+use App\Models\Workspace;
 
 function roleMiddlewareTestWorkspace(User $owner, User $member, string $role): Workspace
 {
@@ -31,7 +31,7 @@ it('forbids workspace members from creating customers', function () {
         ->assertForbidden();
 });
 
-it('allows workspace administrators past authorization for customer creation', function () {
+it('allows workspace administrators to create customers', function () {
     $owner = User::factory()->create();
     $admin = User::factory()->create([
         'role' => User::ROLE_MEMBER,
@@ -41,8 +41,15 @@ it('allows workspace administrators past authorization for customer creation', f
     $this->actingAs($admin)
         ->post(route('customers.store'), [
             'workspace_id' => $workspace->id,
+            'name' => 'Admin customer',
+            'status' => 'active',
         ])
-        ->assertSessionHasErrors(['name', 'status']);
+        ->assertRedirect(route('customers.index', ['workspace_id' => $workspace->id]));
+
+    $this->assertDatabaseHas('customers', [
+        'workspace_id' => $workspace->id,
+        'name' => 'Admin customer',
+    ]);
 });
 
 it('defaults new users to the member role', function () {
