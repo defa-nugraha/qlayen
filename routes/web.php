@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandAssetController;
 use App\Http\Controllers\Customers\ActivationQrCodeController;
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
@@ -29,6 +30,10 @@ Route::post('activate/{token}/capture', [ActivationQrCodeController::class, 'cap
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('brand-assets', [BrandAssetController::class, 'index'])->name('brand-assets.index');
+    Route::post('brand-assets', [BrandAssetController::class, 'store'])->name('brand-assets.store');
+    Route::delete('brand-assets/{key}', [BrandAssetController::class, 'destroy'])->name('brand-assets.destroy');
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
     Route::post('workspaces', [WorkspaceController::class, 'store'])

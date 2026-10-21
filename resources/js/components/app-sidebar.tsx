@@ -5,6 +5,7 @@ import {
     CalendarClock,
     FolderGit2,
     LayoutGrid,
+    Image,
     QrCode,
     UsersRound,
 } from 'lucide-react';
@@ -31,6 +32,7 @@ const mainNavItems: NavItem[] = [
     { title: 'Follow-ups', href: '/follow-ups', icon: CalendarClock },
     { title: 'QR & NFC Capture', href: '/capture-links', icon: QrCode },
     { title: 'Activation QR', href: '/activation-qr-codes', icon: QrCode },
+    { title: 'Kelola Logo', href: '/brand-assets', icon: Image },
 ];
 
 const footerNavItems: NavItem[] = [

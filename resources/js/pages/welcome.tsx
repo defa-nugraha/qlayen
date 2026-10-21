@@ -40,7 +40,16 @@ const steps = [
 ];
 
 export default function Welcome() {
-    const { auth } = usePage().props;
+    const page = usePage();
+    const { auth } = page.props;
+    const brandAssets =
+        (
+            page.props as typeof page.props & {
+                brandAssets?: Record<string, { url: string; alt_text: string }>;
+            }
+        ).brandAssets ?? {};
+    const headerLogo = brandAssets.public_header;
+    const footerLogo = brandAssets.public_footer;
 
     return (
         <>
@@ -50,20 +59,28 @@ export default function Welcome() {
                     content="QLayen membantu bisnis mengumpulkan prospek melalui QR/NFC, mengelola data pelanggan, dan merencanakan tindak lanjut dari satu workspace."
                 />
             </Head>
-            <div className="min-h-screen overflow-hidden bg-[#f8fafc] text-slate-900">
-                <header className="relative z-10 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+            <div className="min-h-screen overflow-x-clip bg-[#f8fafc] text-slate-900">
+                <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/85">
                     <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
                         <Link
                             href="/"
                             className="flex items-center gap-3"
                             aria-label="QLayen beranda"
                         >
-                            <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
-                                <Workflow
-                                    className="size-5"
-                                    aria-hidden="true"
+                            {headerLogo ? (
+                                <img
+                                    src={headerLogo.url}
+                                    alt={headerLogo.alt_text || 'QLayen'}
+                                    className="max-h-10 max-w-36 object-contain"
                                 />
-                            </span>
+                            ) : (
+                                <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
+                                    <Workflow
+                                        className="size-5"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            )}
                             <span>
                                 <span className="block text-lg font-bold tracking-tight">
                                     QLayen
@@ -376,10 +393,19 @@ export default function Welcome() {
 
                 <footer className="border-t border-slate-200 bg-white">
                     <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
-                        <p>
-                            © {new Date().getFullYear()} QLayen. Kelola relasi
-                            pelanggan dengan lebih terarah.
-                        </p>
+                        <div className="flex items-center gap-3">
+                            {footerLogo && (
+                                <img
+                                    src={footerLogo.url}
+                                    alt={footerLogo.alt_text || 'QLayen'}
+                                    className="max-h-8 max-w-28 object-contain"
+                                />
+                            )}
+                            <p>
+                                © {new Date().getFullYear()} QLayen. Kelola
+                                relasi pelanggan dengan lebih terarah.
+                            </p>
+                        </div>
                         <div className="flex items-center gap-4">
                             <Link
                                 href={login()}

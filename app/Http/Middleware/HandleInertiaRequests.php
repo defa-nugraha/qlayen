@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\BrandAsset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,6 +40,12 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'brandAssets' => BrandAsset::query()->get()->mapWithKeys(fn (BrandAsset $asset) => [
+                $asset->key => [
+                    'url' => Storage::disk('public')->url($asset->path),
+                    'alt_text' => $asset->alt_text ?? $asset->label,
+                ],
+            ]),
             'auth' => [
                 'user' => $request->user(),
             ],
