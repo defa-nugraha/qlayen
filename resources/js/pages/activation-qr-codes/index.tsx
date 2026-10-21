@@ -61,7 +61,7 @@ export default function ActivationQrIndex({
             ]}
         >
             <Head title="Activation QR codes" />
-            <div className="flex flex-col gap-6 p-4 md:p-4">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-7 p-5 sm:p-6 lg:p-8">
                 <div className="flex items-start gap-3">
                     <div className="rounded-xl bg-primary/10 p-3 text-primary">
                         <QrCode className="size-6" />
@@ -82,7 +82,7 @@ export default function ActivationQrIndex({
                 <label className="block text-sm font-medium">
                     Workspace
                     <select
-                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 sm:w-auto sm:min-w-56"
+                        className="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none sm:w-auto sm:min-w-56"
                         value={currentWorkspaceId}
                         onChange={(event) =>
                             router.get(
@@ -100,7 +100,7 @@ export default function ActivationQrIndex({
                     </select>
                 </label>
 
-                <section className="rounded-xl border bg-card p-4 md:p-5">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
                     <h2 className="mb-4 text-lg font-semibold">
                         Create activation QR
                     </h2>
@@ -111,7 +111,7 @@ export default function ActivationQrIndex({
                         <label className="text-sm font-medium">
                             QR label
                             <input
-                                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 value={form.data.name}
                                 onChange={(event) =>
                                     form.setData('name', event.target.value)
@@ -129,7 +129,7 @@ export default function ActivationQrIndex({
                         <label className="text-sm font-medium">
                             Frame text
                             <input
-                                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 value={form.data.frame_text}
                                 onChange={(event) =>
                                     form.setData(
