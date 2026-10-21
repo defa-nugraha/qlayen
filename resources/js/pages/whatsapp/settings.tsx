@@ -81,10 +81,7 @@ export default function WhatsAppSettings({
                     continue;
                 }
 
-                if (
-                    data.status !== 'processing' &&
-                    data.status !== 'waiting'
-                ) {
+                if (data.status !== 'processing' && data.status !== 'waiting') {
                     break;
                 }
 
@@ -99,7 +96,8 @@ export default function WhatsAppSettings({
                         ? current
                         : {
                               status: 'timeout',
-                              message: 'Waktu tunggu habis. Coba minta QR baru.',
+                              message:
+                                  'Waktu tunggu habis. Coba minta QR baru.',
                           },
                 );
             }
@@ -186,10 +184,7 @@ export default function WhatsAppSettings({
                             }
                         >
                             {workspaces.map((workspace) => (
-                                <option
-                                    key={workspace.id}
-                                    value={workspace.id}
-                                >
+                                <option key={workspace.id} value={workspace.id}>
                                     {workspace.name} ({workspace.role})
                                 </option>
                             ))}
@@ -286,9 +281,8 @@ export default function WhatsAppSettings({
                     </h2>
                     <p className="mt-1 text-sm text-muted-foreground">
                         Simpan konfigurasi dahulu. Buka WhatsApp di ponsel,
-                        pilih Perangkat tertaut, lalu tautkan perangkat. QR
-                        akan diminta ulang secara berkala sesuai respons
-                        gateway.
+                        pilih Perangkat tertaut, lalu tautkan perangkat. QR akan
+                        diminta ulang secara berkala sesuai respons gateway.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                         <button
