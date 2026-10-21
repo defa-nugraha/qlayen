@@ -8,6 +8,7 @@ use App\Http\Controllers\Customers\CustomerInteractionController;
 use App\Http\Controllers\Customers\FollowUpController;
 use App\Http\Controllers\Workspaces\WorkspaceController;
 use App\Http\Controllers\Workspaces\WhatsAppSettingsController;
+use App\Http\Controllers\Workspaces\WhatsAppCampaignController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('whatsapp/settings', [WhatsAppSettingsController::class, 'update'])->name('whatsapp.settings.update');
     Route::post('whatsapp/qr', [WhatsAppSettingsController::class, 'qr'])->middleware('throttle:12,1')->name('whatsapp.qr');
     Route::post('whatsapp/test', [WhatsAppSettingsController::class, 'test'])->middleware('throttle:5,1')->name('whatsapp.test');
+    Route::get('whatsapp/campaigns', [WhatsAppCampaignController::class, 'index'])->name('whatsapp.campaigns');
+    Route::post('whatsapp/campaigns', [WhatsAppCampaignController::class, 'store'])->middleware('throttle:3,1')->name('whatsapp.campaigns.store');
     Route::post('workspaces', [WorkspaceController::class, 'store'])
         ->name('workspaces.store');
     Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])
