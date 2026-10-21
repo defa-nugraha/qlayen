@@ -36,7 +36,7 @@ class WhatsAppWebhookController extends Controller
             return response()->json(['status' => 'ignored', 'reason' => 'invalid_sender'], 202);
         }
 
-        $message = trim($payload['message']);
+        $settings = QlayenSetting::read('whatsapp_capture', []);\n        if (($settings['mode'] ?? config('qlayen.whatsapp_capture_mode', 'form')) !== 'webhook') {\n            return response()->json(['status' => 'ignored', 'reason' => 'webhook_mode_disabled'], 202);\n        }\n\n        $message = trim($payload['message']);
         $activationCode = null;
         if (preg_match('/QLY-([A-Za-z0-9]{20,64})/', $message, $matches) === 1) {
             $activationCode = $matches[1];
@@ -53,7 +53,7 @@ class WhatsAppWebhookController extends Controller
 
             // An unreferenced inbound message is only accepted when one active QR
             // is unambiguously mapped to the configured gateway sender.
-            $query->whereHas('workspace', fn ($workspaceQuery) => $workspaceQuery->where('wa_gateway_sender', $sender));
+            $query->whereHas('workspace', fn ($workspaceQuery) => $workspaceQuery->where('wa_gateway_sender', $sender));\n            if ($query->count() !== 1) {\n                return response()->json(['status' => 'ignored', 'reason' => 'activation_reference_required'], 202);\n            }
         }
 
         $code = $query->first();
