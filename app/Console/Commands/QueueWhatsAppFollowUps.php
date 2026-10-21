@@ -28,6 +28,9 @@ class QueueWhatsAppFollowUps extends Command
             ]);
 
         Customer::query()
+            ->whereHas('workspace', fn ($query) => $query
+                ->whereNotNull('wa_gateway_api_key')
+                ->whereNotNull('wa_gateway_sender'))
             ->whereNotNull('workspace_id')
             ->whereNotNull('follow_up_at')
             ->where('follow_up_at', '<=', $now)
