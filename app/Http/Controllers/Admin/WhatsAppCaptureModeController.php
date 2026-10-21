@@ -34,6 +34,13 @@ class WhatsAppCaptureModeController extends Controller
             'message_template' => ['required', 'string', 'max:1000'],
         ]);
 
+        $settings = [
+            'mode' => $data['mode'],
+            'message_template' => trim($data['message_template']),
+            'updated_at' => now()->toIso8601String(),
+            'updated_by' => (int) $request->user()->id,
+        ];
+
         QlayenSetting::write('whatsapp_capture', $settings);
 
         return to_route('admin.whatsapp-capture-mode')
