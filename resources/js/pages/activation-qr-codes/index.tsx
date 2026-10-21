@@ -61,7 +61,7 @@ export default function ActivationQrIndex({
             ]}
         >
             <Head title="Activation QR codes" />
-            <div className="flex flex-col gap-6 p-4 md:p-6">
+            <div className="flex flex-col gap-6 p-4 md:p-4">
                 <div className="flex items-start gap-3">
                     <div className="rounded-xl bg-primary/10 p-3 text-primary">
                         <QrCode className="size-6" />

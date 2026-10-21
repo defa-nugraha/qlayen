@@ -101,7 +101,7 @@ export default function CustomerInteractionsIndex({
             ]}
         >
             <Head title={'Interaction history — ' + customer.name} />
-            <div className="flex flex-col gap-6 p-4 md:p-6">
+            <div className="flex flex-col gap-6 p-4 md:p-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                         <button
