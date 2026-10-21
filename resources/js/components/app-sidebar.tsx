@@ -10,7 +10,6 @@ import {
     UsersRound,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -49,8 +48,6 @@ const mainNavItems: NavItem[] = [
         icon: Settings2,
     },
 ];
-
-const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     return (
