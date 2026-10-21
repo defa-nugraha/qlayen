@@ -24,7 +24,7 @@ class ActivationQrCodeSeeder extends Seeder
      */
     public function run(): void
     {
-        $token = (string) env('QLAYEN_ACTIVATION_QR_TOKEN', '5970c74bb9a39155b8dc9857');
+        $token = (string) config('services.qlayen_activation_qr.token', '5970c74bb9a39155b8dc9857');
 
         if (! preg_match('/^[A-Za-z0-9]{16,64}$/', $token)) {
             throw new RuntimeException('QLAYEN_ACTIVATION_QR_TOKEN must be 16-64 alphanumeric characters.');
@@ -34,19 +34,19 @@ class ActivationQrCodeSeeder extends Seeder
             $code = ActivationQrCode::query()->where('token', $token)->first();
 
             if ($code !== null) {
-                $this->command?->info(
+                $this->command->info(
                     "Activation QR {$token} already exists with status [{$code->status}]; related records and existing state were preserved."
                 );
 
                 return;
             }
 
-            $generatorEmail = (string) env(
-                'QLAYEN_ACTIVATION_QR_GENERATOR_EMAIL',
+            $generatorEmail = (string) config(
+                'services.qlayen_activation_qr.generator_email',
                 'activation-qr@qlayen.local',
             );
-            $generatorName = (string) env(
-                'QLAYEN_ACTIVATION_QR_GENERATOR_NAME',
+            $generatorName = (string) config(
+                'services.qlayen_activation_qr.generator_name',
                 'QLayen Activation Manager',
             );
 
@@ -70,8 +70,8 @@ class ActivationQrCodeSeeder extends Seeder
                 ])->save();
             }
 
-            $workspaceName = (string) env(
-                'QLAYEN_ACTIVATION_QR_WORKSPACE_NAME',
+            $workspaceName = (string) config(
+                'services.qlayen_activation_qr.workspace_name',
                 'QLayen Activation Workspace',
             );
 
@@ -92,7 +92,7 @@ class ActivationQrCodeSeeder extends Seeder
             ActivationQrCode::query()->create([
                 'generated_by_user_id' => $generator->id,
                 'generated_workspace_id' => $workspace->id,
-                'name' => (string) env('QLAYEN_ACTIVATION_QR_NAME', 'QLayen Activation QR'),
+                'name' => (string) config('services.qlayen_activation_qr.name', 'QLayen Activation QR'),
                 'token' => $token,
                 'foreground_color' => '#111827',
                 'background_color' => '#FFFFFF',
