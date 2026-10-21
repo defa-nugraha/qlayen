@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Workspaces;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendWhatsAppCampaignMessage;
-use App\Models\Customer;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
