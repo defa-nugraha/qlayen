@@ -47,9 +47,12 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $account['name'],
                     'password' => $password,
-                    'email_verified_at' => now(),
                 ],
             );
+
+            $user->forceFill(['email_verified_at' => now()])->save();
+
+            return $user;
         });
 
         /** @var User $owner */
