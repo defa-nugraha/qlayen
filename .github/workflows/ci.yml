@@ -53,11 +53,11 @@ jobs:
       # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
-        run: composer lint && git diff -- app/Http/Controllers/Customers/CustomerCaptureController.php app/Http/Controllers/Workspaces/WhatsAppSettingsController.php app/Http/Controllers/Workspaces/WhatsAppCampaignController.php app/Jobs/SendWhatsAppCampaignMessage.php routes/web.php app/Infrastructure/Messaging/WhatsAppGateway.php app/Models/Workspace.php
+        run: composer lint:check.php
 
       - name: Check frontend lint
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
-        run: npm run check:fix && git diff -- resources/js/components/app-sidebar.tsx resources/js/pages/follow-ups/index.tsx resources/js/pages/whatsapp/campaigns.tsx resources/js/pages/whatsapp/settings.tsx
+        run: npm run check
 
       - name: Generate Wayfinder TypeScript definitions
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' && steps.frontend-deps.outcome == 'success' }}
