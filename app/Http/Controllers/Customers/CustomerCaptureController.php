@@ -102,7 +102,7 @@ class CustomerCaptureController extends Controller
         ]);
     }
 
-    public function capture(Request $request, string $token, WhatsAppGateway $gateway): RedirectResponse
+    public function capture(Request $request, string $token, WhatsAppGateway $gateway): \\Symfony\\Component\\HttpFoundation\\Response
     {
         $link = CustomerCaptureLink::query()
             ->where('token', $token)
@@ -147,7 +147,7 @@ class CustomerCaptureController extends Controller
 
         if (filled($workspace->wa_gateway_sender)) {
             $prefill = rawurlencode('Halo, saya '.$customer->name.'. Saya baru saja scan QR '.$link->name.'.');
-            return redirect()->away('https://wa.me/'.$workspace->wa_gateway_sender.'?text='.$prefill);
+            return Inertia::location('https://wa.me/'.$workspace->wa_gateway_sender.'?text='.$prefill);
         }
 
         return to_route('capture.show', $token)
