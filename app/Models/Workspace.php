@@ -18,12 +18,17 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['owner_id', 'name', 'description'])]
+#[Fillable(['owner_id', 'name', 'description', 'wa_gateway_api_key', 'wa_gateway_sender'])]
 class Workspace extends Model
 {
     /**
      * @return BelongsTo<User, $this>
      */
+    protected function casts(): array
+    {
+        return ['wa_gateway_api_key' => 'encrypted'];
+    }
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
