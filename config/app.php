@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'demo_user_password' => env('QLAYEN_DEMO_USER_PASSWORD', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
