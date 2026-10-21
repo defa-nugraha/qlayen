@@ -53,7 +53,7 @@ jobs:
       # reveals all current issues instead of hiding them behind the first failure.
       - name: Check PHP formatting
         if: ${{ !cancelled() && steps.php-deps.outcome == 'success' }}
-        run: composer lint:check.php
+        run: composer lint:check
 
       - name: Check frontend lint
         if: ${{ !cancelled() && steps.frontend-deps.outcome == 'success' }}
