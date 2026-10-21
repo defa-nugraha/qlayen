@@ -101,8 +101,8 @@ class ActivationQrCodeSeeder extends Seeder
             ]);
 
             $this->command->info('Activation QR and its related generator user, workspace, and membership were seeded.');
-            $this->command?->info('Activation URL: '.route('activation-qr.show', $token));
-            $this->command?->info("Generator user ID: {$generator->id}; workspace ID: {$workspace->id}.");
+            $this->command->info('Activation URL: '.route('activation-qr.show', $token));
+            $this->command->info("Generator user ID: {$generator->id}; workspace ID: {$workspace->id}.");
         });
     }
 }
