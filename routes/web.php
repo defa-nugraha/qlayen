@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\WhatsAppCaptureModeController;
 use App\Http\Controllers\BrandAssetController;
 use App\Http\Controllers\Customers\ActivationQrCodeController;
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomerInteractionController;
-use App\Http\Controllers\Admin\WhatsAppCaptureModeController;
 use App\Http\Controllers\Customers\FollowUpController;
 use App\Http\Controllers\Webhooks\WhatsAppWebhookController;
 use App\Http\Controllers\Workspaces\WhatsAppCampaignController;
