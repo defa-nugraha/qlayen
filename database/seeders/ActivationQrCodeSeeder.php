@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\\Seeders;
+namespace Database\Seeders;
 
-use App\\Models\\ActivationQrCode;
-use App\\Models\\User;
-use App\\Models\\Workspace;
-use Illuminate\\Database\\Seeder;
-use Illuminate\\Support\\Facades\\DB;
-use Illuminate\\Support\\Str;
+use App\Models\ActivationQrCode;
+use App\Models\User;
+use App\Models\Workspace;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 class ActivationQrCodeSeeder extends Seeder
@@ -100,7 +100,7 @@ class ActivationQrCodeSeeder extends Seeder
                 'status' => 'pending',
             ]);
 
-            $this->command?->info('Activation QR and its related generator user, workspace, and membership were seeded.');
+            $this->command->info('Activation QR and its related generator user, workspace, and membership were seeded.');
             $this->command?->info('Activation URL: '.route('activation-qr.show', $token));
             $this->command?->info("Generator user ID: {$generator->id}; workspace ID: {$workspace->id}.");
         });
