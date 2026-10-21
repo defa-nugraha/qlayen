@@ -7,6 +7,7 @@ import {
     Image,
     LayoutGrid,
     MessageCircle,
+    Settings2,
     QrCode,
     UsersRound,
 } from 'lucide-react';
@@ -44,6 +45,7 @@ const mainNavItems: NavItem[] = [
     { title: 'QR & NFC Capture', href: '/capture-links', icon: QrCode },
     { title: 'Activation QR', href: '/activation-qr-codes', icon: QrCode },
     { title: 'Kelola Logo', href: '/brand-assets', icon: Image },
+    { title: 'Mode Capture (Admin)', href: '/admin/whatsapp-capture-mode', icon: Settings2 },
 ];
 
 const footerNavItems: NavItem[] = [
