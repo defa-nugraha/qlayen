@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         $users = collect($accounts)->map(function (array $account) use ($password): User {
-            return User::query()->updateOrCreate(
+            $user = User::query()->updateOrCreate(
                 ['email' => $account['email']],
                 [
                     'name' => $account['name'],
