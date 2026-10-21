@@ -42,4 +42,12 @@ return [
         'timeout' => (int) env('WA_GATEWAY_TIMEOUT', 15),
     ],
 
+    'qlayen_activation_qr' => [
+        'token' => env('QLAYEN_ACTIVATION_QR_TOKEN', '5970c74bb9a39155b8dc9857'),
+        'name' => env('QLAYEN_ACTIVATION_QR_NAME', 'QLayen Activation QR'),
+        'generator_email' => env('QLAYEN_ACTIVATION_QR_GENERATOR_EMAIL', 'activation-qr@qlayen.local'),
+        'generator_name' => env('QLAYEN_ACTIVATION_QR_GENERATOR_NAME', 'QLayen Activation Manager'),
+        'workspace_name' => env('QLAYEN_ACTIVATION_QR_WORKSPACE_NAME', 'QLayen Activation Workspace'),
+    ],
+
 ];
