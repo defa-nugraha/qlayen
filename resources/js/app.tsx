@@ -14,12 +14,17 @@ void createInertiaApp({
         switch (true) {
             case name === 'welcome':
                 return null;
+            case name === 'dashboard':
+                return AppLayout;
             case name.startsWith('auth/'):
                 return AuthLayout;
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
             default:
-                return AppLayout;
+                // Most authenticated pages provide their own AppLayout
+                // to preserve page-specific breadcrumbs. Applying the global
+                // layout here would render a second sidebar and offset content.
+                return null;
         }
     },
     strictMode: true,
