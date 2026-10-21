@@ -26,17 +26,21 @@ export default function WhatsAppSettings({
     const [testMessage, setTestMessage] = useState('');
     const polling = useRef(false);
 
+    function csrfToken() {
+        const cookie = document.cookie.split('; ').find((item) => item.startsWith('XSRF-TOKEN='));
+        return cookie ? decodeURIComponent(cookie.slice('XSRF-TOKEN='.length)) : '';
+    }
+
     async function requestQr() {
         setBusy(true);
         polling.current = true;
         setGateway({ status: 'processing', message: 'Meminta QR dari gateway…' });
-        const csrf = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '';
         const started = Date.now();
         try {
             while (polling.current && Date.now() - started < 90000) {
                 const response = await fetch('/whatsapp/qr', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': csrf },
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-XSRF-TOKEN': csrfToken() },
                     body: JSON.stringify({ workspace_id: currentWorkspaceId }),
                 });
                 const data = (await response.json()) as GatewayState;
