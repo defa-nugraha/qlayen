@@ -42,7 +42,7 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
         }
 
         $delivery = CustomerFollowUpDelivery::query()
-            ->with('customer')
+            ->with(['customer', 'workspace'])
             ->find($this->deliveryId);
 
         if ($delivery === null) {
@@ -78,7 +78,7 @@ class SendCustomerFollowUpWhatsApp implements ShouldQueue
         $message .= "\nJika tidak ingin menerima pesan lanjutan, silakan beri tahu kami.";
 
         try {
-            $response = $gateway->sendMessage((string) $customer->phone, $message);
+            $response = $gateway->sendMessageForWorkspace($delivery->workspace, (string) $customer->phone, $message);
 
             if (($response['status'] ?? false) !== true) {
                 throw new RuntimeException('WhatsApp gateway did not confirm message acceptance.');
