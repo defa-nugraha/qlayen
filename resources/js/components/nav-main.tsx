@@ -14,9 +14,7 @@ export function NavMain({ items }: { items: NavItem[] }) {
 
     return (
         <SidebarGroup className="px-3 py-3">
-            <SidebarGroupLabel
-                className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-sidebar-foreground/55"
-            >
+            <SidebarGroupLabel className="mb-2 px-3 text-[11px] font-semibold tracking-[0.12em] text-sidebar-foreground/55 uppercase">
                 Platform
             </SidebarGroupLabel>
             <SidebarMenu className="gap-1.5">
