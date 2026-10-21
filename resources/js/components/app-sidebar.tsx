@@ -1,9 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {
-    BookOpen,
     Building2,
     CalendarClock,
-    FolderGit2,
     Image,
     LayoutGrid,
     MessageCircle,
@@ -52,18 +50,7 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     return (
@@ -91,10 +78,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
             </SidebarContent>
             <SidebarFooter className="border-t border-slate-200/80 px-2 pt-3 pb-3">
-                <NavFooter
-                    items={footerNavItems}
-                    className="mt-auto px-1 py-1"
-                />
+                
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
