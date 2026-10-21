@@ -59,6 +59,11 @@ class DemoDataSeeder extends Seeder
     {
         $user = User::query()->firstOrNew(['email' => $email]);
         $user->name = $name;
+        $user->role = match ($email) {
+            'owner@qlayen.test' => User::ROLE_OWNER,
+            'admin@qlayen.test' => User::ROLE_ADMIN,
+            default => User::ROLE_MEMBER,
+        };
         $user->password = Hash::make($password);
         $user->email_verified_at = $user->email_verified_at ?? Carbon::now();
         $user->save();
