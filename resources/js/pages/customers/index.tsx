@@ -12,6 +12,7 @@ type Customer = {
     notes: string | null;
     follow_up_at: string | null;
     follow_up_notes: string | null;
+    follow_up_whatsapp_enabled: boolean;
     status: 'active' | 'inactive';
 };
 
@@ -39,6 +40,7 @@ type CustomerForm = {
     notes: string;
     follow_up_at: string;
     follow_up_notes: string;
+    follow_up_whatsapp_enabled: boolean;
     status: 'active' | 'inactive';
 };
 
@@ -51,6 +53,7 @@ const emptyForm: CustomerForm = {
     notes: '',
     follow_up_at: '',
     follow_up_notes: '',
+    follow_up_whatsapp_enabled: false,
     status: 'active',
 };
 
@@ -81,6 +84,7 @@ export default function CustomersIndex({
                 ? customer.follow_up_at.slice(0, 16)
                 : '',
             follow_up_notes: customer.follow_up_notes ?? '',
+            follow_up_whatsapp_enabled: customer.follow_up_whatsapp_enabled,
             status: customer.status,
         });
         form.clearErrors();
@@ -325,6 +329,35 @@ export default function CustomersIndex({
                                     {form.errors.follow_up_notes}
                                 </span>
                             )}
+                        </label>
+                        <label className="flex items-start gap-3 text-sm md:col-span-2">
+                            <input
+                                type="checkbox"
+                                className="mt-1"
+                                checked={form.data.follow_up_whatsapp_enabled}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'follow_up_whatsapp_enabled',
+                                        event.target.checked,
+                                    )
+                                }
+                            />
+                            <span>
+                                Customer has explicitly agreed to receive
+                                automated WhatsApp follow-up.
+                                <span className="mt-1 block text-xs text-muted-foreground">
+                                    Only use this after the customer has agreed
+                                    to receive WhatsApp follow-up messages. A
+                                    scheduled date, phone number, and
+                                    WhatsApp-specific consent timestamp are also
+                                    required.
+                                </span>
+                                {form.errors.follow_up_whatsapp_enabled && (
+                                    <span className="block text-sm text-destructive">
+                                        {form.errors.follow_up_whatsapp_enabled}
+                                    </span>
+                                )}
+                            </span>
                         </label>
                         <div className="flex flex-wrap gap-2 md:col-span-2">
                             <button

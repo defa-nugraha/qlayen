@@ -50,10 +50,15 @@ class CustomerController extends Controller
     {
         $validated = $request->validate($this->rules());
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $whatsappEnabled = filter_var(
+            $validated['follow_up_whatsapp_enabled'] ?? false,
+            FILTER_VALIDATE_BOOLEAN,
+        );
 
         $workspace->customers()->create([
             'user_id' => $request->user()->id,
             ...$validated,
+            'whatsapp_consent_at' => $whatsappEnabled ? now() : null,
         ]);
 
         return to_route('customers.index', ['workspace_id' => $workspace->id])
@@ -65,6 +70,17 @@ class CustomerController extends Controller
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $record = $workspace->customers()->findOrFail($customer);
         $validated = $request->validate($this->rules());
+
+        if (array_key_exists('follow_up_whatsapp_enabled', $validated)) {
+            $whatsappEnabled = filter_var(
+                $validated['follow_up_whatsapp_enabled'],
+                FILTER_VALIDATE_BOOLEAN,
+            );
+
+            $validated['whatsapp_consent_at'] = $whatsappEnabled
+                ? ($record->whatsapp_consent_at ?? now())
+                : null;
+        }
 
         if (($validated['follow_up_at'] ?? null) !== null) {
             $validated['follow_up_completed_at'] = null;
@@ -98,6 +114,7 @@ class CustomerController extends Controller
             'notes' => ['nullable', 'string', 'max:10000'],
             'follow_up_at' => ['nullable', 'date'],
             'follow_up_notes' => ['nullable', 'string', 'max:10000'],
+            'follow_up_whatsapp_enabled' => ['sometimes', 'boolean'],
             'status' => ['required', 'in:active,inactive'],
         ];
     }
