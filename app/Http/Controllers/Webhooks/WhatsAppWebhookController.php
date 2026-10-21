@@ -43,29 +43,14 @@ class WhatsAppWebhookController extends Controller
         }
 
         $message = trim($payload['message']);
-        $activationCode = null;
-        if (preg_match('/QLY-([A-Za-z0-9]{20,64})/', $message, $matches) === 1) {
-            $activationCode = $matches[1];
+        if (preg_match('/QLY-([A-Za-z0-9]{20,64})/', $message, $matches) !== 1) {
+            return response()->json(['status' => 'ignored', 'reason' => 'activation_reference_required'], 202);
         }
 
-        $query = ActivationQrCode::query()->where('status', 'active');
-        if ($activationCode !== null) {
-            $query->where('token', $activationCode);
-        } else {
-            $sender = (string) config('services.wa_gateway.sender');
-            if ($sender === '') {
-                return response()->json(['status' => 'ignored', 'reason' => 'activation_reference_required'], 202);
-            }
-
-            // An unreferenced inbound message is only accepted when one active QR
-            // is unambiguously mapped to the configured gateway sender.
-            $query->whereHas('workspace', fn ($workspaceQuery) => $workspaceQuery->where('wa_gateway_sender', $sender));
-            if ($query->count() !== 1) {
-                return response()->json(['status' => 'ignored', 'reason' => 'activation_reference_required'], 202);
-            }
-        }
-
-        $code = $query->first();
+        $code = ActivationQrCode::query()
+            ->where('token', $matches[1])
+            ->where('status', 'active')
+            ->first();
         if ($code === null || $code->workspace_id === null) {
             return response()->json(['status' => 'ignored', 'reason' => 'activation_qr_not_found'], 202);
         }
