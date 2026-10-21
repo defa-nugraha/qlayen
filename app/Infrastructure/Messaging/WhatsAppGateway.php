@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Messaging;
 
+use App\Models\Workspace;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
