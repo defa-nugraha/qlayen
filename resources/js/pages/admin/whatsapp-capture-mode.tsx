@@ -93,9 +93,15 @@ export default function WhatsAppCaptureMode({
                         </label>
                     </fieldset>
 
-                    <label className="text-sm font-medium">
-                        Template pesan
+                    <div>
+                        <label
+                            htmlFor="message_template"
+                            className="text-sm font-medium"
+                        >
+                            Template pesan
+                        </label>
                         <textarea
+                            id="message_template"
                             value={form.data.message_template}
                             onChange={(event) =>
                                 form.setData(
@@ -108,17 +114,17 @@ export default function WhatsAppCaptureMode({
                             required
                             className="mt-2 w-full rounded-xl border bg-background px-3 py-2.5 font-normal"
                         />
-                        <span className="mt-1 block text-xs text-muted-foreground">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             Gunakan {'{token}'} untuk menyertakan referensi QR
                             unik. Jangan hapus penanda ini apabila memakai mode
                             webhook.
-                        </span>
+                        </p>
                         {form.errors.message_template && (
-                            <span className="text-sm text-destructive">
+                            <p className="text-sm text-destructive">
                                 {form.errors.message_template}
-                            </span>
+                            </p>
                         )}
-                    </label>
+                    </div>
 
                     <div className="rounded-xl border bg-muted/30 p-4 text-sm">
                         <p className="font-semibold">
@@ -145,11 +151,6 @@ export default function WhatsAppCaptureMode({
                     {form.errors.mode && (
                         <p className="text-sm text-destructive">
                             {form.errors.mode}
-                        </p>
-                    )}
-                    {form.errors.message_template && (
-                        <p className="text-sm text-destructive">
-                            {form.errors.message_template}
                         </p>
                     )}
 
