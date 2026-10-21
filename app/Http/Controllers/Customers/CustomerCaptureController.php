@@ -73,7 +73,7 @@ class CustomerCaptureController extends Controller
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $link = $workspace->customerCaptureLinks()->findOrFail($captureLink);
         $this->authorizeManager($request, $workspace);
-        $link->update(['is_active' => ! $link->is_active]);
+        $link->update(['is_active' => !$link->is_active]);
 
         return to_route('capture.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Capture link status updated.');
