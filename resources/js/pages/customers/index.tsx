@@ -111,7 +111,16 @@ export default function CustomersIndex({
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const options = { onSuccess: () => { resetForm(); setSuccessMessage(editingId === null ? 'Customer added successfully.' : 'Customer updated successfully.'); } };
+        const options = {
+            onSuccess: () => {
+                resetForm();
+                setSuccessMessage(
+                    editingId === null
+                        ? 'Customer added successfully.'
+                        : 'Customer updated successfully.',
+                );
+            },
+        };
         if (editingId !== null) {
             form.put('/customers/' + editingId, options);
         } else {
@@ -128,13 +137,18 @@ export default function CustomersIndex({
         );
     }
 
-    function removeCustomer(id: number) { setDeleteId(id); }
+    function removeCustomer(id: number) {
+        setDeleteId(id);
+    }
 
     function confirmDelete() {
         if (deleteId === null) return;
         router.delete('/customers/' + deleteId, {
             data: { workspace_id: currentWorkspaceId },
-            onSuccess: () => { setDeleteId(null); setSuccessMessage('Customer deleted successfully.'); },
+            onSuccess: () => {
+                setDeleteId(null);
+                setSuccessMessage('Customer deleted successfully.');
+            },
         });
     }
 
@@ -183,7 +197,16 @@ export default function CustomersIndex({
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
-                        <button type="button" onClick={() => { resetForm(); setFormOpen(true); }} className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">Add contact</button>
+                        <button
+                                type="button"
+                                onClick={() => {
+                                    resetForm();
+                                    setFormOpen(true);
+                                }}
+                                className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
+                            >
+                                Add contact
+                            </button>
                         <div className="rounded-lg border bg-card px-4 py-3">
                             <p className="text-xs text-muted-foreground">
                                 Total customers
@@ -197,8 +220,15 @@ export default function CustomersIndex({
                 </div>
 
                 <Dialog open={formOpen} onOpenChange={setFormOpen}>
-                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
-                <DialogHeader><DialogTitle>{editingId === null ? 'Add contact' : 'Edit contact'}</DialogTitle><DialogDescription>Enter contact details and follow-up preferences.</DialogDescription></DialogHeader>
+                    <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+                        <DialogHeader>
+                            <DialogTitle>
+                                {editingId === null ? 'Add contact' : 'Edit contact'}
+                            </DialogTitle>
+                            <DialogDescription>
+                                Enter contact details and follow-up preferences.
+                            </DialogDescription>
+                        </DialogHeader>
 
                     <form
                         onSubmit={submit}
@@ -692,19 +722,58 @@ export default function CustomersIndex({
                         </div>
                     )}
                 </section>
-                <Dialog open={deleteId !== null} onOpenChange={(open) => { if (!open) setDeleteId(null); }}>
+                <Dialog
+                    open={deleteId !== null}
+                    onOpenChange={(open) => {
+                        if (!open) setDeleteId(null);
+                    }}
+                >
                     <DialogContent className="sm:max-w-md">
-                        <DialogHeader><DialogTitle>Delete contact?</DialogTitle><DialogDescription>This action cannot be undone. The contact will be removed from this workspace.</DialogDescription></DialogHeader>
+                        <DialogHeader>
+                            <DialogTitle>Delete contact?</DialogTitle>
+                            <DialogDescription>
+                                This action cannot be undone. The contact will be
+                                removed from this workspace.
+                            </DialogDescription>
+                        </DialogHeader>
                         <DialogFooter>
-                            <button type="button" onClick={() => setDeleteId(null)} className="rounded-md border px-4 py-2 text-sm">Cancel</button>
-                            <button type="button" onClick={confirmDelete} className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-white">Delete contact</button>
+                            <button
+                                type="button"
+                                onClick={() => setDeleteId(null)}
+                                className="rounded-md border px-4 py-2 text-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmDelete}
+                                className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-white"
+                            >
+                                Delete contact
+                            </button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
-                <Dialog open={successMessage !== ''} onOpenChange={(open) => { if (!open) setSuccessMessage(''); }}>
+                <Dialog
+                    open={successMessage !== ''}
+                    onOpenChange={(open) => {
+                        if (!open) setSuccessMessage('');
+                    }}
+                >
                     <DialogContent className="sm:max-w-sm">
-                        <DialogHeader><DialogTitle>Success</DialogTitle><DialogDescription>{successMessage}</DialogDescription></DialogHeader>
-                        <DialogFooter><button type="button" onClick={() => setSuccessMessage('')} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Done</button></DialogFooter>
+                        <DialogHeader>
+                            <DialogTitle>Success</DialogTitle>
+                            <DialogDescription>{successMessage}</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <button
+                                type="button"
+                                onClick={() => setSuccessMessage('')}
+                                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+                            >
+                                Done
+                            </button>
+                        </DialogFooter>
                     </DialogContent>
                 </Dialog>
             </div>
