@@ -67,18 +67,29 @@ class DatabaseSeeder extends Seeder
 
         foreach ($accounts as $account) {
             $user = $users->firstWhere('email', $account['email']);
+            $membership = DB::table('workspace_user')
+                ->where('workspace_id', $workspace->id)
+                ->where('user_id', $user->id)
+                ->exists();
 
-            DB::table('workspace_user')->updateOrInsert(
-                [
+            $values = [
+                'role' => $account['role'],
+                'updated_at' => now(),
+            ];
+
+            if ($membership) {
+                DB::table('workspace_user')
+                    ->where('workspace_id', $workspace->id)
+                    ->where('user_id', $user->id)
+                    ->update($values);
+            } else {
+                DB::table('workspace_user')->insert([
                     'workspace_id' => $workspace->id,
                     'user_id' => $user->id,
-                ],
-                [
-                    'role' => $account['role'],
-                    'updated_at' => now(),
-                    'created_at' => DB::raw('COALESCE(created_at, CURRENT_TIMESTAMP)'),
-                ],
-            );
+                    ...$values,
+                    'created_at' => now(),
+                ]);
+            }
         }
     }
 }
