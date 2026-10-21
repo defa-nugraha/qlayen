@@ -8,6 +8,7 @@ import {
     Image,
     QrCode,
     UsersRound,
+    MessageCircle,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -30,6 +31,7 @@ const mainNavItems: NavItem[] = [
     { title: 'Workspaces', href: '/workspaces', icon: Building2 },
     { title: 'Customers', href: '/customers', icon: UsersRound },
     { title: 'Follow-ups', href: '/follow-ups', icon: CalendarClock },
+    { title: 'WhatsApp Gateway', href: '/whatsapp/settings', icon: MessageCircle },
     { title: 'QR & NFC Capture', href: '/capture-links', icon: QrCode },
     { title: 'Activation QR', href: '/activation-qr-codes', icon: QrCode },
     { title: 'Kelola Logo', href: '/brand-assets', icon: Image },
