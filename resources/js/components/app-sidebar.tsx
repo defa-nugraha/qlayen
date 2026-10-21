@@ -1,4 +1,13 @@
 import { Link } from '@inertiajs/react';
+import {
+    BookOpen,
+    Building2,
+    CalendarClock,
+    FolderGit2,
+    LayoutGrid,
+    QrCode,
+    UsersRound,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -13,15 +22,6 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import {
-    BookOpen,
-    Building2,
-    CalendarClock,
-    FolderGit2,
-    LayoutGrid,
-    QrCode,
-    UsersRound,
-} from 'lucide-react';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
