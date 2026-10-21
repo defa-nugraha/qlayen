@@ -61,7 +61,7 @@ export default function WhatsAppCampaigns({
                     <label className="text-sm font-medium">
                         Workspace
                         <select
-                            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 sm:min-w-56"
+                            className="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none sm:min-w-56"
                             value={currentWorkspaceId}
                             onChange={(event) =>
                                 router.get(
@@ -88,7 +88,7 @@ export default function WhatsAppCampaigns({
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-xl border bg-card p-4">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                         <p className="text-sm text-muted-foreground">
                             Eligible recipients
                         </p>
@@ -100,7 +100,7 @@ export default function WhatsAppCampaigns({
                             tercatat.
                         </p>
                     </div>
-                    <div className="rounded-xl border bg-card p-4">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                         <p className="text-sm text-muted-foreground">
                             Gateway configuration
                         </p>
@@ -116,7 +116,7 @@ export default function WhatsAppCampaigns({
                     </div>
                 </div>
 
-                <section className="rounded-xl border bg-card p-4 md:p-6">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
                     <h2 className="text-lg font-semibold">Buat kampanye</h2>
                     <p className="mt-1 text-sm text-muted-foreground">
                         Pastikan isi pesan relevan, identitas bisnis jelas, dan
@@ -130,7 +130,7 @@ export default function WhatsAppCampaigns({
                         <label className="text-sm font-medium">
                             Nama kampanye
                             <input
-                                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 maxLength={120}
                                 value={form.data.name}
                                 onChange={(event) =>
@@ -148,7 +148,7 @@ export default function WhatsAppCampaigns({
                         <label className="text-sm font-medium">
                             Isi pesan
                             <textarea
-                                className="mt-1 min-h-36 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 min-h-36 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 maxLength={4096}
                                 value={form.data.message}
                                 onChange={(event) =>
