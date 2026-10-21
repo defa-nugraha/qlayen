@@ -223,7 +223,9 @@ export default function CustomersIndex({
                     <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
                         <DialogHeader>
                             <DialogTitle>
-                                {editingId === null ? 'Add contact' : 'Edit contact'}
+                                {editingId === null
+                                    ? 'Add contact'
+                                    : 'Edit contact'}
                             </DialogTitle>
                             <DialogDescription>
                                 Enter contact details and follow-up preferences.
@@ -573,7 +575,8 @@ export default function CustomersIndex({
                             <div className="rounded-xl border border-dashed p-8 text-center">
                                 <p className="font-medium">No customers yet</p>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    Add your first contact using the Add contact button.
+                                    Add your first contact using the Add contact
+                                    button.
                                 </p>
                             </div>
                         )}
@@ -690,7 +693,8 @@ export default function CustomersIndex({
                                             colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
-                                            No customers yet. Add your first contact using Add contact.
+                                            No customers yet. Add your first contact
+                                            using Add contact.
                                         </td>
                                     </tr>
                                 )}
