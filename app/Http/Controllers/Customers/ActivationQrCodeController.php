@@ -20,7 +20,7 @@ use Inertia\Response;
 
 class ActivationQrCodeController extends Controller
 {
-    public function index(Request $request, WorkspaceContext $workspaceContext): \Symfony\Component\HttpFoundation\Response
+    public function index(Request $request, WorkspaceContext $workspaceContext): Response
     {
         $workspace = $workspaceContext->resolve($request, $request->query('workspace_id'));
         $this->authorizeManager($workspace, $request);
@@ -81,7 +81,7 @@ class ActivationQrCodeController extends Controller
             ->with('success', 'Activation QR created. Print it and give it to the business owner.');
     }
 
-    public function show(string $token): \Symfony\Component\HttpFoundation\Response
+    public function show(string $token): Response|\Symfony\Component\HttpFoundation\Response
     {
         $code = ActivationQrCode::query()->where('token', $token)->firstOrFail();
 
