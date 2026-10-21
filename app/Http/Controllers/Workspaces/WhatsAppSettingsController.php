@@ -85,6 +85,7 @@ class WhatsAppSettingsController extends Controller
             return response()->json(['status' => 'waiting', 'message' => $result['msg'] ?? $result['message'] ?? 'Gateway belum mengembalikan QR.']);
         } catch (Throwable $exception) {
             report($exception);
+
             return response()->json(['status' => 'error', 'message' => 'Gateway tidak dapat dihubungi. Periksa API key, nomor perangkat, dan koneksi server.'], 502);
         }
     }
@@ -109,6 +110,7 @@ class WhatsAppSettingsController extends Controller
             return response()->json(['status' => 'success', 'message' => $result['msg'] ?? 'Pesan tes diterima gateway.']);
         } catch (Throwable $exception) {
             report($exception);
+
             return response()->json(['status' => 'error', 'message' => 'Pengiriman gagal. Periksa konfigurasi gateway dan log server.'], 502);
         }
     }
