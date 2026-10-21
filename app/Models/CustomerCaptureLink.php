@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property string $token
  * @property string $source
  * @property bool $is_active
+ * @property int $visits_count
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -26,7 +27,10 @@ class CustomerCaptureLink extends Model
      */
     protected function casts(): array
     {
-        return ['is_active' => 'boolean'];
+        return [
+            'is_active' => 'boolean',
+            'visits_count' => 'integer',
+        ];
     }
 
     /**
