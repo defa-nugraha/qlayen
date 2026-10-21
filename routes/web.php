@@ -39,10 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('workspaces', [WorkspaceController::class, 'store'])
         ->name('workspaces.store');
     Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])
-        ->middleware('role:owner,admin')
         ->name('workspaces.members.update');
     Route::delete('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'destroyMember'])
-        ->middleware('role:owner,admin')
         ->name('workspaces.members.destroy');
 
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
@@ -51,13 +49,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('follow-ups.complete');
 
     Route::post('customers', [CustomerController::class, 'store'])
-        ->middleware('role:owner,admin')
         ->name('customers.store');
     Route::put('customers/{customer}', [CustomerController::class, 'update'])
-        ->middleware('role:owner,admin')
         ->name('customers.update');
     Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])
-        ->middleware('role:owner,admin')
         ->name('customers.destroy');
     Route::get('customers/{customer}/interactions', [CustomerInteractionController::class, 'index'])
         ->name('customers.interactions.index');
@@ -66,18 +61,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('capture-links', [CustomerCaptureController::class, 'index'])->name('capture.index');
     Route::post('capture-links', [CustomerCaptureController::class, 'store'])
-        ->middleware('role:owner,admin')
         ->name('capture.store');
     Route::patch('capture-links/{captureLink}/toggle', [CustomerCaptureController::class, 'toggle'])
-        ->middleware('role:owner,admin')
         ->name('capture.toggle');
 
     Route::get('activation-qr-codes', [ActivationQrCodeController::class, 'index'])->name('activation-qr.index');
     Route::post('activation-qr-codes', [ActivationQrCodeController::class, 'store'])
-        ->middleware('role:owner,admin')
         ->name('activation-qr.store');
     Route::patch('activation-qr-codes/{activationQrCode}/toggle', [ActivationQrCodeController::class, 'toggle'])
-        ->middleware('role:owner,admin')
         ->name('activation-qr.toggle');
 });
 
