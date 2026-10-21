@@ -101,6 +101,7 @@ class WhatsAppSettingsController extends Controller
 
         try {
             $result = $gateway->sendMessageForWorkspace($workspace, $data['number'], 'Tes koneksi WhatsApp dari QLayen. Jika pesan ini diterima, konfigurasi gateway berhasil.');
+
             if (($result['status'] ?? false) !== true) {
                 return response()->json(['status' => 'error', 'message' => $result['msg'] ?? 'Gateway menolak pengiriman pesan.'], 422);
             }
