@@ -1,6 +1,6 @@
 <?php
 
-use App\\Models\\User;
+use App\Models\User;
 
 it('forbids members from creating customers', function () {
     $member = User::factory()->create([
