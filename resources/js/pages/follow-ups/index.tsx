@@ -76,10 +76,9 @@ export default function FollowUpsIndex({
                             Follow-up workflow
                         </h1>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Review scheduled customer follow-ups and open
-                            their interaction history. Eligible reminders can
-                            be sent automatically through the configured
-                            WhatsApp gateway.
+                            Review scheduled customer follow-ups and open their
+                            interaction history. This view does not send
+                            reminders automatically.
                         </p>
                     </div>
                     <label className="block text-sm font-medium">
