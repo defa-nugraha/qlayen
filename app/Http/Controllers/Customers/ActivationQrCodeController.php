@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivationQrCode;\nuse App\Models\Customer;
+use App\Models\ActivationQrCode;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;\nuse Illuminate\Http\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;\nuse Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
