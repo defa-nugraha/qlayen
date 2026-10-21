@@ -50,11 +50,11 @@ export default function WhatsAppSettings({
                 }
                 if (data.status === 'qr') {
                     // Poll again after the user scans the QR to detect "Device already connected".
-                    await new Promise((resolve) => window.setTimeout(resolve, 5000));
+                    await new Promise((resolve) => window.setTimeout(resolve, 6500));
                     continue;
                 }
                 if (data.status !== 'processing' && data.status !== 'waiting') break;
-                await new Promise((resolve) => window.setTimeout(resolve, 2500));
+                await new Promise((resolve) => window.setTimeout(resolve, 6500));
             }
             if (polling.current && Date.now() - started >= 90000) {
                 setGateway((current) => current?.status === 'connected' ? current : { status: 'timeout', message: 'Waktu tunggu habis. Coba minta QR baru.' });
