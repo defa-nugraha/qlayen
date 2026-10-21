@@ -4,11 +4,11 @@ import {
     Building2,
     CalendarClock,
     FolderGit2,
-    LayoutGrid,
     Image,
+    LayoutGrid,
+    MessageCircle,
     QrCode,
     UsersRound,
-    MessageCircle,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
