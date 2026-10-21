@@ -31,8 +31,16 @@ const mainNavItems: NavItem[] = [
     { title: 'Workspaces', href: '/workspaces', icon: Building2 },
     { title: 'Customers', href: '/customers', icon: UsersRound },
     { title: 'Follow-ups', href: '/follow-ups', icon: CalendarClock },
-    { title: 'WhatsApp Gateway', href: '/whatsapp/settings', icon: MessageCircle },
-    { title: 'WhatsApp Campaigns', href: '/whatsapp/campaigns', icon: MessageCircle },
+    {
+        title: 'WhatsApp Gateway',
+        href: '/whatsapp/settings',
+        icon: MessageCircle,
+    },
+    {
+        title: 'WhatsApp Campaigns',
+        href: '/whatsapp/campaigns',
+        icon: MessageCircle,
+    },
     { title: 'QR & NFC Capture', href: '/capture-links', icon: QrCode },
     { title: 'Activation QR', href: '/activation-qr-codes', icon: QrCode },
     { title: 'Kelola Logo', href: '/brand-assets', icon: Image },
