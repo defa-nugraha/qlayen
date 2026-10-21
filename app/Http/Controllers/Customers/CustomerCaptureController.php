@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
+use App\Infrastructure\Messaging\WhatsAppGateway;
 use App\Models\CustomerCaptureLink;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class CustomerCaptureController extends Controller
 {
@@ -100,7 +102,7 @@ class CustomerCaptureController extends Controller
         ]);
     }
 
-    public function capture(Request $request, string $token): RedirectResponse
+    public function capture(Request $request, string $token, WhatsAppGateway $gateway): RedirectResponse
     {
         $link = CustomerCaptureLink::query()
             ->where('token', $token)
@@ -114,15 +116,39 @@ class CustomerCaptureController extends Controller
             'consent' => ['accepted'],
         ]);
 
-        $link->workspace()->firstOrFail()->customers()->create([
+        $workspace = $link->workspace()->firstOrFail();
+        $phone = preg_replace('/\D+/', '', $validated['phone']) ?? $validated['phone'];
+        if (str_starts_with($phone, '0')) {
+            $phone = '62'.substr($phone, 1);
+        }
+
+        $customer = $workspace->customers()->create([
             'user_id' => $link->user_id,
             'name' => $validated['name'],
-            'phone' => $validated['phone'],
+            'phone' => $phone,
             'email' => $validated['email'] ?? null,
             'source' => Str::upper($link->source),
             'status' => 'active',
             'consent_at' => now(),
+            'whatsapp_consent_at' => now(),
         ]);
+
+        if (filled($workspace->wa_gateway_api_key) && filled($workspace->wa_gateway_sender)) {
+            try {
+                $gateway->sendMessageForWorkspace(
+                    $workspace,
+                    $customer->phone,
+                    'Halo '.$customer->name.', terima kasih telah terhubung dengan kami melalui '.$link->name.'. Kami akan mengirim informasi yang relevan melalui WhatsApp sesuai persetujuan Anda.',
+                );
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+        }
+
+        if (filled($workspace->wa_gateway_sender)) {
+            $prefill = rawurlencode('Halo, saya '.$customer->name.'. Saya baru saja scan QR '.$link->name.'.');
+            return redirect()->away('https://wa.me/'.$workspace->wa_gateway_sender.'?text='.$prefill);
+        }
 
         return to_route('capture.show', $token)
             ->with('success', 'Thank you. Your details have been submitted.');
