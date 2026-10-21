@@ -41,5 +41,5 @@ void createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load...
+// QLayen uses light appearance only.
 initializeTheme();
