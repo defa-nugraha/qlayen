@@ -166,7 +166,7 @@ export default function WhatsAppSettings({
                     <label className="text-sm font-medium">
                         Workspace
                         <select
-                            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 sm:min-w-56"
+                            className="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none sm:min-w-56"
                             value={currentWorkspaceId}
                             onChange={(event) =>
                                 router.get(
@@ -192,7 +192,7 @@ export default function WhatsAppSettings({
                     </label>
                 </div>
 
-                <section className="rounded-xl border bg-card p-4 md:p-6">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
                     <h2 className="text-lg font-semibold">
                         1. Konfigurasi perangkat
                     </h2>
@@ -217,7 +217,7 @@ export default function WhatsAppSettings({
                             <input
                                 type="password"
                                 autoComplete="new-password"
-                                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 value={form.data.api_key}
                                 onChange={(event) =>
                                     form.setData('api_key', event.target.value)
@@ -239,7 +239,7 @@ export default function WhatsAppSettings({
                             angka saja)
                             <input
                                 inputMode="numeric"
-                                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 value={form.data.sender}
                                 onChange={(event) =>
                                     form.setData(
@@ -275,7 +275,7 @@ export default function WhatsAppSettings({
                     </form>
                 </section>
 
-                <section className="rounded-xl border bg-card p-4 md:p-6">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
                     <h2 className="text-lg font-semibold">
                         2. Hubungkan WhatsApp dengan QR
                     </h2>
@@ -337,7 +337,7 @@ export default function WhatsAppSettings({
                     </p>
                 </section>
 
-                <section className="rounded-xl border bg-card p-4 md:p-6">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
                     <h2 className="text-lg font-semibold">
                         3. Kirim pesan tes
                     </h2>
@@ -351,7 +351,7 @@ export default function WhatsAppSettings({
                     >
                         <input
                             inputMode="numeric"
-                            className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2"
+                            className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                             value={testNumber}
                             onChange={(event) =>
                                 setTestNumber(
