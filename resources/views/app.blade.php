@@ -30,9 +30,15 @@
             }
         </style>
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @php($publicHeaderLogo = data_get($page, 'props.brandAssets.public_header.url'))
+        @if ($publicHeaderLogo)
+            <link rel="icon" href="{{ $publicHeaderLogo }}">
+            <link rel="apple-touch-icon" href="{{ $publicHeaderLogo }}">
+        @else
+            <link rel="icon" href="/favicon.ico" sizes="any">
+            <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @endif
 
         @fonts
 
