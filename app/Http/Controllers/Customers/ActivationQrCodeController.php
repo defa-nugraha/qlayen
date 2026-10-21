@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivationQrCode;
+use App\Models\ActivationQrCode;\nuse App\Models\Customer;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;\nuse Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Hash;\nuse Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -85,6 +85,18 @@ class ActivationQrCodeController extends Controller
         $code = ActivationQrCode::query()->where('token', $token)->firstOrFail();
 
         if ($code->status === 'active') {
+            if (config('qlayen.whatsapp_capture_mode', 'form') === 'webhook') {
+                $template = (string) config('qlayen.whatsapp_message_template');
+                $message = str_replace('{token}', $code->token, $template);
+                $sender = (string) ($code->workspace?->wa_gateway_sender ?? config('services.wa_gateway.sender'));
+
+                if ($sender !== '') {
+                    return Inertia::location('https://wa.me/'.$sender.'?text='.rawurlencode($message));
+                }
+
+                abort(503, 'Nomor WhatsApp bisnis belum dikonfigurasi.');
+            }
+
             return Inertia::render('capture/show', [
                 'campaignName' => $code->name,
                 'token' => $code->token,
@@ -161,15 +173,29 @@ class ActivationQrCodeController extends Controller
         ]);
 
         $workspace = $code->workspace()->firstOrFail();
-        $workspace->customers()->create([
-            'user_id' => $code->activated_by_user_id,
-            'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'email' => $validated['email'] ?? null,
-            'source' => 'QR',
-            'status' => 'active',
-            'consent_at' => now(),
-        ]);
+        $phone = preg_replace('/\D+/', '', $validated['phone']) ?? $validated['phone'];
+        if (str_starts_with($phone, '0')) {
+            $phone = '62'.substr($phone, 1);
+        }
+
+        $customer = $workspace->customers()->where('phone', $phone)->first();
+        if ($customer === null) {
+            $workspace->customers()->create([
+                'user_id' => $code->activated_by_user_id,
+                'name' => $validated['name'],
+                'phone' => $phone,
+                'email' => $validated['email'] ?? null,
+                'source' => 'QR',
+                'status' => 'active',
+                'consent_at' => now(),
+            ]);
+        } else {
+            $customer->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'] ?? $customer->email,
+                'consent_at' => now(),
+            ]);
+        }
 
         return to_route('activation-qr.show', $token)
             ->with('success', 'Thank you. Your details have been submitted.');
