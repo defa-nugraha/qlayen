@@ -1,20 +1,20 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\\Seeders;
 
-use App\Models\User;
-use App\Models\Workspace;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\\Models\\User;
+use App\\Models\\Workspace;
+use Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents;
+use Illuminate\\Database\\Seeder;
+use Illuminate\\Support\\Facades\\DB;
+use Illuminate\\Support\\Facades\\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
     /**
-     * Seed idempotent demo accounts for each workspace role.
+     * Seed idempotent demo accounts for each role.
      *
      * Set QLAYEN_DEMO_USER_PASSWORD in the environment before seeding.
      * These accounts are intended for local/staging development, not production.
@@ -24,21 +24,9 @@ class DatabaseSeeder extends Seeder
         $password = Hash::make((string) env('QLAYEN_DEMO_USER_PASSWORD', 'password'));
 
         $accounts = [
-            [
-                'name' => 'QLayen Demo Owner',
-                'email' => 'owner@qlayen.test',
-                'role' => 'owner',
-            ],
-            [
-                'name' => 'QLayen Demo Admin',
-                'email' => 'admin@qlayen.test',
-                'role' => 'admin',
-            ],
-            [
-                'name' => 'QLayen Demo Member',
-                'email' => 'member@qlayen.test',
-                'role' => 'member',
-            ],
+            ['name' => 'QLayen Demo Owner', 'email' => 'owner@qlayen.test', 'role' => User::ROLE_OWNER],
+            ['name' => 'QLayen Demo Admin', 'email' => 'admin@qlayen.test', 'role' => User::ROLE_ADMIN],
+            ['name' => 'QLayen Demo Member', 'email' => 'member@qlayen.test', 'role' => User::ROLE_MEMBER],
         ];
 
         $users = collect($accounts)->map(function (array $account) use ($password): User {
@@ -46,6 +34,7 @@ class DatabaseSeeder extends Seeder
                 ['email' => $account['email']],
                 [
                     'name' => $account['name'],
+                    'role' => $account['role'],
                     'password' => $password,
                 ],
             );
