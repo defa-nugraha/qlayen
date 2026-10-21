@@ -55,12 +55,12 @@ export default function WorkspacesIndex({
     }
 
     const inputClass =
-        'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+        'mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none';
 
     return (
         <AppLayout breadcrumbs={[{ title: 'Workspaces', href: '/workspaces' }]}>
-            <Head title="Business workspaces" />
-            <div className="flex flex-col gap-6 p-4 md:p-4">
+            <Head title="Workspace bisnis" />
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-7 p-5 sm:p-6 lg:p-8">
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight">
                         Business workspaces
@@ -71,13 +71,13 @@ export default function WorkspacesIndex({
                     </p>
                 </div>
 
-                <section className="rounded-xl border bg-card p-4 md:p-5">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
                     <h2 className="mb-4 text-lg font-semibold">
-                        Create workspace
+                        Buat workspace
                     </h2>
                     <form onSubmit={submit} className="flex flex-col gap-4">
                         <label className="block text-sm font-medium">
-                            Business or workspace name *
+                            Nama bisnis atau workspace *
                             <input
                                 className={inputClass}
                                 value={form.data.name}
@@ -86,7 +86,7 @@ export default function WorkspacesIndex({
                                 }
                                 maxLength={120}
                                 required
-                                placeholder="e.g. Kopi Nusantara"
+                                placeholder="Contoh: Kopi Nusantara"
                             />
                             {form.errors.name && (
                                 <span className="text-sm text-destructive">
@@ -95,7 +95,7 @@ export default function WorkspacesIndex({
                             )}
                         </label>
                         <label className="block text-sm font-medium">
-                            Description (optional)
+                            Deskripsi (opsional)
                             <textarea
                                 className={inputClass}
                                 rows={3}
@@ -107,7 +107,7 @@ export default function WorkspacesIndex({
                                     )
                                 }
                                 maxLength={2000}
-                                placeholder="Describe this business or team."
+                                placeholder="Jelaskan bisnis atau tim ini."
                             />
                             {form.errors.description && (
                                 <span className="text-sm text-destructive">
@@ -119,18 +119,18 @@ export default function WorkspacesIndex({
                             <button
                                 type="submit"
                                 disabled={form.processing}
-                                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-50"
                             >
                                 {form.processing
-                                    ? 'Creating…'
-                                    : 'Create workspace'}
+                                    ? 'Membuat...'
+                                    : 'Buat workspace'}
                             </button>
                         </div>
                     </form>
                 </section>
 
                 <section className="flex flex-col gap-3">
-                    <h2 className="text-lg font-semibold">Your workspaces</h2>
+                    <h2 className="text-lg font-semibold">Workspace Anda</h2>
                     {workspaces.length === 0 && (
                         <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
                             You do not belong to a workspace yet. Create one to
@@ -140,7 +140,7 @@ export default function WorkspacesIndex({
                     {workspaces.map((workspace) => (
                         <article
                             key={workspace.id}
-                            className="rounded-xl border bg-card p-4 md:p-5"
+                            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
                         >
                             <div className="flex flex-wrap items-start justify-between gap-3">
                                 <div>
