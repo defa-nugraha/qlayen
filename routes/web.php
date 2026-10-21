@@ -5,13 +5,19 @@ use App\Http\Controllers\Customers\ActivationQrCodeController;
 use App\Http\Controllers\Customers\CustomerCaptureController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomerInteractionController;
-use App\Http\Controllers\Customers\FollowUpController;\nuse App\Http\Controllers\Admin\WhatsAppCaptureModeController;\nuse App\Http\Controllers\Webhooks\WhatsAppWebhookController;
+use App\Http\Controllers\Customers\FollowUpController;
+use App\Http\Controllers\Admin\WhatsAppCaptureModeController;
+use App\Http\Controllers\Webhooks\WhatsAppWebhookController;
 use App\Http\Controllers\Workspaces\WhatsAppCampaignController;
 use App\Http\Controllers\Workspaces\WhatsAppSettingsController;
 use App\Http\Controllers\Workspaces\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');\n\nRoute::post('webhooks/whatsapp/incoming', [WhatsAppWebhookController::class, 'incoming'])\n    ->middleware('throttle:120,1')\n    ->name('whatsapp.webhook.incoming');
+Route::inertia('/', 'welcome')->name('home');
+
+Route::post('webhooks/whatsapp/incoming', [WhatsAppWebhookController::class, 'incoming'])
+    ->middleware('throttle:120,1')
+    ->name('whatsapp.webhook.incoming');
 
 Route::get('c/{token}', [CustomerCaptureController::class, 'show'])
     ->middleware('throttle:30,1')
@@ -30,7 +36,11 @@ Route::post('activate/{token}/capture', [ActivationQrCodeController::class, 'cap
     ->middleware('throttle:10,1')
     ->name('activation-qr.capture');
 
-Route::middleware(['auth', 'verified'])->group(function () {\n    Route::get('admin/whatsapp-capture-mode', [WhatsAppCaptureModeController::class, 'index'])\n        ->name('admin.whatsapp-capture-mode');\n    Route::put('admin/whatsapp-capture-mode', [WhatsAppCaptureModeController::class, 'update'])\n        ->name('admin.whatsapp-capture-mode.update');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('admin/whatsapp-capture-mode', [WhatsAppCaptureModeController::class, 'index'])
+        ->name('admin.whatsapp-capture-mode');
+    Route::put('admin/whatsapp-capture-mode', [WhatsAppCaptureModeController::class, 'update'])
+        ->name('admin.whatsapp-capture-mode.update');
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
     Route::get('brand-assets', [BrandAssetController::class, 'index'])->name('brand-assets.index');
