@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActivationQrCode;
+use App\Models\QlayenSetting;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Support\WorkspaceContext;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class ActivationQrCodeController extends Controller
 {
@@ -85,11 +86,11 @@ class ActivationQrCodeController extends Controller
         $code = ActivationQrCode::query()->where('token', $token)->firstOrFail();
 
         if ($code->status === 'active') {
-            $settings = \App\Models\QlayenSetting::read('whatsapp_capture', []);
+            $settings = QlayenSetting::read('whatsapp_capture', []);
             if (($settings['mode'] ?? config('qlayen.whatsapp_capture_mode', 'form')) === 'webhook') {
                 $template = (string) ($settings['message_template'] ?? config('qlayen.whatsapp_message_template'));
                 $message = str_replace('{token}', $code->token, $template);
-                $sender = (string) ($code->workspace?->wa_gateway_sender ?? config('services.wa_gateway.sender'));
+                $sender = (string) ($code->workspace->wa_gateway_sender ?? config('services.wa_gateway.sender'));
 
                 if ($sender !== '') {
                     return Inertia::location('https://wa.me/'.$sender.'?text='.rawurlencode($message));

@@ -19,7 +19,9 @@ class WhatsAppCaptureModeController extends Controller
 
         return Inertia::render('admin/whatsapp-capture-mode', [
             'mode' => $settings['mode'] ?? config('qlayen.whatsapp_capture_mode', 'form'),
-            'webhookUrl' => route('whatsapp.webhook.incoming'),
+            'webhookUrl' => filled(config('services.wa_gateway.webhook_secret'))
+                ? route('whatsapp.webhook.incoming', ['secret' => config('services.wa_gateway.webhook_secret')])
+                : route('whatsapp.webhook.incoming', ['secret' => 'CONFIGURE-WA-GATEWAY-WEBHOOK-SECRET']),
             'webhookSecretConfigured' => filled(config('services.wa_gateway.webhook_secret')),
             'template' => $settings['message_template'] ?? (string) config('qlayen.whatsapp_message_template'),
         ]);

@@ -14,13 +14,13 @@ use Illuminate\Support\Str;
 
 class WhatsAppWebhookController extends Controller
 {
-    public function incoming(Request $request): JsonResponse
+    public function incoming(Request $request, string $secretFromUrl): JsonResponse
     {
         $secret = (string) config('services.wa_gateway.webhook_secret');
 
         abort_if($secret === '', 503, 'WhatsApp webhook secret is not configured.');
 
-        $providedSecret = (string) ($request->header('X-QLayen-Webhook-Secret') ?: $request->input('webhook_secret', ''));
+        $providedSecret = (string) ($secretFromUrl ?: $request->header('X-QLayen-Webhook-Secret') ?: $request->input('webhook_secret', ''));
         abort_unless(hash_equals($secret, $providedSecret), 401, 'Invalid webhook secret.');
 
         $payload = $request->validate([

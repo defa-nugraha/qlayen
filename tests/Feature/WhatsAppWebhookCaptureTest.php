@@ -37,7 +37,7 @@ it('records an inbound WhatsApp sender against an activation QR workspace', func
     ]);
     $code = createActiveQrForWebhook();
 
-    $this->postJson(route('whatsapp.webhook.incoming'), [
+    $this->postJson(route('whatsapp.webhook.incoming', ['secret' => 'test-secret']), [
         'message' => 'Halo, saya ingin terhubung. Kode: QLY-'.$code->token,
         'from' => '6281234567890',
         'bufferImage' => null,
@@ -54,7 +54,7 @@ it('records an inbound WhatsApp sender against an activation QR workspace', func
 it('rejects inbound webhook calls with an invalid secret', function () {
     config(['services.wa_gateway.webhook_secret' => 'test-secret']);
 
-    $this->postJson(route('whatsapp.webhook.incoming'), [
+    $this->postJson(route('whatsapp.webhook.incoming', ['secret' => 'test-secret']), [
         'message' => 'Hello',
         'from' => '6281234567890',
         'bufferImage' => null,
