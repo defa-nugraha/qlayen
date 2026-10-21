@@ -34,6 +34,11 @@ class WhatsAppCaptureModeController extends Controller
             'message_template' => ['required', 'string', 'max:1000'],
         ]);
 
+        if ($data['mode'] === 'webhook') {
+            abort_unless(filled(config('services.wa_gateway.webhook_secret')), 422, 'Set WA_GATEWAY_WEBHOOK_SECRET sebelum mengaktifkan mode webhook.');
+            abort_unless(str_contains($data['message_template'], '{token}'), 422, 'Template mode webhook wajib menyertakan {token}.');
+        }
+
         $settings = [
             'mode' => $data['mode'],
             'message_template' => trim($data['message_template']),
