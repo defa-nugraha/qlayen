@@ -15,6 +15,8 @@ function makeFollowUpCustomer(array $overrides = []): Customer
     $workspace = Workspace::query()->create([
         'owner_id' => $user->id,
         'name' => 'Test workspace',
+        'wa_gateway_api_key' => 'test-key',
+        'wa_gateway_sender' => '628111111111',
     ]);
     $workspace->members()->attach($user->id, ['role' => 'owner']);
 
