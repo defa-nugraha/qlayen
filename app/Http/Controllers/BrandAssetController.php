@@ -22,13 +22,17 @@ class BrandAssetController extends Controller
         $assets = BrandAsset::query()->get()->keyBy('key');
 
         return Inertia::render('brand-assets/index', [
-            'placements' => collect(BrandAsset::PLACEMENTS)->map(fn (string $label, string $key) => [
-                'key' => $key,
-                'label' => $label,
-                'url' => isset($assets[$key]) ? Storage::disk('public')->url($assets[$key]->path) : null,
-                'alt_text' => $assets[$key]->alt_text ?? '',
-                'updated_at' => $assets[$key]->updated_at?->toIso8601String(),
-            ])->values(),
+            'placements' => collect(BrandAsset::PLACEMENTS)->map(function (string $label, string $key) use ($assets) {
+                $asset = $assets->get($key);
+
+                return [
+                    'key' => $key,
+                    'label' => $label,
+                    'url' => $asset ? Storage::disk('public')->url($asset->path) : null,
+                    'alt_text' => $asset?->alt_text ?? '',
+                    'updated_at' => $asset?->updated_at?->toIso8601String(),
+                ];
+            })->values(),
             'workspaces' => $request->user()->workspaces()
                 ->orderBy('workspaces.name')
                 ->get()
