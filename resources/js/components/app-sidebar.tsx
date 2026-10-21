@@ -13,7 +13,6 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
 import {
     BookOpen,
     Building2,
@@ -23,6 +22,7 @@ import {
     QrCode,
     UsersRound,
 } from 'lucide-react';
+import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
