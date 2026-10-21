@@ -51,7 +51,7 @@ export default function CaptureIndex({
             breadcrumbs={[{ title: 'Capture links', href: '/capture-links' }]}
         >
             <Head title="QR & NFC Capture" />
-            <div className="flex flex-col gap-6 p-4 md:p-6">
+            <div className="flex flex-col gap-6 p-4 md:p-4">
                 <label className="block text-sm font-medium">
                     Active workspace
                     <select
