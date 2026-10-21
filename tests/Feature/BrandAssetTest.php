@@ -14,6 +14,22 @@ function createBrandAssetWorkspace(User $user, string $role = 'owner'): Workspac
     return $workspace;
 }
 
+it('renders all logo placements when no custom logos have been uploaded', function () {
+    $owner = User::factory()->create();
+    $workspace = createBrandAssetWorkspace($owner);
+
+    $this->actingAs($owner)
+        ->get(route('brand-assets.index', ['workspace_id' => $workspace->id]))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('brand-assets/index')
+            ->has('placements', 4)
+            ->where('placements.0.key', 'public_header')
+            ->where('placements.0.url', null)
+            ->where('placements.0.alt_text', '')
+            ->where('placements.0.updated_at', null));
+});
+
 it('allows a workspace owner to upload a brand logo', function () {
     Storage::fake('public');
     $owner = User::factory()->create();
