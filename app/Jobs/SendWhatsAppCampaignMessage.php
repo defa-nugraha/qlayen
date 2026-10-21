@@ -21,11 +21,7 @@ class SendWhatsAppCampaignMessage implements ShouldQueue
     /** @var list<int> */
     public array $backoff = [60, 300, 900];
 
-    public function __construct(
-        public int $workspaceId,
-        public int $customerId,
-        public string $message,
-    ) {}
+    public function __construct(public int $workspaceId, public int $customerId, public string $message) {}
 
     public function handle(WhatsAppGateway $gateway): void
     {
