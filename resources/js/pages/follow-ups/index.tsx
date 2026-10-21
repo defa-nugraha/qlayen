@@ -69,7 +69,7 @@ export default function FollowUpsIndex({
     return (
         <AppLayout breadcrumbs={[{ title: 'Follow-ups', href: '/follow-ups' }]}>
             <Head title="Follow-ups" />
-            <div className="flex flex-col gap-6 p-4 md:p-4">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-7 p-5 sm:p-6 lg:p-8">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
                         <h1 className="text-2xl font-semibold tracking-tight">
@@ -84,7 +84,7 @@ export default function FollowUpsIndex({
                     <label className="block text-sm font-medium">
                         Active workspace
                         <select
-                            className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm sm:w-auto sm:min-w-56"
+                            className="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none sm:w-auto sm:min-w-56"
                             value={currentWorkspaceId}
                             onChange={(event) =>
                                 navigate({
@@ -109,7 +109,7 @@ export default function FollowUpsIndex({
                     ].map((item) => (
                         <div
                             key={item.label}
-                            className="rounded-xl border bg-card p-4"
+                            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
                         >
                             <p className="text-sm text-muted-foreground">
                                 {item.label}
@@ -155,7 +155,7 @@ export default function FollowUpsIndex({
                             className="flex flex-col gap-2 sm:flex-row"
                         >
                             <input
-                                className="min-w-0 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                                 value={search}
                                 onChange={(event) =>
                                     setSearch(event.target.value)
