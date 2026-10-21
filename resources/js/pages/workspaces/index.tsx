@@ -60,7 +60,7 @@ export default function WorkspacesIndex({
     return (
         <AppLayout breadcrumbs={[{ title: 'Workspaces', href: '/workspaces' }]}>
             <Head title="Business workspaces" />
-            <div className="flex flex-col gap-6 p-4 md:p-6">
+            <div className="flex flex-col gap-6 p-4 md:p-4">
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight">
                         Business workspaces
