@@ -9,6 +9,7 @@ use App\Support\WorkspaceContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -51,6 +52,7 @@ class CustomerCaptureController extends Controller
             'source' => ['required', 'in:qr,nfc'],
         ]);
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
+        $this->authorizeManager($request, $workspace);
 
         $workspace->customerCaptureLinks()->create([
             'user_id' => $request->user()->id,
@@ -68,10 +70,21 @@ class CustomerCaptureController extends Controller
     {
         $workspace = $workspaceContext->resolve($request, $request->input('workspace_id'));
         $link = $workspace->customerCaptureLinks()->findOrFail($captureLink);
+        $this->authorizeManager($request, $workspace);
         $link->update(['is_active' => ! $link->is_active]);
 
         return to_route('capture.index', ['workspace_id' => $workspace->id])
             ->with('success', 'Capture link status updated.');
+    }
+
+    private function authorizeManager(Request $request, Workspace $workspace): void
+    {
+        $role = DB::table('workspace_user')
+            ->where('workspace_id', $workspace->id)
+            ->where('user_id', $request->user()->id)
+            ->value('role');
+
+        abort_unless(in_array($role, ['owner', 'admin'], true), 403);
     }
 
     public function show(string $token): Response
