@@ -102,7 +102,7 @@ class CustomerCaptureController extends Controller
         ]);
     }
 
-    public function capture(Request $request, string $token, WhatsAppGateway $gateway): \\Symfony\\Component\\HttpFoundation\\Response
+    public function capture(Request $request, string $token, WhatsAppGateway $gateway): \Symfony\Component\HttpFoundation\Response
     {
         $link = CustomerCaptureLink::query()
             ->where('token', $token)
