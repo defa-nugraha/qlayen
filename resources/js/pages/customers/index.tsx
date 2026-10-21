@@ -128,18 +128,18 @@ export default function CustomersIndex({
     }
 
     const inputClass =
-        'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+        'mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none';
     const labelClass = 'block text-sm font-medium text-foreground';
 
     return (
         <AppLayout breadcrumbs={[{ title: 'Customers', href: '/customers' }]}>
             <Head title="Customers" />
-            <div className="flex flex-col gap-6 p-4 md:p-4">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-7 p-5 sm:p-6 lg:p-8">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <label className="block text-sm font-medium">
                         Active workspace
                         <select
-                            className="mt-1 block min-w-56 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            className="mt-1 block min-w-56 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none"
                             value={currentWorkspaceId}
                             onChange={(event) =>
                                 router.get(
@@ -182,7 +182,7 @@ export default function CustomersIndex({
                     </div>
                 </div>
 
-                <section className="rounded-xl border bg-card p-4 md:p-5">
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
                     <h2 className="mb-4 text-lg font-semibold">
                         {editingId === null ? 'Add customer' : 'Edit customer'}
                     </h2>
