@@ -147,6 +147,7 @@ class CustomerCaptureController extends Controller
 
         if (filled($workspace->wa_gateway_sender)) {
             $prefill = rawurlencode('Halo, saya '.$customer->name.'. Saya baru saja scan QR '.$link->name.'.');
+
             return Inertia::location('https://wa.me/'.$workspace->wa_gateway_sender.'?text='.$prefill);
         }
 
