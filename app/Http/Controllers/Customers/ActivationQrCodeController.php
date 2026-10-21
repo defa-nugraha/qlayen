@@ -85,8 +85,9 @@ class ActivationQrCodeController extends Controller
         $code = ActivationQrCode::query()->where('token', $token)->firstOrFail();
 
         if ($code->status === 'active') {
-            if (config('qlayen.whatsapp_capture_mode', 'form') === 'webhook') {
-                $template = (string) config('qlayen.whatsapp_message_template');
+            $settings = \App\Models\QlayenSetting::read('whatsapp_capture', []);
+            if (($settings['mode'] ?? config('qlayen.whatsapp_capture_mode', 'form')) === 'webhook') {
+                $template = (string) ($settings['message_template'] ?? config('qlayen.whatsapp_message_template'));
                 $message = str_replace('{token}', $code->token, $template);
                 $sender = (string) ($code->workspace?->wa_gateway_sender ?? config('services.wa_gateway.sender'));
 
