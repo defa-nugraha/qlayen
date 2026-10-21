@@ -4,6 +4,7 @@ use App\Models\QlayenSetting;
 use App\Models\User;
 
 it('allows only application admins to change the WhatsApp capture mode', function () {
+    config(['services.wa_gateway.webhook_secret' => 'test-secret']);
     $admin = User::factory()->create(['role' => 'admin']);
     $member = User::factory()->create(['role' => 'member']);
 
