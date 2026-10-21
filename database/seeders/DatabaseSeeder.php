@@ -34,12 +34,14 @@ class DatabaseSeeder extends Seeder
                 ['email' => $account['email']],
                 [
                     'name' => $account['name'],
-                    'role' => $account['role'],
                     'password' => $password,
                 ],
             );
 
-            $user->forceFill(['email_verified_at' => now()])->save();
+            $user->forceFill([
+                'role' => $account['role'],
+                'email_verified_at' => now(),
+            ])->save();
 
             return $user;
         });
