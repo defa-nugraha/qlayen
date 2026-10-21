@@ -130,7 +130,7 @@ export default function CustomersIndex({
     return (
         <AppLayout breadcrumbs={[{ title: 'Customers', href: '/customers' }]}>
             <Head title="Customers" />
-            <div className="flex flex-col gap-6 p-4 md:p-6">
+            <div className="flex flex-col gap-6 p-4 md:p-4">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <label className="block text-sm font-medium">
                         Active workspace
