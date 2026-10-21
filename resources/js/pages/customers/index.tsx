@@ -2,6 +2,7 @@ import { Head, router, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Customer = {
     id: number;
@@ -64,6 +65,9 @@ export default function CustomersIndex({
     currentWorkspaceId,
 }: PageProps) {
     const [editingId, setEditingId] = useState<number | null>(null);
+    const [formOpen, setFormOpen] = useState(false);
+    const [deleteId, setDeleteId] = useState<number | null>(null);
+    const [successMessage, setSuccessMessage] = useState('');
     const [search, setSearch] = useState(filters.search);
     const form = useForm<CustomerForm>({
         ...emptyForm,
@@ -72,6 +76,7 @@ export default function CustomersIndex({
 
     function beginEdit(customer: Customer) {
         setEditingId(customer.id);
+        setFormOpen(true);
         form.setData({
             ...emptyForm,
             workspace_id: currentWorkspaceId,
@@ -94,11 +99,12 @@ export default function CustomersIndex({
         setEditingId(null);
         form.setData({ ...emptyForm, workspace_id: currentWorkspaceId });
         form.clearErrors();
+        setFormOpen(false);
     }
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const options = { onSuccess: resetForm };
+        const options = { onSuccess: () => { resetForm(); setSuccessMessage(editingId === null ? 'Customer added successfully.' : 'Customer updated successfully.'); } };
         if (editingId !== null) {
             form.put('/customers/' + editingId, options);
         } else {
@@ -115,16 +121,14 @@ export default function CustomersIndex({
         );
     }
 
-    function removeCustomer(id: number) {
-        if (
-            window.confirm(
-                'Delete this customer? This action cannot be undone.',
-            )
-        ) {
-            router.delete('/customers/' + id, {
-                data: { workspace_id: currentWorkspaceId },
-            });
-        }
+    function removeCustomer(id: number) { setDeleteId(id); }
+
+    function confirmDelete() {
+        if (deleteId === null) return;
+        router.delete('/customers/' + deleteId, {
+            data: { workspace_id: currentWorkspaceId },
+            onSuccess: () => { setDeleteId(null); setSuccessMessage('Customer deleted successfully.'); },
+        });
     }
 
     const inputClass =
@@ -171,21 +175,15 @@ export default function CustomersIndex({
                                 follow-up dates.
                             </p>
                         </div>
-                        <div className="rounded-lg border bg-card px-4 py-3">
+                        <div className="flex items-center gap-3">\n                        <button type="button" onClick={() => { resetForm(); setFormOpen(true); }} className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">Add contact</button>\n                        <div className="rounded-lg border bg-card px-4 py-3">
                             <p className="text-xs text-muted-foreground">
                                 Total customers
                             </p>
                             <p className="text-2xl font-semibold">
                                 {customers.total}
                             </p>
-                        </div>
-                    </div>
-                </div>
+                        </div>\n                        </div>\n                    </div>\n                </div>\n\n                <Dialog open={formOpen} onOpenChange={setFormOpen}>\n                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">\n                <DialogHeader><DialogTitle>{editingId === null ? 'Add contact' : 'Edit contact'}</DialogTitle><DialogDescription>Enter contact details and follow-up preferences.</DialogDescription></DialogHeader>
 
-                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                    <h2 className="mb-4 text-lg font-semibold">
-                        {editingId === null ? 'Add customer' : 'Edit customer'}
-                    </h2>
                     <form
                         onSubmit={submit}
                         className="grid gap-4 md:grid-cols-2"
@@ -382,9 +380,7 @@ export default function CustomersIndex({
                             )}
                         </div>
                     </form>
-                </section>
-
-                <section className="overflow-hidden rounded-xl border bg-card">
+                </DialogContent>\n                </Dialog>\n\n                <section className="overflow-hidden rounded-xl border bg-card">
                     <div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
                         <h2 className="text-lg font-semibold">Customer list</h2>
                         <form
@@ -445,7 +441,7 @@ export default function CustomersIndex({
                                     <span
                                         className={
                                             customer.status === 'active'
-                                                ? 'shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+                                                ? 'shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 '
                                                 : 'shrink-0 rounded-full bg-muted px-2 py-1 text-xs'
                                         }
                                     >
@@ -528,8 +524,7 @@ export default function CustomersIndex({
                             <div className="rounded-xl border border-dashed p-8 text-center">
                                 <p className="font-medium">No customers yet</p>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    Add your first customer using the form
-                                    above.
+                                    Add your first contact using the Add contact button.
                                 </p>
                             </div>
                         )}
@@ -594,7 +589,7 @@ export default function CustomersIndex({
                                             <span
                                                 className={
                                                     customer.status === 'active'
-                                                        ? 'rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200'
+                                                        ? 'rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 '
                                                         : 'rounded-full bg-muted px-2 py-1 text-xs'
                                                 }
                                             >
@@ -646,8 +641,7 @@ export default function CustomersIndex({
                                             colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
-                                            No customers yet. Add your first
-                                            customer above.
+                                            No customers yet. Add your first contact using Add contact.
                                         </td>
                                     </tr>
                                 )}
@@ -679,6 +673,21 @@ export default function CustomersIndex({
                         </div>
                     )}
                 </section>
+                <Dialog open={deleteId !== null} onOpenChange={(open) => { if (!open) setDeleteId(null); }}>
+                    <DialogContent className="sm:max-w-md">
+                        <DialogHeader><DialogTitle>Delete contact?</DialogTitle><DialogDescription>This action cannot be undone. The contact will be removed from this workspace.</DialogDescription></DialogHeader>
+                        <DialogFooter>
+                            <button type="button" onClick={() => setDeleteId(null)} className="rounded-md border px-4 py-2 text-sm">Cancel</button>
+                            <button type="button" onClick={confirmDelete} className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-white">Delete contact</button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+                <Dialog open={successMessage !== ''} onOpenChange={(open) => { if (!open) setSuccessMessage(''); }}>
+                    <DialogContent className="sm:max-w-sm">
+                        <DialogHeader><DialogTitle>Success</DialogTitle><DialogDescription>{successMessage}</DialogDescription></DialogHeader>
+                        <DialogFooter><button type="button" onClick={() => setSuccessMessage('')} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Done</button></DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </AppLayout>
     );
