@@ -135,9 +135,10 @@ export default function WhatsAppCaptureMode({
                         </p>
                         <p className="mt-2 text-muted-foreground">
                             Setel WA_GATEWAY_WEBHOOK_SECRET pada environment
-                            server. Gateway perlu mengirim secret melalui
-                            header X-QLayen-Webhook-Secret atau field
-                            webhook_secret ke URL di atas.
+                            server, lalu salin URL callback lengkap di atas ke
+                            pengaturan webhook WA Gateway. URL memuat secret
+                            callback sehingga Gateway cukup mengirim POST JSON
+                            sesuai dokumentasinya.
                         </p>
                     </div>
 
