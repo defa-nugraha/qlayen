@@ -29,7 +29,7 @@ class BrandAssetController extends Controller
                     'key' => $key,
                     'label' => $label,
                     'url' => $asset ? Storage::disk('public')->url($asset->path) : null,
-                    'alt_text' => $asset?->alt_text ?? '',
+                    'alt_text' => $asset->alt_text ?? '',
                     'updated_at' => $asset?->updated_at?->toIso8601String(),
                 ];
             })->values(),
