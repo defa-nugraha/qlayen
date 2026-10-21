@@ -24,13 +24,16 @@ use Illuminate\Support\Carbon;
 class Workspace extends Model
 {
     /**
-     * @return BelongsTo<User, $this>
+     * @return array<string, string>
      */
     protected function casts(): array
     {
         return ['wa_gateway_api_key' => 'encrypted'];
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
