@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {
-    Building2,
     BookOpen,
+    Building2,
     CalendarClock,
     FolderGit2,
     LayoutGrid,
