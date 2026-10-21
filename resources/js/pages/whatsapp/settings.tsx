@@ -75,11 +75,10 @@ export default function WhatsAppSettings({
     async function sendTest(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setTestMessage('Mengirim pesan tes…');
-        const csrf = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '';
-        try {
+                try {
             const response = await fetch('/whatsapp/test', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': csrf },
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-XSRF-TOKEN': csrfToken() },
                 body: JSON.stringify({ workspace_id: currentWorkspaceId, number: testNumber }),
             });
             const data = (await response.json()) as GatewayState;
