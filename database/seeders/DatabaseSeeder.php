@@ -21,7 +21,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $password = Hash::make((string) env('QLAYEN_DEMO_USER_PASSWORD', 'password'));
+        $configuredPassword = (string) config('app.demo_user_password');
+
+        if ($configuredPassword === '') {
+            throw new \RuntimeException('QLAYEN_DEMO_USER_PASSWORD must be configured before seeding demo accounts.');
+        }
+
+        $password = Hash::make($configuredPassword);
 
         $accounts = [
             ['name' => 'QLayen Demo Owner', 'email' => 'owner@qlayen.test', 'role' => User::ROLE_OWNER],
