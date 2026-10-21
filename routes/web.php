@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Customers\ActivationQrCodeController;
-use App\Http\Controllers\Customers\CustomerCaptureController;
-use App\Http\Controllers\Customers\CustomerController;
-use App\Http\Controllers\Customers\CustomerInteractionController;
-use App\Http\Controllers\Customers\FollowUpController;
-use App\Http\Controllers\Workspaces\WorkspaceController;
-use Illuminate\Support\Facades\Route;
+use App\\Http\\Controllers\\Customers\\ActivationQrCodeController;
+use App\\Http\\Controllers\\Customers\\CustomerCaptureController;
+use App\\Http\\Controllers\\Customers\\CustomerController;
+use App\\Http\\Controllers\\Customers\\CustomerInteractionController;
+use App\\Http\\Controllers\\Customers\\FollowUpController;
+use App\\Http\\Controllers\\Workspaces\\WorkspaceController;
+use Illuminate\\Support\\Facades\\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
@@ -31,28 +31,50 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
     Route::get('workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
-    Route::post('workspaces', [WorkspaceController::class, 'store'])->name('workspaces.store');
-    Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])->name('workspaces.members.update');
-    Route::delete('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'destroyMember'])->name('workspaces.members.destroy');
+    Route::post('workspaces', [WorkspaceController::class, 'store'])
+        ->middleware('role:owner,admin')
+        ->name('workspaces.store');
+    Route::put('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'updateMember'])
+        ->middleware('role:owner,admin')
+        ->name('workspaces.members.update');
+    Route::delete('workspaces/{workspace}/members/{user}', [WorkspaceController::class, 'destroyMember'])
+        ->middleware('role:owner,admin')
+        ->name('workspaces.members.destroy');
 
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('follow-ups', [FollowUpController::class, 'index'])->name('follow-ups.index');
-    Route::patch('follow-ups/{customer}/complete', [FollowUpController::class, 'complete'])->name('follow-ups.complete');
-    Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
-    Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
-    Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::patch('follow-ups/{customer}/complete', [FollowUpController::class, 'complete'])
+        ->name('follow-ups.complete');
+
+    Route::post('customers', [CustomerController::class, 'store'])
+        ->middleware('role:owner,admin')
+        ->name('customers.store');
+    Route::put('customers/{customer}', [CustomerController::class, 'update'])
+        ->middleware('role:owner,admin')
+        ->name('customers.update');
+    Route::delete('customers/{customer}', [CustomerController::class, 'destroy'])
+        ->middleware('role:owner,admin')
+        ->name('customers.destroy');
     Route::get('customers/{customer}/interactions', [CustomerInteractionController::class, 'index'])
         ->name('customers.interactions.index');
     Route::post('customers/{customer}/interactions', [CustomerInteractionController::class, 'store'])
         ->name('customers.interactions.store');
 
     Route::get('capture-links', [CustomerCaptureController::class, 'index'])->name('capture.index');
-    Route::post('capture-links', [CustomerCaptureController::class, 'store'])->name('capture.store');
-    Route::patch('capture-links/{captureLink}/toggle', [CustomerCaptureController::class, 'toggle'])->name('capture.toggle');
+    Route::post('capture-links', [CustomerCaptureController::class, 'store'])
+        ->middleware('role:owner,admin')
+        ->name('capture.store');
+    Route::patch('capture-links/{captureLink}/toggle', [CustomerCaptureController::class, 'toggle'])
+        ->middleware('role:owner,admin')
+        ->name('capture.toggle');
 
     Route::get('activation-qr-codes', [ActivationQrCodeController::class, 'index'])->name('activation-qr.index');
-    Route::post('activation-qr-codes', [ActivationQrCodeController::class, 'store'])->name('activation-qr.store');
-    Route::patch('activation-qr-codes/{activationQrCode}/toggle', [ActivationQrCodeController::class, 'toggle'])->name('activation-qr.toggle');
+    Route::post('activation-qr-codes', [ActivationQrCodeController::class, 'store'])
+        ->middleware('role:owner,admin')
+        ->name('activation-qr.store');
+    Route::patch('activation-qr-codes/{activationQrCode}/toggle', [ActivationQrCodeController::class, 'toggle'])
+        ->middleware('role:owner,admin')
+        ->name('activation-qr.toggle');
 });
 
 require __DIR__.'/settings.php';
