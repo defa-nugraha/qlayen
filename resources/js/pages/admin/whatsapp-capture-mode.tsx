@@ -65,9 +65,9 @@ export default function WhatsAppCaptureMode({
                                     Formulir (mode saat ini)
                                 </span>
                                 <span className="mt-1 block text-sm text-muted-foreground">
-                                    Pelanggan mengisi nama, nomor telepon,
-                                    email opsional, dan persetujuan melalui
-                                    halaman QLayen.
+                                    Pelanggan mengisi nama, nomor telepon, email
+                                    opsional, dan persetujuan melalui halaman
+                                    QLayen.
                                 </span>
                             </span>
                         </label>
@@ -85,9 +85,9 @@ export default function WhatsAppCaptureMode({
                                     WhatsApp Webhook
                                 </span>
                                 <span className="mt-1 block text-sm text-muted-foreground">
-                                    Pelanggan diarahkan ke WhatsApp dengan
-                                    pesan siap kirim. Nomor dicatat setelah
-                                    gateway mengirim callback pesan masuk.
+                                    Pelanggan diarahkan ke WhatsApp dengan pesan
+                                    siap kirim. Nomor dicatat setelah gateway
+                                    mengirim callback pesan masuk.
                                 </span>
                             </span>
                         </label>
