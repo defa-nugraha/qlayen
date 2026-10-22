@@ -228,7 +228,8 @@ export default function CustomersIndex({
                                     : 'Edit contact'}
                             </DialogTitle>
                             <DialogDescription>
-                                Enter contact details and follow-up preferences.
+                                Enter contact details and follow-up
+                                preferences.
                             </DialogDescription>
                         </DialogHeader>
 
@@ -392,11 +393,10 @@ export default function CustomersIndex({
                                     Customer has explicitly agreed to receive
                                     automated WhatsApp follow-up.
                                     <span className="mt-1 block text-xs text-muted-foreground">
-                                        Only use this after the customer has agreed
-                                        to receive WhatsApp follow-up messages. A
-                                        scheduled date, phone number, and
-                                        WhatsApp-specific consent timestamp are also
-                                        required.
+                                                Only use this after the customer has agreed to
+                                        receive WhatsApp follow-up messages. A scheduled
+                                        date, phone number, and WhatsApp-specific consent
+                                        timestamp are also required.
                                     </span>
                                     {form.errors.follow_up_whatsapp_enabled && (
                                         <span className="block text-sm text-destructive">
@@ -428,7 +428,7 @@ export default function CustomersIndex({
                                 )}
                             </div>
                         </form>
-                </DialogContent>
+                    </DialogContent>
                 </Dialog>
 
                 <section className="overflow-hidden rounded-xl border bg-card">
@@ -693,8 +693,8 @@ export default function CustomersIndex({
                                             colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
-                                            No customers yet. Add your first contact
-                                            using Add contact.
+                                            No customers yet. Add your first contact using
+                                            Add contact.
                                         </td>
                                     </tr>
                                 )}
@@ -736,8 +736,8 @@ export default function CustomersIndex({
                         <DialogHeader>
                             <DialogTitle>Delete contact?</DialogTitle>
                             <DialogDescription>
-                                This action cannot be undone. The contact will be
-                                removed from this workspace.
+                                This action cannot be undone. The contact will be removed
+                                from this workspace.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
@@ -767,7 +767,9 @@ export default function CustomersIndex({
                     <DialogContent className="sm:max-w-sm">
                         <DialogHeader>
                             <DialogTitle>Success</DialogTitle>
-                            <DialogDescription>{successMessage}</DialogDescription>
+                            <DialogDescription>
+                                {successMessage}
+                            </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <button
