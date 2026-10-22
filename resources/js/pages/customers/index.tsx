@@ -393,7 +393,7 @@ export default function CustomersIndex({
                                     Customer has explicitly agreed to receive
                                     automated WhatsApp follow-up.
                                     <span className="mt-1 block text-xs text-muted-foreground">
-                                                Only use this after the customer has agreed to
+                                        Only use this after the customer has agreed to
                                         receive WhatsApp follow-up messages. A scheduled
                                         date, phone number, and WhatsApp-specific consent
                                         timestamp are also required.
