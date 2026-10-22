@@ -228,8 +228,7 @@ export default function CustomersIndex({
                                     : 'Edit contact'}
                             </DialogTitle>
                             <DialogDescription>
-                                Enter contact details and follow-up
-                                preferences.
+                                Enter contact details and follow-up preferences.
                             </DialogDescription>
                         </DialogHeader>
 
@@ -693,8 +692,8 @@ export default function CustomersIndex({
                                             colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
-                                            No customers yet. Add your first contact using
-                                            Add contact.
+                                            No customers yet. Add your first contact
+                                            using Add contact.
                                         </td>
                                     </tr>
                                 )}
@@ -736,8 +735,8 @@ export default function CustomersIndex({
                         <DialogHeader>
                             <DialogTitle>Delete contact?</DialogTitle>
                             <DialogDescription>
-                                This action cannot be undone. The contact will be removed
-                                from this workspace.
+                                This action cannot be undone. The contact will be
+                                removed from this workspace.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
@@ -767,9 +766,7 @@ export default function CustomersIndex({
                     <DialogContent className="sm:max-w-sm">
                         <DialogHeader>
                             <DialogTitle>Success</DialogTitle>
-                            <DialogDescription>
-                                {successMessage}
-                            </DialogDescription>
+                            <DialogDescription>{successMessage}</DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <button
