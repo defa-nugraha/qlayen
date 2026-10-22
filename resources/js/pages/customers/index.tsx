@@ -259,7 +259,10 @@ export default function CustomersIndex({
                                     className={inputClass}
                                     value={form.data.phone}
                                     onChange={(event) =>
-                                        form.setData('phone', event.target.value)
+                                        form.setData(
+                                            'phone',
+                                            event.target.value,
+                                        )
                                     }
                                     maxLength={32}
                                 />
@@ -276,7 +279,10 @@ export default function CustomersIndex({
                                     className={inputClass}
                                     value={form.data.email}
                                     onChange={(event) =>
-                                        form.setData('email', event.target.value)
+                                        form.setData(
+                                            'email',
+                                            event.target.value,
+                                        )
                                     }
                                     maxLength={255}
                                 />
@@ -293,7 +299,10 @@ export default function CustomersIndex({
                                     placeholder="e.g. QR, NFC, referral, walk-in"
                                     value={form.data.source}
                                     onChange={(event) =>
-                                        form.setData('source', event.target.value)
+                                        form.setData(
+                                            'source',
+                                            event.target.value,
+                                        )
                                     }
                                     maxLength={100}
                                 />
@@ -346,7 +355,10 @@ export default function CustomersIndex({
                                     rows={3}
                                     value={form.data.notes}
                                     onChange={(event) =>
-                                        form.setData('notes', event.target.value)
+                                        form.setData(
+                                            'notes',
+                                            event.target.value,
+                                        )
                                     }
                                     maxLength={10000}
                                 />
@@ -380,7 +392,9 @@ export default function CustomersIndex({
                                 <input
                                     type="checkbox"
                                     className="mt-1"
-                                    checked={form.data.follow_up_whatsapp_enabled}
+                                    checked={
+                                        form.data.follow_up_whatsapp_enabled
+                                    }
                                     onChange={(event) =>
                                         form.setData(
                                             'follow_up_whatsapp_enabled',
@@ -392,14 +406,18 @@ export default function CustomersIndex({
                                     Customer has explicitly agreed to receive
                                     automated WhatsApp follow-up.
                                     <span className="mt-1 block text-xs text-muted-foreground">
-                                        Only use this after the customer has agreed to
-                                        receive WhatsApp follow-up messages. A scheduled
-                                        date, phone number, and WhatsApp-specific consent
+                                        Only use this after the customer has
+                                        agreed to receive WhatsApp follow-up
+                                        messages. A scheduled date, phone
+                                        number, and WhatsApp-specific consent
                                         timestamp are also required.
                                     </span>
                                     {form.errors.follow_up_whatsapp_enabled && (
                                         <span className="block text-sm text-destructive">
-                                            {form.errors.follow_up_whatsapp_enabled}
+                                            {
+                                                form.errors
+                                                    .follow_up_whatsapp_enabled
+                                            }
                                         </span>
                                     )}
                                 </span>
@@ -491,7 +509,7 @@ export default function CustomersIndex({
                                     <span
                                         className={
                                             customer.status === 'active'
-                                                ? 'shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 '
+                                                ? 'shrink-0 rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800'
                                                 : 'shrink-0 rounded-full bg-muted px-2 py-1 text-xs'
                                         }
                                     >
@@ -640,7 +658,7 @@ export default function CustomersIndex({
                                             <span
                                                 className={
                                                     customer.status === 'active'
-                                                        ? 'rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800 '
+                                                        ? 'rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-800'
                                                         : 'rounded-full bg-muted px-2 py-1 text-xs'
                                                 }
                                             >
@@ -692,8 +710,8 @@ export default function CustomersIndex({
                                             colSpan={5}
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
-                                            No customers yet. Add your first contact
-                                            using Add contact.
+                                            No customers yet. Add your first
+                                            contact using Add contact.
                                         </td>
                                     </tr>
                                 )}
@@ -735,8 +753,8 @@ export default function CustomersIndex({
                         <DialogHeader>
                             <DialogTitle>Delete contact?</DialogTitle>
                             <DialogDescription>
-                                This action cannot be undone. The contact will be
-                                removed from this workspace.
+                                This action cannot be undone. The contact will
+                                be removed from this workspace.
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
@@ -766,7 +784,9 @@ export default function CustomersIndex({
                     <DialogContent className="sm:max-w-sm">
                         <DialogHeader>
                             <DialogTitle>Success</DialogTitle>
-                            <DialogDescription>{successMessage}</DialogDescription>
+                            <DialogDescription>
+                                {successMessage}
+                            </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <button
